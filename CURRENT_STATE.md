@@ -7,23 +7,23 @@ Công nghệ:
 - Bootstrap
 - MySQL
 
-Đã có:
-- Source Laravel local
-- Cấu trúc thư mục Laravel
-- Composer
-- NPM/Vite
-- Routes
-- Resources
-- Database folder
+Đã hoàn thành:
+- Cài Laravel local
+- Cài authentication
+- Cài role/permission
+- Tạo admin dashboard cơ bản
+- Tạo admin seed
+- Admin truy cập được /admin
+- User thường bị chặn 403 khi truy cập /admin
 
 Đang ở giai đoạn:
-Giai đoạn 4 - Module Quản trị
+Giai đoạn 5 - Category CRUD
 
 Mục tiêu tiếp theo:
-1. Kiểm tra authentication.
-2. Kiểm tra role/permission.
-3. Hoàn thiện admin dashboard.
-4. Sau đó mới làm Category CRUD.
+1. Tạo module Category CRUD.
+2. Quản lý chuyên mục cha/con.
+3. Bật/tắt trạng thái chuyên mục.
+4. Chuẩn bị cho module Article.
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
