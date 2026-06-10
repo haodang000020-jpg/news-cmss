@@ -15,6 +15,7 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'Quan ly chuyen muc', 'code' => 'categories.manage', 'module' => 'categories'],
             ['name' => 'Quan ly bai viet', 'code' => 'articles.manage', 'module' => 'articles'],
             ['name' => 'Quan ly banner', 'code' => 'banners.manage', 'module' => 'banners'],
+            ['name' => 'Quan ly menu', 'code' => 'menus.manage', 'module' => 'menus'],
             ['name' => 'Quan ly van ban', 'code' => 'documents.manage', 'module' => 'documents'],
             ['name' => 'Quan ly nguoi dung', 'code' => 'users.manage', 'module' => 'users'],
             ['name' => 'Quan ly vai tro', 'code' => 'roles.manage', 'module' => 'roles'],

@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -34,6 +36,16 @@ Route::prefix('admin')
         Route::resource('banners', BannerController::class)
             ->except('show')
             ->middleware('permission:banners.manage');
+        Route::resource('menus', MenuController::class)
+            ->except('show')
+            ->middleware('permission:menus.manage');
+        Route::prefix('menus/{menu}')
+            ->name('menus.')
+            ->middleware('permission:menus.manage')
+            ->group(function () {
+                Route::resource('items', MenuItemController::class)
+                    ->except('show');
+            });
     });
 
 Route::middleware('auth')->group(function () {

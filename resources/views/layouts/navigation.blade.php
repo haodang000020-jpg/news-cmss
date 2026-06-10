@@ -33,6 +33,12 @@
                             Banner
                         </x-nav-link>
                     @endif
+
+                    @if (Auth::user()?->hasPermissionTo('menus.manage'))
+                        <x-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.*')">
+                            Menu
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -104,6 +110,12 @@
             @if (Auth::user()?->hasPermissionTo('banners.manage'))
                 <x-responsive-nav-link :href="route('admin.banners.index')" :active="request()->routeIs('admin.banners.*')">
                     Banner
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()?->hasPermissionTo('menus.manage'))
+                <x-responsive-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.*')">
+                    Menu
                 </x-responsive-nav-link>
             @endif
         </div>
