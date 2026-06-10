@@ -13,23 +13,21 @@ Công nghệ:
 - Admin dashboard
 - Category CRUD
 - Article CRUD
-- Upload thumbnail bài viết
 - Public Frontend News
 - Public Portal Layout
 - Banner / Slider CRUD
 - Dynamic Menu CRUD
-- Hiển thị menu động ngoài frontend
+- Document Category CRUD
 
 Đang ở giai đoạn:
-Giai đoạn 11 - Documents / Văn bản chỉ đạo điều hành
+Giai đoạn 11.2 - Document CRUD
 
 Mục tiêu tiếp theo:
-- Tạo module quản lý văn bản trong admin
+- Tạo module quản lý văn bản
 - Upload file PDF/Word
-- Phân loại văn bản
-- Tìm kiếm văn bản
-- Lọc theo loại văn bản, cơ quan ban hành, ngày ban hành
-- Hiển thị văn bản ngoài frontend
+- Thay file mới
+- Xóa file cũ khi update/delete
+- Tìm kiếm và lọc văn bản trong admin
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
