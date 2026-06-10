@@ -17,18 +17,19 @@ Công nghệ:
 - Public Frontend News
 - Public Portal Layout
 - Banner / Slider CRUD
-- Hiển thị banner/slider ngoài trang chủ
+- Dynamic Menu CRUD
+- Hiển thị menu động ngoài frontend
 
 Đang ở giai đoạn:
-Giai đoạn 10 - Dynamic Menu
+Giai đoạn 11 - Documents / Văn bản chỉ đạo điều hành
 
 Mục tiêu tiếp theo:
-- Tạo module quản lý menu trong admin
-- Tạo menu cha/con
-- Gắn menu với URL tùy chỉnh hoặc route có sẵn
-- Hiển thị menu động ngoài frontend
-- Bật/tắt trạng thái menu
-- Sắp xếp thứ tự menu
+- Tạo module quản lý văn bản trong admin
+- Upload file PDF/Word
+- Phân loại văn bản
+- Tìm kiếm văn bản
+- Lọc theo loại văn bản, cơ quan ban hành, ngày ban hành
+- Hiển thị văn bản ngoài frontend
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
