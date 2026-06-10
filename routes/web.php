@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -21,6 +22,9 @@ Route::prefix('admin')
         Route::resource('categories', CategoryController::class)
             ->except('show')
             ->middleware('permission:categories.manage');
+        Route::resource('articles', ArticleController::class)
+            ->except('show')
+            ->middleware('permission:articles.manage');
     });
 
 Route::middleware('auth')->group(function () {

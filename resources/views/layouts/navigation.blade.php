@@ -21,6 +21,12 @@
                             Chuyen muc
                         </x-nav-link>
                     @endif
+
+                    @if (Auth::user()?->hasPermissionTo('articles.manage'))
+                        <x-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
+                            Bài viết
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -80,6 +86,12 @@
             @if (Auth::user()?->hasPermissionTo('categories.manage'))
                 <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
                     Chuyen muc
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()?->hasPermissionTo('articles.manage'))
+                <x-responsive-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
+                    Bài viết
                 </x-responsive-nav-link>
             @endif
         </div>
