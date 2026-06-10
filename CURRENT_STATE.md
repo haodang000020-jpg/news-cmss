@@ -14,20 +14,18 @@ Công nghệ:
 - Category CRUD
 - Article CRUD
 - Upload thumbnail bài viết
-- Public frontend news
-- Trang chủ hiển thị tin nổi bật, tin mới nhất, tin theo chuyên mục
-- Trang danh mục, chi tiết bài viết, tìm kiếm
+- Public Frontend News
+- Public Portal Layout
 
 Đang ở giai đoạn:
-Giai đoạn 8 - Public Portal Layout
+Giai đoạn 9 - Banner and Slider
 
 Mục tiêu tiếp theo:
-- Thiết kế giao diện public giống cổng thông tin điện tử
-- Header cơ quan
-- Thanh menu ngang
-- Khối tìm kiếm
-- Layout tin tức rõ ràng hơn
-- Footer
+- Tạo module quản lý banner/slider trong admin
+- Upload ảnh banner
+- Hiển thị banner/slider ngoài trang chủ
+- Bật/tắt trạng thái banner
+- Sắp xếp thứ tự hiển thị
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
