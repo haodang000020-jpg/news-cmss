@@ -39,6 +39,12 @@
                             Menu
                         </x-nav-link>
                     @endif
+
+                    @if (Auth::user()?->hasPermissionTo('documents.manage'))
+                        <x-nav-link :href="route('admin.document-categories.index')" :active="request()->routeIs('admin.document-categories.*')">
+                            Loai van ban
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -116,6 +122,12 @@
             @if (Auth::user()?->hasPermissionTo('menus.manage'))
                 <x-responsive-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.*')">
                     Menu
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()?->hasPermissionTo('documents.manage'))
+                <x-responsive-nav-link :href="route('admin.document-categories.index')" :active="request()->routeIs('admin.document-categories.*')">
+                    Loai van ban
                 </x-responsive-nav-link>
             @endif
         </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DocumentCategoryController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
@@ -39,6 +40,9 @@ Route::prefix('admin')
         Route::resource('menus', MenuController::class)
             ->except('show')
             ->middleware('permission:menus.manage');
+        Route::resource('document-categories', DocumentCategoryController::class)
+            ->except('show')
+            ->middleware('permission:documents.manage');
         Route::prefix('menus/{menu}')
             ->name('menus.')
             ->middleware('permission:menus.manage')
