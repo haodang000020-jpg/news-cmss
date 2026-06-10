@@ -9,23 +9,25 @@ Công nghệ:
 
 Đã hoàn thành:
 - Admin Authentication
-- RBAC admin/user
+- RBAC
 - Admin dashboard
 - Category CRUD
 - Article CRUD
 - Upload thumbnail bài viết
-- Tìm kiếm/lọc bài viết trong admin
-- User thường bị chặn 403 khi truy cập admin
+- Public frontend news
+- Trang chủ hiển thị tin nổi bật, tin mới nhất, tin theo chuyên mục
+- Trang danh mục, chi tiết bài viết, tìm kiếm
 
 Đang ở giai đoạn:
-Giai đoạn 7 - Public Frontend News
+Giai đoạn 8 - Public Portal Layout
 
 Mục tiêu tiếp theo:
-- Trang chủ hiển thị tin mới, tin nổi bật
-- Trang danh mục bài viết
-- Trang chi tiết bài viết
-- Tìm kiếm bài viết
-- Tăng lượt xem bài viết
+- Thiết kế giao diện public giống cổng thông tin điện tử
+- Header cơ quan
+- Thanh menu ngang
+- Khối tìm kiếm
+- Layout tin tức rõ ràng hơn
+- Footer
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
