@@ -41,8 +41,11 @@
                     @endif
 
                     @if (Auth::user()?->hasPermissionTo('documents.manage'))
+                        <x-nav-link :href="route('admin.documents.index')" :active="request()->routeIs('admin.documents.*')">
+                            Văn bản
+                        </x-nav-link>
                         <x-nav-link :href="route('admin.document-categories.index')" :active="request()->routeIs('admin.document-categories.*')">
-                            Loai van ban
+                            Loại văn bản
                         </x-nav-link>
                     @endif
                 </div>
@@ -126,8 +129,11 @@
             @endif
 
             @if (Auth::user()?->hasPermissionTo('documents.manage'))
+                <x-responsive-nav-link :href="route('admin.documents.index')" :active="request()->routeIs('admin.documents.*')">
+                    Văn bản
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.document-categories.index')" :active="request()->routeIs('admin.document-categories.*')">
-                    Loai van ban
+                    Loại văn bản
                 </x-responsive-nav-link>
             @endif
         </div>

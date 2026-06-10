@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DocumentCategoryController;
+use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
@@ -28,27 +29,37 @@ Route::prefix('admin')
     ->middleware(['auth', 'permission:dashboard.view'])
     ->group(function () {
         Route::get('/', DashboardController::class)->name('dashboard');
+
         Route::resource('categories', CategoryController::class)
-            ->except('show')
+            ->except(['show'])
             ->middleware('permission:categories.manage');
+
         Route::resource('articles', ArticleController::class)
-            ->except('show')
+            ->except(['show'])
             ->middleware('permission:articles.manage');
+
         Route::resource('banners', BannerController::class)
-            ->except('show')
+            ->except(['show'])
             ->middleware('permission:banners.manage');
+
         Route::resource('menus', MenuController::class)
-            ->except('show')
+            ->except(['show'])
             ->middleware('permission:menus.manage');
+
         Route::resource('document-categories', DocumentCategoryController::class)
-            ->except('show')
+            ->except(['show'])
             ->middleware('permission:documents.manage');
+
+        Route::resource('documents', DocumentController::class)
+            ->except(['show'])
+            ->middleware('permission:documents.manage');
+
         Route::prefix('menus/{menu}')
             ->name('menus.')
             ->middleware('permission:menus.manage')
             ->group(function () {
                 Route::resource('items', MenuItemController::class)
-                    ->except('show');
+                    ->except(['show']);
             });
     });
 
