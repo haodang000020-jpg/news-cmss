@@ -12,19 +12,20 @@ Công nghệ:
 - RBAC admin/user
 - Admin dashboard
 - Category CRUD
-- Category cha/con
-- Slug tự sinh
-- User thường bị chặn 403 khi truy cập /admin
+- Article CRUD
+- Upload thumbnail bài viết
+- Tìm kiếm/lọc bài viết trong admin
+- User thường bị chặn 403 khi truy cập admin
 
 Đang ở giai đoạn:
-Giai đoạn 6 - Article CRUD
+Giai đoạn 7 - Public Frontend News
 
 Mục tiêu tiếp theo:
-- Tạo module quản lý bài viết
-- Bài viết thuộc chuyên mục
-- Upload ảnh đại diện
-- Trạng thái nháp/xuất bản
-- Tin nổi bật
+- Trang chủ hiển thị tin mới, tin nổi bật
+- Trang danh mục bài viết
+- Trang chi tiết bài viết
+- Tìm kiếm bài viết
+- Tăng lượt xem bài viết
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
