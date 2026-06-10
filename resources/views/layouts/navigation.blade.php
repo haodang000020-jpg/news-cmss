@@ -27,6 +27,12 @@
                             Bài viết
                         </x-nav-link>
                     @endif
+
+                    @if (Auth::user()?->hasPermissionTo('banners.manage'))
+                        <x-nav-link :href="route('admin.banners.index')" :active="request()->routeIs('admin.banners.*')">
+                            Banner
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -92,6 +98,12 @@
             @if (Auth::user()?->hasPermissionTo('articles.manage'))
                 <x-responsive-nav-link :href="route('admin.articles.index')" :active="request()->routeIs('admin.articles.*')">
                     Bài viết
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()?->hasPermissionTo('banners.manage'))
+                <x-responsive-nav-link :href="route('admin.banners.index')" :active="request()->routeIs('admin.banners.*')">
+                    Banner
                 </x-responsive-nav-link>
             @endif
         </div>

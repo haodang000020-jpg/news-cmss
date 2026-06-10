@@ -2,6 +2,46 @@
 
 @section('content')
     <div class="container">
+        @if ($homeSliders->isNotEmpty())
+            <section class="mb-4">
+                @if ($homeSliders->count() === 1)
+                    @php($banner = $homeSliders->first())
+                    @if ($banner->link)
+                        <a href="{{ $banner->link }}">
+                            <img src="{{ asset('storage/' . $banner->image) }}" class="img-fluid w-100 rounded shadow-sm" alt="{{ $banner->title }}">
+                        </a>
+                    @else
+                        <img src="{{ asset('storage/' . $banner->image) }}" class="img-fluid w-100 rounded shadow-sm" alt="{{ $banner->title }}">
+                    @endif
+                @else
+                    <div id="homeSlider" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner rounded shadow-sm">
+                            @foreach ($homeSliders as $banner)
+                                <div class="carousel-item @if ($loop->first) active @endif">
+                                    @if ($banner->link)
+                                        <a href="{{ $banner->link }}">
+                                            <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100" alt="{{ $banner->title }}">
+                                        </a>
+                                    @else
+                                        <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100" alt="{{ $banner->title }}">
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <button class="carousel-control-prev" type="button" data-bs-target="#homeSlider" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#homeSlider" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                @endif
+            </section>
+        @endif
+
         <section class="mb-4">
             <div class="row g-4">
                 <div class="col-lg-7">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
@@ -30,6 +31,9 @@ Route::prefix('admin')
         Route::resource('articles', ArticleController::class)
             ->except('show')
             ->middleware('permission:articles.manage');
+        Route::resource('banners', BannerController::class)
+            ->except('show')
+            ->middleware('permission:banners.manage');
     });
 
 Route::middleware('auth')->group(function () {

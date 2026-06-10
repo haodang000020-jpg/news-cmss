@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
+use App\Models\Banner;
 use App\Models\Category;
 use Illuminate\View\View;
 
@@ -31,6 +32,21 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
+        $homeSliders = Banner::query()
+            ->where('position', 'home_slider')
+            ->where('is_active', true)
+            ->where(function ($query): void {
+                $query->whereNull('starts_at')
+                    ->orWhere('starts_at', '<=', now());
+            })
+            ->where(function ($query): void {
+                $query->whereNull('ends_at')
+                    ->orWhere('ends_at', '>=', now());
+            })
+            ->orderBy('sort_order')
+            ->latest()
+            ->get();
+
         $categories->each(function (Category $category): void {
             $category->setRelation(
                 'articles',
@@ -46,6 +62,7 @@ class HomeController extends Controller
             'featuredArticles' => $featuredArticles,
             'latestArticles' => $latestArticles,
             'categories' => $categories,
+            'homeSliders' => $homeSliders,
             'metaTitle' => 'Trang chủ',
             'metaDescription' => 'Tin tức mới nhất',
         ]);
