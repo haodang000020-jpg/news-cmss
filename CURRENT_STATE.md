@@ -8,22 +8,23 @@ Công nghệ:
 - MySQL
 
 Đã hoàn thành:
-- Cài Laravel local
-- Cài authentication
-- Cài role/permission
-- Tạo admin dashboard cơ bản
-- Tạo admin seed
-- Admin truy cập được /admin
+- Admin Authentication
+- RBAC admin/user
+- Admin dashboard
+- Category CRUD
+- Category cha/con
+- Slug tự sinh
 - User thường bị chặn 403 khi truy cập /admin
 
 Đang ở giai đoạn:
-Giai đoạn 5 - Category CRUD
+Giai đoạn 6 - Article CRUD
 
 Mục tiêu tiếp theo:
-1. Tạo module Category CRUD.
-2. Quản lý chuyên mục cha/con.
-3. Bật/tắt trạng thái chuyên mục.
-4. Chuẩn bị cho module Article.
+- Tạo module quản lý bài viết
+- Bài viết thuộc chuyên mục
+- Upload ảnh đại diện
+- Trạng thái nháp/xuất bản
+- Tin nổi bật
 
 Lưu ý:
 - Không viết lại dự án từ đầu.

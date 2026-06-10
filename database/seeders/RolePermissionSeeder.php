@@ -12,6 +12,7 @@ class RolePermissionSeeder extends Seeder
     {
         $permissions = collect([
             ['name' => 'Xem dashboard', 'code' => 'dashboard.view', 'module' => 'dashboard'],
+            ['name' => 'Quan ly chuyen muc', 'code' => 'categories.manage', 'module' => 'categories'],
             ['name' => 'Quan ly bai viet', 'code' => 'articles.manage', 'module' => 'articles'],
             ['name' => 'Quan ly van ban', 'code' => 'documents.manage', 'module' => 'documents'],
             ['name' => 'Quan ly nguoi dung', 'code' => 'users.manage', 'module' => 'users'],
@@ -35,4 +36,3 @@ class RolePermissionSeeder extends Seeder
         $admin->permissions()->sync($permissions->pluck('id'));
     }
 }
-
