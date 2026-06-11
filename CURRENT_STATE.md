@@ -22,15 +22,19 @@ Công nghệ:
 - Frontend Documents
 - Pages Admin CRUD
 - Frontend Page Show
+- Sitemap.xml
+- Robots.txt
 
 Đang ở giai đoạn:
-Giai đoạn 13 - SEO, Sitemap, robots.txt
+Giai đoạn 14 - Production Readiness and Deploy
 
 Mục tiêu tiếp theo:
-- Tạo meta SEO cơ bản
-- Tạo sitemap.xml
-- Tạo robots.txt
-- Tối ưu title/meta description cho article, category, document, page
+- Kiểm tra bảo mật trước deploy
+- Kiểm tra cache/config/route/view
+- Kiểm tra upload/storage
+- Kiểm tra .env.example
+- Tạo checklist deploy Laravel
+- Chuẩn bị deploy lên hosting
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
