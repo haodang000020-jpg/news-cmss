@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
+use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\ProfileController;
@@ -18,6 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('home');
 Route::get('/chuyen-muc/{slug}', FrontendCategoryController::class)->name('frontend.categories.show');
 Route::get('/bai-viet/{slug}', FrontendArticleController::class)->name('frontend.articles.show');
+Route::get('/van-ban', [FrontendDocumentController::class, 'index'])
+    ->name('frontend.documents.index');
+Route::get('/van-ban/{document}/download', [FrontendDocumentController::class, 'download'])
+    ->name('frontend.documents.download');
+Route::get('/van-ban/{slug}', [FrontendDocumentController::class, 'show'])
+    ->name('frontend.documents.show');
 Route::get('/tim-kiem', SearchController::class)->name('frontend.search');
 
 Route::get('/dashboard', function () {
