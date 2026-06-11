@@ -20,15 +20,15 @@ Công nghệ:
 - Document Category CRUD
 - Document Admin CRUD
 - Frontend Documents
+- Pages Admin CRUD
 
 Đang ở giai đoạn:
-Giai đoạn 12 - Pages / Trang tĩnh
+Giai đoạn 12.2 - Frontend Page Show
 
 Mục tiêu tiếp theo:
-- Tạo module quản lý trang tĩnh
-- Quản lý các trang Giới thiệu, Cơ cấu tổ chức, Liên hệ
+- Tạo route public /trang/{slug}
 - Hiển thị trang tĩnh ngoài frontend
-- Cho phép menu động liên kết tới trang tĩnh
+- Cho phép menu động liên kết tới trang tĩnh bằng URL
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
