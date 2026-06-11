@@ -21,14 +21,16 @@ Công nghệ:
 - Document Admin CRUD
 - Frontend Documents
 - Pages Admin CRUD
+- Frontend Page Show
 
 Đang ở giai đoạn:
-Giai đoạn 12.2 - Frontend Page Show
+Giai đoạn 13 - SEO, Sitemap, robots.txt
 
 Mục tiêu tiếp theo:
-- Tạo route public /trang/{slug}
-- Hiển thị trang tĩnh ngoài frontend
-- Cho phép menu động liên kết tới trang tĩnh bằng URL
+- Tạo meta SEO cơ bản
+- Tạo sitemap.xml
+- Tạo robots.txt
+- Tối ưu title/meta description cho article, category, document, page
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
