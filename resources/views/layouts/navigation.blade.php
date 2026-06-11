@@ -48,6 +48,12 @@
                             Loại văn bản
                         </x-nav-link>
                     @endif
+
+                    @if (Auth::user()?->hasPermissionTo('pages.manage'))
+                        <x-nav-link :href="route('admin.pages.index')" :active="request()->routeIs('admin.pages.*')">
+                            Trang tĩnh
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -134,6 +140,12 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.document-categories.index')" :active="request()->routeIs('admin.document-categories.*')">
                     Loại văn bản
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()?->hasPermissionTo('pages.manage'))
+                <x-responsive-nav-link :href="route('admin.pages.index')" :active="request()->routeIs('admin.pages.*')">
+                    Trang tĩnh
                 </x-responsive-nav-link>
             @endif
         </div>

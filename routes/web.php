@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DocumentCategoryController;
 use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
@@ -60,6 +61,10 @@ Route::prefix('admin')
         Route::resource('documents', DocumentController::class)
             ->except(['show'])
             ->middleware('permission:documents.manage');
+
+        Route::resource('pages', PageController::class)
+            ->except(['show'])
+            ->middleware('permission:pages.manage');
 
         Route::prefix('menus/{menu}')
             ->name('menus.')
