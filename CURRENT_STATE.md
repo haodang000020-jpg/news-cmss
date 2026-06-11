@@ -18,16 +18,18 @@ Công nghệ:
 - Banner / Slider CRUD
 - Dynamic Menu CRUD
 - Document Category CRUD
+- Document Admin CRUD
+- Upload file PDF/Word cho văn bản
 
 Đang ở giai đoạn:
-Giai đoạn 11.2 - Document CRUD
+Giai đoạn 11.3 - Frontend Documents
 
 Mục tiêu tiếp theo:
-- Tạo module quản lý văn bản
-- Upload file PDF/Word
-- Thay file mới
-- Xóa file cũ khi update/delete
-- Tìm kiếm và lọc văn bản trong admin
+- Tạo trang danh sách văn bản ngoài frontend
+- Tạo trang chi tiết văn bản
+- Tạo route tải file văn bản
+- Tăng download_count khi tải file
+- Hiển thị khối Văn bản chỉ đạo điều hành trên trang chủ
 
 Lưu ý:
 - Không viết lại dự án từ đầu.
