@@ -3,7 +3,7 @@
         <div>
             <label for="day_of_week" class="block text-sm font-medium text-gray-700">Thứ/ngày</label>
             <select id="day_of_week" name="day_of_week" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                <option value="">Khác</option>
+                <option value="">Chọn thứ/ngày</option>
                 @foreach ([1 => 'Thứ Hai', 2 => 'Thứ Ba', 3 => 'Thứ Tư', 4 => 'Thứ Năm', 5 => 'Thứ Sáu', 6 => 'Thứ Bảy', 7 => 'Chủ Nhật'] as $value => $label)
                     <option value="{{ $value }}" @selected((string) old('day_of_week', $workSchedule->day_of_week) === (string) $value)>
                         {{ $label }}
@@ -16,7 +16,7 @@
         </div>
 
         <div>
-            <label for="title" class="block text-sm font-medium text-gray-700">Tiêu đề</label>
+            <label for="title" class="block text-sm font-medium text-gray-700">Nội dung công việc</label>
             <input id="title" name="title" type="text" value="{{ old('title', $workSchedule->title) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
             @error('title')
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

@@ -168,6 +168,7 @@
                                     <thead>
                                         <tr>
                                             <th>Thứ/ngày</th>
+                                            <th>Nội dung công việc</th>
                                             <th>Buổi sáng</th>
                                             <th>Buổi chiều</th>
                                             <th>Ghi chú</th>
@@ -176,25 +177,30 @@
                                     <tbody>
                                         @forelse (($workSchedules ?? collect()) as $workSchedule)
                                             <tr>
-                                                <th scope="row">{{ $workSchedule->title ?: $workSchedule->day_name }}</th>
+                                                <th scope="row">{{ $workSchedule->day_name }}</th>
+                                                <td>{{ $workSchedule->is_working_day ? ($workSchedule->title ?: '-') : 'Nghỉ' }}</td>
                                                 @if ($workSchedule->is_working_day)
                                                     <td>{{ $workSchedule->morning_time ?: '-' }}</td>
                                                     <td>{{ $workSchedule->afternoon_time ?: '-' }}</td>
                                                 @else
-                                                    <td colspan="2">Nghỉ</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
                                                 @endif
                                                 <td>{{ $workSchedule->note ?: '-' }}</td>
                                             </tr>
                                         @empty
                                             <tr>
                                                 <th scope="row">Thứ Hai - Thứ Sáu</th>
+                                                <td>Làm việc bình thường</td>
                                                 <td>07:00 - 11:00</td>
                                                 <td>13:00 - 17:00</td>
                                                 <td>-</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">Thứ Bảy, Chủ Nhật</th>
-                                                <td colspan="2">Nghỉ</td>
+                                                <td>Nghỉ</td>
+                                                <td>-</td>
+                                                <td>-</td>
                                                 <td>-</td>
                                             </tr>
                                         @endforelse

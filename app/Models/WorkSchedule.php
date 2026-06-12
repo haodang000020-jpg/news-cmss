@@ -38,7 +38,7 @@ class WorkSchedule extends Model
             5 => 'Thứ Sáu',
             6 => 'Thứ Bảy',
             7 => 'Chủ Nhật',
-            default => 'Khác',
+            default => 'Chưa chọn ngày',
         };
     }
 

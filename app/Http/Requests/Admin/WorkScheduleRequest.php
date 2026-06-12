@@ -14,7 +14,7 @@ class WorkScheduleRequest extends AbstractFormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'day_of_week' => $this->input('day_of_week') ?: null,
+            'day_of_week' => $this->input('day_of_week'),
             'is_working_day' => $this->boolean('is_working_day'),
             'sort_order' => $this->input('sort_order', 0),
             'is_active' => $this->boolean('is_active'),
@@ -24,7 +24,7 @@ class WorkScheduleRequest extends AbstractFormRequest
     public function rules(): array
     {
         return [
-            'day_of_week' => ['nullable', 'integer', 'between:1,7'],
+            'day_of_week' => ['required', 'integer', 'between:1,7'],
             'title' => ['nullable', 'string', 'max:255'],
             'morning_time' => ['nullable', 'string', 'max:255'],
             'afternoon_time' => ['nullable', 'string', 'max:255'],
