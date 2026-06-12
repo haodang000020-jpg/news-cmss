@@ -64,39 +64,37 @@
                         @endif
                     </div>
                     @if ($featuredArticles->isNotEmpty())
-                        <div id="featuredArticlesCarousel" class="carousel slide featured-carousel" data-bs-ride="carousel" data-bs-pause="hover" data-bs-interval="5000">
-                            @if ($featuredArticles->count() > 1)
+                        @if ($featuredArticles->count() > 1)
+                            <div id="featuredArticlesCarousel" class="carousel slide featured-news-carousel" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="hover" data-bs-touch="true">
                                 <div class="carousel-indicators">
                                     @foreach ($featuredArticles as $article)
                                         <button type="button" data-bs-target="#featuredArticlesCarousel" data-bs-slide-to="{{ $loop->index }}" class="@if ($loop->first) active @endif" aria-current="@if ($loop->first) true @endif" aria-label="Tin nổi bật {{ $loop->iteration }}"></button>
                                     @endforeach
                                 </div>
-                            @endif
 
-                            <div class="carousel-inner">
-                                @foreach ($featuredArticles as $article)
-                                    <div class="carousel-item @if ($loop->first) active @endif">
-                                        <div class="card border-0 shadow-sm overflow-hidden">
-                                            @if ($article->thumbnail)
-                                                <a href="{{ route('frontend.articles.show', $article->slug) }}">
-                                                    <img src="{{ asset('storage/'.$article->thumbnail) }}" class="card-img-top featured-carousel-image" alt="{{ $article->title }}">
-                                                </a>
-                                            @endif
-                                            <div class="card-body p-4 featured-carousel-caption">
-                                                <div class="small text-muted mb-2">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
-                                                <h2 class="h3 featured-carousel-title">
-                                                    <a class="text-decoration-none text-dark" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
-                                                </h2>
-                                                @if ($article->summary)
-                                                    <p class="text-muted mb-0">{{ $article->summary }}</p>
+                                <div class="carousel-inner">
+                                    @foreach ($featuredArticles as $article)
+                                        <div class="carousel-item @if ($loop->first) active @endif">
+                                            <div class="card border-0 shadow-sm overflow-hidden">
+                                                @if ($article->thumbnail)
+                                                    <a href="{{ route('frontend.articles.show', $article->slug) }}">
+                                                        <img src="{{ asset('storage/'.$article->thumbnail) }}" class="card-img-top featured-news-image" alt="{{ $article->title }}">
+                                                    </a>
                                                 @endif
+                                                <div class="card-body p-4 featured-carousel-caption">
+                                                    <div class="small text-muted mb-2">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
+                                                    <h2 class="h3 featured-carousel-title">
+                                                        <a class="text-decoration-none text-dark" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
+                                                    </h2>
+                                                    @if ($article->summary)
+                                                        <p class="text-muted mb-0">{{ $article->summary }}</p>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                                    @endforeach
+                                </div>
 
-                            @if ($featuredArticles->count() > 1)
                                 <button class="carousel-control-prev" type="button" data-bs-target="#featuredArticlesCarousel" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
@@ -105,8 +103,28 @@
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Next</span>
                                 </button>
-                            @endif
-                        </div>
+                            </div>
+                        @else
+                            @php($article = $featuredArticles->first())
+                            <div class="featured-news-carousel">
+                                <div class="card border-0 shadow-sm overflow-hidden">
+                                    @if ($article->thumbnail)
+                                        <a href="{{ route('frontend.articles.show', $article->slug) }}">
+                                            <img src="{{ asset('storage/'.$article->thumbnail) }}" class="card-img-top featured-news-image" alt="{{ $article->title }}">
+                                        </a>
+                                    @endif
+                                    <div class="card-body p-4 featured-carousel-caption">
+                                        <div class="small text-muted mb-2">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
+                                        <h2 class="h3 featured-carousel-title">
+                                            <a class="text-decoration-none text-dark" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
+                                        </h2>
+                                        @if ($article->summary)
+                                            <p class="text-muted mb-0">{{ $article->summary }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     @else
                         <div class="alert alert-light border">Chưa có tin nổi bật.</div>
                     @endif

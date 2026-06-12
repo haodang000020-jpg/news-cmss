@@ -1,6 +1,6 @@
 # CURRENT STATE
 
-Dự án: Website cổng thông tin điện tử tương tự Văn phòng UBND tỉnh An Giang.
+Dự án: Website cổng thông tin điện tử Phòng Văn Hóa Xã Hội Vĩnh Bình - An Giang.
 
 Công nghệ:
 

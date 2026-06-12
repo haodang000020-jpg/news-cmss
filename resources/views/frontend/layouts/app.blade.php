@@ -57,11 +57,22 @@
                 object-fit: cover;
             }
 
-            .featured-carousel {
+            .featured-news-carousel {
                 border-radius: .35rem;
             }
 
-            .featured-carousel-image {
+            .featured-news-carousel .carousel-inner {
+                border-radius: .35rem;
+            }
+
+            .featured-news-carousel .carousel-item {
+                backface-visibility: hidden;
+                transition: transform 1.1s ease-in-out;
+                will-change: transform;
+            }
+
+            .featured-news-image {
+                display: block;
                 height: 430px;
                 object-fit: cover;
                 width: 100%;
@@ -75,15 +86,15 @@
                 line-height: 1.3;
             }
 
-            .featured-carousel .carousel-control-prev,
-            .featured-carousel .carousel-control-next {
+            .featured-news-carousel .carousel-control-prev,
+            .featured-news-carousel .carousel-control-next {
                 bottom: auto;
                 top: 190px;
                 width: 3rem;
             }
 
-            .featured-carousel .carousel-control-prev-icon,
-            .featured-carousel .carousel-control-next-icon {
+            .featured-news-carousel .carousel-control-prev-icon,
+            .featured-news-carousel .carousel-control-next-icon {
                 background-color: rgba(11, 92, 171, .8);
                 background-size: 60%;
                 border-radius: 999px;
@@ -361,14 +372,25 @@
                 width: 74px;
             }
 
-            @media (max-width: 575.98px) {
-                .featured-carousel-image {
-                    height: 260px;
+            @media (max-width: 991.98px) {
+                .featured-news-image {
+                    height: 320px;
                 }
 
-                .featured-carousel .carousel-control-prev,
-                .featured-carousel .carousel-control-next {
-                    top: 115px;
+                .featured-news-carousel .carousel-control-prev,
+                .featured-news-carousel .carousel-control-next {
+                    top: 135px;
+                }
+            }
+
+            @media (max-width: 575.98px) {
+                .featured-news-image {
+                    height: 220px;
+                }
+
+                .featured-news-carousel .carousel-control-prev,
+                .featured-news-carousel .carousel-control-next {
+                    top: 85px;
                 }
 
                 .homepage-middle-banner-image {
