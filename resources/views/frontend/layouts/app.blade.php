@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="{{ $metaDescription ?? 'Cổng thông tin điện tử Văn phòng UBND tỉnh' }}">
-        <title>{{ ($metaTitle ?? 'Trang chủ').' - Văn phòng UBND tỉnh' }}</title>
+        <meta name="description" content="{{ $metaDescription ?? 'Cổng thông tin điện tử Phòng Văn Hóa - Xã Hội' }}">
+        <title>{{ ($metaTitle ?? 'Trang chủ').' - Phòng Văn Hóa - Xã Hội' }}</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <style>
             body {
@@ -407,7 +407,7 @@
         <div class="portal-topbar py-2">
             <div class="container small d-flex justify-content-between">
                 <span>Cổng thông tin điện tử</span>
-                <span>Văn phòng UBND tỉnh</span>
+                <span>Phòng Văn Hóa - Xã Hội VĨNH BÌNH</span>
             </div>
         </div>
 
@@ -416,7 +416,7 @@
                 <div class="row g-3 align-items-center">
                     <div class="col-lg-7">
                         <a href="{{ route('home') }}" class="text-decoration-none">
-                            <div class="portal-brand-title h2 fw-bold mb-1">Văn phòng UBND tỉnh</div>
+                            <div class="portal-brand-title h2 fw-bold mb-1">Phòng Văn Hóa - Xã Hội VĨNH BÌNH</div>
                             <div class="text-uppercase text-muted fw-semibold">Cổng thông tin điện tử</div>
                         </a>
                     </div>
@@ -482,7 +482,7 @@
             <div class="container">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <div class="h5 text-white">Văn phòng UBND tỉnh</div>
+                        <div class="h5 text-white">Phòng Văn Hóa - Xã Hội VĨNH BÌNH</div>
                         <div>Cổng thông tin điện tử</div>
                     </div>
                     <div class="col-md-6 small">

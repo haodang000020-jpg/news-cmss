@@ -33,10 +33,12 @@ Công nghệ:
 Admin quản lý Lịch làm việc
 Frontend trang chủ hiển thị Lịch làm việc dưới khối Văn bản mới ban hành
  banner vị trí dưới lịch làm việc không chuyển động từ phải qua trái được mượt
+Admin User CRUD có phân quyền.
 
 Mục tiêu tiếp theo:
 
-Admin User CRUD có phân quyền.
+sửa layout admin cho đẹp bắt mắt thân thiện
+
 
 Lưu ý triển khai:
 

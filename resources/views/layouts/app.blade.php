@@ -15,22 +15,59 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+        @if (request()->is('admin*'))
+            <div class="admin-shell">
+                <aside class="admin-sidebar">
+                    @include('layouts.navigation')
+                </aside>
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+                <div class="admin-main">
+                    <header class="admin-topbar">
+                        <div>
+                            <div class="admin-topbar-title">Bảng quản trị</div>
+                            <div class="admin-topbar-subtitle">{{ config('app.name', 'CMS Cổng thông tin') }}</div>
+                        </div>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+                        @auth
+                            <div class="admin-topbar-user">
+                                <span>{{ Auth::user()->name }}</span>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="admin-logout-button">Đăng xuất</button>
+                                </form>
+                            </div>
+                        @endauth
+                    </header>
+
+                    @isset($header)
+                        <section class="admin-page-header">
+                            {{ $header }}
+                        </section>
+                    @endisset
+
+                    <main class="admin-content">
+                        {{ $slot }}
+                    </main>
+                </div>
+            </div>
+        @else
+            <div class="min-h-screen bg-gray-100">
+                @include('layouts.navigation')
+
+                <!-- Page Heading -->
+                @isset($header)
+                    <header class="bg-white shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
+
+                <!-- Page Content -->
+                <main>
+                    {{ $slot }}
+                </main>
+            </div>
+        @endif
     </body>
 </html>
