@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WorkScheduleController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
@@ -76,6 +77,10 @@ Route::prefix('admin')
         Route::resource('work-schedules', WorkScheduleController::class)
             ->except(['show'])
             ->middleware('permission:work-schedules.manage');
+
+        Route::resource('users', UserController::class)
+            ->except(['show'])
+            ->middleware('permission:users.manage');
 
         Route::prefix('menus/{menu}')
             ->name('menus.')

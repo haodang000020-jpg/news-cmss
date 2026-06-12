@@ -280,6 +280,14 @@
                 overflow: hidden;
             }
 
+            .work-schedule-banner .carousel-item {
+                transition: transform 1s ease-in-out;
+            }
+
+            .work-schedule-banner a {
+                display: block;
+            }
+
             .homepage-middle-banner-image {
                 height: 150px;
                 object-fit: cover;
@@ -287,6 +295,7 @@
             }
 
             .work-schedule-banner-image {
+                border-radius: .35rem;
                 height: 150px;
                 object-fit: cover;
                 width: 100%;

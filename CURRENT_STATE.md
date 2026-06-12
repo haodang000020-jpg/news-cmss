@@ -32,10 +32,11 @@ Công nghệ:
 đã hoàn thành
 Admin quản lý Lịch làm việc
 Frontend trang chủ hiển thị Lịch làm việc dưới khối Văn bản mới ban hành
+ banner vị trí dưới lịch làm việc không chuyển động từ phải qua trái được mượt
 
 Mục tiêu tiếp theo:
 
-chức năng thêm banner vị trí dưới lịch làm việc
+Admin User CRUD có phân quyền.
 
 Lưu ý triển khai:
 

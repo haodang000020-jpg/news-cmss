@@ -212,22 +212,22 @@
                     </div>
 
                     @if ($workScheduleBanners->isNotEmpty())
-                        <div id="workScheduleBanner" class="carousel slide work-schedule-banner mt-4" data-bs-ride="carousel" data-bs-pause="hover" data-bs-interval="4500">
-                            <div class="carousel-inner">
-                                @foreach ($workScheduleBanners as $banner)
-                                    <div class="carousel-item @if ($loop->first) active @endif">
-                                        @if ($banner->link)
-                                            <a href="{{ $banner->link }}" target="_blank" rel="noopener">
+                        @if ($workScheduleBanners->count() > 1)
+                            <div id="workScheduleBanner" class="carousel slide work-schedule-banner mt-4" data-bs-ride="carousel" data-bs-interval="4500" data-bs-pause="hover" data-bs-touch="true">
+                                <div class="carousel-inner">
+                                    @foreach ($workScheduleBanners as $banner)
+                                        <div class="carousel-item @if ($loop->first) active @endif">
+                                            @if ($banner->link)
+                                                <a href="{{ $banner->link }}" target="_blank" rel="noopener">
+                                                    <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 work-schedule-banner-image" alt="{{ $banner->title }}">
+                                                </a>
+                                            @else
                                                 <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 work-schedule-banner-image" alt="{{ $banner->title }}">
-                                            </a>
-                                        @else
-                                            <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 work-schedule-banner-image" alt="{{ $banner->title }}">
-                                        @endif
-                                    </div>
-                                @endforeach
-                            </div>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
 
-                            @if ($workScheduleBanners->count() > 1)
                                 <button class="carousel-control-prev" type="button" data-bs-target="#workScheduleBanner" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Previous</span>
@@ -236,8 +236,19 @@
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Next</span>
                                 </button>
-                            @endif
-                        </div>
+                            </div>
+                        @else
+                            @php($banner = $workScheduleBanners->first())
+                            <div class="work-schedule-banner mt-4">
+                                @if ($banner->link)
+                                    <a href="{{ $banner->link }}" target="_blank" rel="noopener">
+                                        <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 work-schedule-banner-image" alt="{{ $banner->title }}">
+                                    </a>
+                                @else
+                                    <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 work-schedule-banner-image" alt="{{ $banner->title }}">
+                                @endif
+                            </div>
+                        @endif
                     @endif
                 </div>
 

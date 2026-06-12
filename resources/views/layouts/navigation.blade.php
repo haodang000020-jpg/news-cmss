@@ -60,6 +60,12 @@
                             Lịch làm việc
                         </x-nav-link>
                     @endif
+
+                    @if (Auth::user()?->hasPermissionTo('users.manage'))
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            Người dùng
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -158,6 +164,12 @@
             @if (Auth::user()?->hasPermissionTo('work-schedules.manage'))
                 <x-responsive-nav-link :href="route('admin.work-schedules.index')" :active="request()->routeIs('admin.work-schedules.*')">
                     Lịch làm việc
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()?->hasPermissionTo('users.manage'))
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    Người dùng
                 </x-responsive-nav-link>
             @endif
         </div>
