@@ -183,6 +183,42 @@
                             <div class="small text-muted">Lịch làm việc có thể thay đổi theo thông báo của cơ quan.</div>
                         </div>
                     </div>
+
+                    @if ($homeSliders->isNotEmpty())
+                        <div id="homepageMiddleBanner" class="carousel slide homepage-middle-banner mt-4" data-bs-ride="carousel" data-bs-pause="hover" data-bs-interval="4500">
+                            <div class="carousel-inner">
+                                @foreach ($homeSliders as $banner)
+                                    <div class="carousel-item @if ($loop->first) active @endif">
+                                        @if ($banner->link)
+                                            <a href="{{ $banner->link }}" target="_blank" rel="noopener">
+                                                <!-- <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 homepage-middle-banner-image" alt="{{ $banner->title }}"> -->
+                                                <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 homepage-middle-banner-image" alt="{{ $banner->title }}">
+                                            </a>
+                                        @else
+                                            <img src="{{ asset('storage/' . $banner->image) }}" class="d-block w-100 homepage-middle-banner-image" alt="{{ $banner->title }}">
+                                        @endif
+
+                                        @if ($banner->title)
+                                            <div class="homepage-middle-banner-caption">
+                                                {{ $banner->title }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            @if ($homeSliders->count() > 1)
+                                <button class="carousel-control-prev" type="button" data-bs-target="#homepageMiddleBanner" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#homepageMiddleBanner" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            @endif
+                        </div>
+                    @endif
                 </div>
 
                 <div class="col-lg-4">

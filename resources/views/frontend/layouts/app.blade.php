@@ -266,6 +266,31 @@
                 box-shadow: 0 .25rem .75rem rgba(15, 64, 112, .06);
             }
 
+            .homepage-middle-banner {
+                border: 1px solid #d8e6f5;
+                border-radius: .35rem;
+                box-shadow: 0 .25rem .75rem rgba(15, 64, 112, .08);
+                overflow: hidden;
+            }
+
+            .homepage-middle-banner-image {
+                height: 150px;
+                object-fit: cover;
+                width: 100%;
+            }
+
+            .homepage-middle-banner-caption {
+                background: rgba(11, 63, 120, .86);
+                bottom: 0;
+                color: #fff;
+                font-size: .9rem;
+                font-weight: 600;
+                left: 0;
+                padding: .45rem .75rem;
+                position: absolute;
+                right: 0;
+            }
+
             .work-schedule-table {
                 border-color: #e5edf7;
                 font-size: .95rem;
@@ -319,6 +344,15 @@
                 .featured-carousel .carousel-control-prev,
                 .featured-carousel .carousel-control-next {
                     top: 115px;
+                }
+
+                .homepage-middle-banner-image {
+                    height: 110px;
+                }
+
+                .homepage-middle-banner-caption {
+                    font-size: .8rem;
+                    padding: .35rem .55rem;
                 }
 
                 .utility-grid {
