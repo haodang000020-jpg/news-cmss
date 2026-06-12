@@ -83,7 +83,7 @@
         </section>
 
         @if ($featuredArticles->count() > 1)
-            <section class="mb-5">
+            <section class="mb-4">
                 <div class="row g-4">
                     @foreach ($featuredArticles->skip(1) as $article)
                         <div class="col-md-4">
@@ -104,29 +104,118 @@
             </section>
         @endif
 
-        <section>
-            <h2 class="h4 section-title mb-3">Tin theo chuyên mục</h2>
+        <section class="mb-4">
             <div class="row g-4">
-                @foreach ($categories as $category)
-                    <div class="col-lg-6">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                <h3 class="h5 mb-0">{{ $category->name }}</h3>
-                                <a href="{{ route('frontend.categories.show', $category->slug) }}" class="small text-decoration-none">Xem thêm</a>
-                            </div>
-                            <div class="card-body">
-                                @forelse ($category->articles as $article)
-                                    <div class="border-bottom pb-3 mb-3">
-                                        <a class="fw-semibold text-decoration-none text-dark" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
-                                        <div class="small text-muted mt-1">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
+                <div class="col-lg-8">
+                    <div class="portal-section h-100">
+                        <div class="d-flex justify-content-between align-items-center portal-section-title">
+                            <span>Văn bản mới ban hành</span>
+                            <a href="{{ route('frontend.documents.index') }}" class="small text-white text-decoration-none">Xem thêm</a>
+                        </div>
+                        <div class="document-list">
+                            @forelse (($latestDocuments ?? collect()) as $document)
+                                <div class="document-item d-flex gap-2">
+                                    <span class="document-icon">◆</span>
+                                    <div>
+                                        <a class="fw-semibold text-dark text-decoration-none" href="{{ route('frontend.documents.show', $document->slug) }}">
+                                            {{ $document->title }}
+                                        </a>
+                                        <div class="small text-muted mt-1">
+                                            @if ($document->code)
+                                                <span>Số hiệu: {{ $document->code }}</span>
+                                            @endif
+                                            @if ($document->issued_at)
+                                                <span class="ms-2">Ngày ban hành: {{ $document->issued_at->format('d/m/Y') }}</span>
+                                            @endif
+                                        </div>
                                     </div>
-                                @empty
+                                </div>
+                            @empty
+                                <div class="p-3 text-muted">Chưa có văn bản mới.</div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="portal-section h-100">
+                        <h2 class="portal-section-title">Tra cứu</h2>
+                        <div class="utility-grid">
+                            <a href="#" class="lookup-card lookup-blue">Dịch vụ công trực tuyến</a>
+                            <a href="#" class="lookup-card lookup-red">Nộp hồ sơ trực tuyến</a>
+                            <a href="#" class="lookup-card lookup-orange">Tra cứu hồ sơ</a>
+                            <a href="#" class="lookup-card lookup-blue">Bộ thủ tục của tất cả cơ quan</a>
+                            <a href="#" class="lookup-card lookup-red">Phản ánh kiến nghị</a>
+                            <a href="#" class="lookup-card lookup-orange">Hiến kế cho UBND</a>
+                            <a href="#" class="lookup-card lookup-blue">Lịch làm việc của UBND</a>
+                            <a href="{{ route('frontend.documents.index') }}" class="lookup-card lookup-red">Công báo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="row g-4">
+                @foreach ($primaryCategories as $category)
+                    @php($leadArticle = $category->articles->first())
+                    <div class="col-lg-4">
+                        <div class="portal-news-box">
+                            <div class="d-flex justify-content-between align-items-center portal-section-title">
+                                <span>{{ $category->name }}</span>
+                                <a href="{{ route('frontend.categories.show', $category->slug) }}" class="small text-white text-decoration-none">Xem thêm</a>
+                            </div>
+                            <div class="box-body">
+                                @if ($leadArticle)
+                                    @if ($leadArticle->thumbnail)
+                                        <img src="{{ asset('storage/'.$leadArticle->thumbnail) }}" class="featured-image mb-3" alt="{{ $leadArticle->title }}">
+                                    @endif
+                                    <h3 class="h6">
+                                        <a class="text-dark text-decoration-none" href="{{ route('frontend.articles.show', $leadArticle->slug) }}">{{ $leadArticle->title }}</a>
+                                    </h3>
+                                    <div class="small text-muted mb-2">{{ $leadArticle->published_at?->format('d/m/Y') ?: $leadArticle->created_at->format('d/m/Y') }}</div>
+                                    @foreach ($category->articles->skip(1)->take(4) as $article)
+                                        <div class="news-list-item">
+                                            <a class="text-dark text-decoration-none" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
+                                        </div>
+                                    @endforeach
+                                @else
                                     <p class="text-muted mb-0">Chưa có bài viết.</p>
-                                @endforelse
+                                @endif
                             </div>
                         </div>
                     </div>
                 @endforeach
+
+                <div class="col-lg-4">
+                    <div class="portal-sidebar-box">
+                        <div class="d-flex justify-content-between align-items-center portal-section-title">
+                            <span>Thông báo</span>
+                            @if ($noticeCategory)
+                                <a href="{{ route('frontend.categories.show', $noticeCategory->slug) }}" class="small text-white text-decoration-none">Xem thêm</a>
+                            @endif
+                        </div>
+                        <div class="box-body">
+                            @php($noticeLead = $noticeArticles->first())
+                            @if ($noticeLead)
+                                @if ($noticeLead->thumbnail)
+                                    <img src="{{ asset('storage/'.$noticeLead->thumbnail) }}" class="featured-image mb-3" alt="{{ $noticeLead->title }}">
+                                @endif
+                                <h3 class="h6">
+                                    <a class="text-dark text-decoration-none" href="{{ route('frontend.articles.show', $noticeLead->slug) }}">{{ $noticeLead->title }}</a>
+                                </h3>
+                                <div class="small text-muted mb-2">{{ $noticeLead->published_at?->format('d/m/Y') ?: $noticeLead->created_at->format('d/m/Y') }}</div>
+                                @foreach ($noticeArticles->skip(1)->take(4) as $article)
+                                    <div class="news-list-item">
+                                        <a class="text-dark text-decoration-none" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p class="text-muted mb-0">Chưa có thông báo.</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </div>

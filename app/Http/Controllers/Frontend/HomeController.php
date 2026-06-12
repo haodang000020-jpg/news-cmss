@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Document;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -47,6 +48,13 @@ class HomeController extends Controller
             ->latest()
             ->get();
 
+        $latestDocuments = Document::with('category')
+            ->where('is_active', true)
+            ->orderByDesc('issued_at')
+            ->orderByDesc('created_at')
+            ->limit(8)
+            ->get();
+
         $categories->each(function (Category $category): void {
             $category->setRelation(
                 'articles',
@@ -58,11 +66,21 @@ class HomeController extends Controller
             );
         });
 
+        $primaryCategories = $categories->take(2);
+        $noticeCategory = $categories->first(
+            fn (Category $category): bool => str_contains((string) $category->name, 'Thông báo')
+        );
+        $noticeArticles = $noticeCategory?->articles ?? $latestArticles;
+
         return view('frontend.home', [
             'featuredArticles' => $featuredArticles,
             'latestArticles' => $latestArticles,
             'categories' => $categories,
             'homeSliders' => $homeSliders,
+            'latestDocuments' => $latestDocuments,
+            'primaryCategories' => $primaryCategories,
+            'noticeCategory' => $noticeCategory,
+            'noticeArticles' => $noticeArticles,
             'metaTitle' => 'Trang chủ',
             'metaDescription' => 'Tin tức mới nhất',
         ]);

@@ -61,6 +61,116 @@
                 white-space: pre-line;
             }
 
+            .portal-section {
+                background: #fff;
+                border: 1px solid #d8e6f5;
+                box-shadow: 0 .25rem .75rem rgba(15, 64, 112, .06);
+            }
+
+            .portal-section-title {
+                background: #0b5cab;
+                color: #fff;
+                font-size: 1rem;
+                font-weight: 700;
+                margin: 0;
+                padding: .75rem 1rem;
+                text-transform: uppercase;
+            }
+
+            .document-list .document-item {
+                border-bottom: 1px solid #e5edf7;
+                padding: .85rem 1rem;
+            }
+
+            .document-list .document-item:last-child {
+                border-bottom: 0;
+            }
+
+            .document-list .document-icon {
+                color: #0b5cab;
+                flex: 0 0 auto;
+                font-size: .85rem;
+                margin-top: .2rem;
+            }
+
+            .utility-grid {
+                display: grid;
+                gap: .75rem;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                padding: 1rem;
+            }
+
+            .lookup-card {
+                align-items: center;
+                border: 1px solid #d7e5f4;
+                color: #0b3f78;
+                display: flex;
+                font-weight: 600;
+                min-height: 72px;
+                padding: .8rem;
+                text-decoration: none;
+                transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+            }
+
+            .lookup-card:hover,
+            .lookup-card:focus {
+                border-color: #8bb8e8;
+                box-shadow: 0 .35rem .8rem rgba(11, 92, 171, .12);
+                color: #06396e;
+                transform: translateY(-2px);
+            }
+
+            .lookup-card.lookup-blue {
+                background: #eef7ff;
+            }
+
+            .lookup-card.lookup-red {
+                background: #fff1f1;
+                color: #9b1c1c;
+            }
+
+            .lookup-card.lookup-orange {
+                background: #fff7e6;
+                color: #915b00;
+            }
+
+            .portal-news-box,
+            .portal-sidebar-box {
+                background: #fff;
+                border: 1px solid #d8e6f5;
+                height: 100%;
+            }
+
+            .portal-news-box .box-body,
+            .portal-sidebar-box .box-body {
+                padding: 1rem;
+            }
+
+            .portal-news-box .featured-image,
+            .portal-sidebar-box .featured-image {
+                aspect-ratio: 16 / 9;
+                object-fit: cover;
+                width: 100%;
+            }
+
+            .portal-news-box .news-list-item,
+            .portal-sidebar-box .news-list-item {
+                border-bottom: 1px solid #e5edf7;
+                padding: .65rem 0;
+            }
+
+            .portal-news-box .news-list-item:last-child,
+            .portal-sidebar-box .news-list-item:last-child {
+                border-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            @media (max-width: 575.98px) {
+                .utility-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
             .portal-footer {
                 background: #0b3f78;
                 color: #dbeafe;
