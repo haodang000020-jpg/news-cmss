@@ -32,7 +32,10 @@ class BannerRequest extends AbstractFormRequest
                 'max:4096',
             ],
             'link' => ['nullable', 'url', 'max:255'],
-            'position' => ['required', Rule::in(array_keys(Banner::POSITIONS))],
+            'position' => ['required', Rule::in([
+                ...array_keys(Banner::POSITIONS),
+                'work_schedule_banner',
+            ])],
             'sort_order' => ['required', 'integer'],
             'is_active' => ['required', 'boolean'],
             'starts_at' => ['nullable', 'date'],

@@ -273,7 +273,20 @@
                 overflow: hidden;
             }
 
+            .work-schedule-banner {
+                border: 1px solid #d8e6f5;
+                border-radius: .35rem;
+                box-shadow: 0 .25rem .75rem rgba(15, 64, 112, .08);
+                overflow: hidden;
+            }
+
             .homepage-middle-banner-image {
+                height: 150px;
+                object-fit: cover;
+                width: 100%;
+            }
+
+            .work-schedule-banner-image {
                 height: 150px;
                 object-fit: cover;
                 width: 100%;
@@ -350,6 +363,10 @@
                 }
 
                 .homepage-middle-banner-image {
+                    height: 110px;
+                }
+
+                .work-schedule-banner-image {
                     height: 110px;
                 }
 

@@ -1,5 +1,12 @@
 @csrf
 
+@php
+    $bannerPositions = array_replace($positions, [
+        'home_slider' => 'Slider trang chủ',
+        'work_schedule_banner' => 'Dưới lịch làm việc',
+    ]);
+@endphp
+
 <div class="grid gap-6">
     <div>
         <label for="title" class="block text-sm font-medium text-gray-700">Tiêu đề</label>
@@ -31,7 +38,7 @@
     <div>
         <label for="position" class="block text-sm font-medium text-gray-700">Vị trí</label>
         <select id="position" name="position" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-            @foreach ($positions as $value => $label)
+            @foreach ($bannerPositions as $value => $label)
                 <option value="{{ $value }}" @selected(old('position', $banner->position) === $value)>{{ $label }}</option>
             @endforeach
         </select>

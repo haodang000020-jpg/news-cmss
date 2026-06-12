@@ -49,6 +49,21 @@ class HomeController extends Controller
             ->latest()
             ->get();
 
+        $workScheduleBanners = Banner::query()
+            ->where('position', 'work_schedule_banner')
+            ->where('is_active', true)
+            ->where(function ($query): void {
+                $query->whereNull('starts_at')
+                    ->orWhere('starts_at', '<=', now());
+            })
+            ->where(function ($query): void {
+                $query->whereNull('ends_at')
+                    ->orWhere('ends_at', '>=', now());
+            })
+            ->orderBy('sort_order')
+            ->orderByDesc('created_at')
+            ->get();
+
         $latestDocuments = Document::with('category')
             ->where('is_active', true)
             ->orderByDesc('issued_at')
@@ -82,6 +97,7 @@ class HomeController extends Controller
             'latestArticles' => $latestArticles,
             'categories' => $categories,
             'homeSliders' => $homeSliders,
+            'workScheduleBanners' => $workScheduleBanners,
             'latestDocuments' => $latestDocuments,
             'workSchedules' => $workSchedules,
             'primaryCategories' => $primaryCategories,

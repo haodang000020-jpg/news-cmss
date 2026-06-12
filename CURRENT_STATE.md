@@ -29,12 +29,13 @@ Công nghệ:
 * Production Readiness Audit
 * DEPLOYMENT_CHECKLIST.md
 
-
+đã hoàn thành
+Admin quản lý Lịch làm việc
+Frontend trang chủ hiển thị Lịch làm việc dưới khối Văn bản mới ban hành
 
 Mục tiêu tiếp theo:
 
-Admin quản lý Lịch làm việc
-Frontend trang chủ hiển thị Lịch làm việc dưới khối Văn bản mới ban hành
+chức năng thêm banner vị trí dưới lịch làm việc
 
 Lưu ý triển khai:
 

@@ -1,4 +1,11 @@
 <x-app-layout>
+    @php
+        $bannerPositions = array_replace($positions, [
+            'home_slider' => 'Slider trang chủ',
+            'work_schedule_banner' => 'Dưới lịch làm việc',
+        ]);
+    @endphp
+
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
@@ -37,7 +44,7 @@
                                     <img src="{{ asset('storage/'.$banner->image) }}" alt="{{ $banner->title }}" class="h-16 w-28 rounded-md object-cover">
                                 </td>
                                 <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $banner->title }}</td>
-                                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{{ $positions[$banner->position] ?? $banner->position }}</td>
+                                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{{ $bannerPositions[$banner->position] ?? $banner->position }}</td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500">{{ $banner->sort_order }}</td>
                                 <td class="whitespace-nowrap px-6 py-4 text-sm">
                                     <span class="rounded-full px-2 py-1 text-xs font-medium {{ $banner->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
