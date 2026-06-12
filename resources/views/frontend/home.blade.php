@@ -165,18 +165,39 @@
                         <div class="p-3">
                             <div class="table-responsive">
                                 <table class="table work-schedule-table mb-3">
+                                    <thead>
+                                        <tr>
+                                            <th>Thứ/ngày</th>
+                                            <th>Buổi sáng</th>
+                                            <th>Buổi chiều</th>
+                                            <th>Ghi chú</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">Thứ Hai - Thứ Sáu</th>
-                                            <td>
-                                                <div>Buổi sáng: 07:00 - 11:00</div>
-                                                <div>Buổi chiều: 13:00 - 17:00</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Thứ Bảy, Chủ Nhật</th>
-                                            <td>Nghỉ</td>
-                                        </tr>
+                                        @forelse (($workSchedules ?? collect()) as $workSchedule)
+                                            <tr>
+                                                <th scope="row">{{ $workSchedule->title ?: $workSchedule->day_name }}</th>
+                                                @if ($workSchedule->is_working_day)
+                                                    <td>{{ $workSchedule->morning_time ?: '-' }}</td>
+                                                    <td>{{ $workSchedule->afternoon_time ?: '-' }}</td>
+                                                @else
+                                                    <td colspan="2">Nghỉ</td>
+                                                @endif
+                                                <td>{{ $workSchedule->note ?: '-' }}</td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <th scope="row">Thứ Hai - Thứ Sáu</th>
+                                                <td>07:00 - 11:00</td>
+                                                <td>13:00 - 17:00</td>
+                                                <td>-</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Thứ Bảy, Chủ Nhật</th>
+                                                <td colspan="2">Nghỉ</td>
+                                                <td>-</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>

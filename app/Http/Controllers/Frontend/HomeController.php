@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Document;
+use App\Models\WorkSchedule;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -55,6 +56,10 @@ class HomeController extends Controller
             ->limit(8)
             ->get();
 
+        $workSchedules = WorkSchedule::active()
+            ->ordered()
+            ->get();
+
         $categories->each(function (Category $category): void {
             $category->setRelation(
                 'articles',
@@ -78,6 +83,7 @@ class HomeController extends Controller
             'categories' => $categories,
             'homeSliders' => $homeSliders,
             'latestDocuments' => $latestDocuments,
+            'workSchedules' => $workSchedules,
             'primaryCategories' => $primaryCategories,
             'noticeCategory' => $noticeCategory,
             'noticeArticles' => $noticeArticles,

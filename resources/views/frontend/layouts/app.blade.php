@@ -298,8 +298,11 @@
 
             .work-schedule-table th {
                 color: #0b3f78;
+            }
+
+            .work-schedule-table tbody th {
                 white-space: nowrap;
-                width: 38%;
+                width: 28%;
             }
 
             .school-link-card {

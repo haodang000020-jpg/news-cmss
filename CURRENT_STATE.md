@@ -29,19 +29,12 @@ Công nghệ:
 * Production Readiness Audit
 * DEPLOYMENT_CHECKLIST.md
 
-Đang ở giai đoạn:
-Giai đoạn 15 - Article Rich Text Editor + Upload ảnh trong nội dung bài viết
+
 
 Mục tiêu tiếp theo:
 
-* Phân tích cách triển khai Article Rich Text Editor
-* Thay textarea nội dung bài viết bằng trình soạn thảo rich text editor
-* Cho phép định dạng nội dung bài viết: tiêu đề, in đậm, in nghiêng, danh sách, liên kết
-* Cho phép upload và chèn hình ảnh trực tiếp trong nội dung bài viết
-* Lưu ảnh nội dung bài viết vào storage public
-* Đảm bảo chức năng thêm bài viết và sửa bài viết vẫn hoạt động
-* Đảm bảo frontend hiển thị đúng nội dung HTML của bài viết
-* Không ảnh hưởng ảnh đại diện bài viết hiện có
+Admin quản lý Lịch làm việc
+Frontend trang chủ hiển thị Lịch làm việc dưới khối Văn bản mới ban hành
 
 Lưu ý triển khai:
 

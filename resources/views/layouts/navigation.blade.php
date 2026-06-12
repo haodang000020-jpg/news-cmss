@@ -54,6 +54,12 @@
                             Trang tĩnh
                         </x-nav-link>
                     @endif
+
+                    @if (Auth::user()?->hasPermissionTo('work-schedules.manage'))
+                        <x-nav-link :href="route('admin.work-schedules.index')" :active="request()->routeIs('admin.work-schedules.*')">
+                            Lịch làm việc
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -146,6 +152,12 @@
             @if (Auth::user()?->hasPermissionTo('pages.manage'))
                 <x-responsive-nav-link :href="route('admin.pages.index')" :active="request()->routeIs('admin.pages.*')">
                     Trang tĩnh
+                </x-responsive-nav-link>
+            @endif
+
+            @if (Auth::user()?->hasPermissionTo('work-schedules.manage'))
+                <x-responsive-nav-link :href="route('admin.work-schedules.index')" :active="request()->routeIs('admin.work-schedules.*')">
+                    Lịch làm việc
                 </x-responsive-nav-link>
             @endif
         </div>
