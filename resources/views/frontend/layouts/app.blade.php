@@ -61,6 +61,66 @@
                 white-space: pre-line;
             }
 
+            .news-ticker {
+                align-items: center;
+                background: #fff;
+                border: 1px solid #d8e6f5;
+                display: flex;
+                flex: 1 1 auto;
+                min-width: 0;
+                overflow: hidden;
+            }
+
+            .news-ticker-label {
+                background: #0b5cab;
+                color: #fff;
+                flex: 0 0 auto;
+                font-size: .875rem;
+                font-weight: 700;
+                padding: .45rem .7rem;
+            }
+
+            .news-ticker-track {
+                flex: 1 1 auto;
+                min-width: 0;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            .news-ticker-content {
+                animation: newsTicker 18s linear infinite;
+                display: inline-block;
+                padding-left: 100%;
+                white-space: nowrap;
+            }
+
+            .news-ticker:hover .news-ticker-content {
+                animation-play-state: paused;
+            }
+
+            .news-ticker-link {
+                color: #b42318;
+                font-size: .95rem;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+            .news-ticker-link:hover,
+            .news-ticker-link:focus {
+                color: #0b5cab;
+                text-decoration: underline;
+            }
+
+            @keyframes newsTicker {
+                from {
+                    transform: translateX(0);
+                }
+
+                to {
+                    transform: translateX(-100%);
+                }
+            }
+
             .portal-section {
                 background: #fff;
                 border: 1px solid #d8e6f5;
@@ -165,9 +225,69 @@
                 padding-bottom: 0;
             }
 
+            .work-schedule-box,
+            .school-links-box {
+                background: #fff;
+                border: 1px solid #d8e6f5;
+                box-shadow: 0 .25rem .75rem rgba(15, 64, 112, .06);
+            }
+
+            .work-schedule-table {
+                border-color: #e5edf7;
+                font-size: .95rem;
+            }
+
+            .work-schedule-table th {
+                color: #0b3f78;
+                white-space: nowrap;
+                width: 38%;
+            }
+
+            .school-link-card {
+                align-items: center;
+                background: #f8fbff;
+                border: 1px solid #d8e6f5;
+                color: #0b3f78;
+                display: flex;
+                gap: .75rem;
+                margin-bottom: .75rem;
+                padding: .65rem;
+                text-decoration: none;
+                transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+            }
+
+            .school-link-card:last-child {
+                margin-bottom: 0;
+            }
+
+            .school-link-card:hover,
+            .school-link-card:focus {
+                border-color: #8bb8e8;
+                box-shadow: 0 .35rem .8rem rgba(11, 92, 171, .12);
+                color: #06396e;
+                transform: translateY(-2px);
+            }
+
+            .school-link-image {
+                background: #e8f2ff;
+                border-radius: .35rem;
+                flex: 0 0 74px;
+                height: 54px;
+                object-fit: cover;
+                width: 74px;
+            }
+
             @media (max-width: 575.98px) {
                 .utility-grid {
                     grid-template-columns: 1fr;
+                }
+
+                .work-schedule-table th {
+                    white-space: normal;
+                }
+
+                .school-link-card {
+                    align-items: flex-start;
                 }
             }
 

@@ -45,7 +45,24 @@
         <section class="mb-4">
             <div class="row g-4">
                 <div class="col-lg-7">
-                    <h1 class="h4 section-title mb-3">Tin nổi bật</h1>
+                    <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-3">
+                        <h1 class="h4 section-title mb-0 flex-shrink-0">Tin nổi bật</h1>
+                        @if ($latestArticles->isNotEmpty())
+                            <div class="news-ticker">
+                                <span class="news-ticker-label">Tin nhanh:</span>
+                                <div class="news-ticker-track">
+                                    <div class="news-ticker-content">
+                                        @foreach ($latestArticles->take(2) as $article)
+                                            <a href="{{ route('frontend.articles.show', $article->slug) }}" class="news-ticker-link">{{ $article->title }}</a>
+                                            @unless ($loop->last)
+                                                <span class="mx-2">•</span>
+                                            @endunless
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                     @forelse ($featuredArticles->take(1) as $article)
                         <div class="card border-0 shadow-sm overflow-hidden">
                             @if ($article->thumbnail)
@@ -107,7 +124,7 @@
         <section class="mb-4">
             <div class="row g-4">
                 <div class="col-lg-8">
-                    <div class="portal-section h-100">
+                    <div class="portal-section">
                         <div class="d-flex justify-content-between align-items-center portal-section-title">
                             <span>Văn bản mới ban hành</span>
                             <a href="{{ route('frontend.documents.index') }}" class="small text-white text-decoration-none">Xem thêm</a>
@@ -135,10 +152,34 @@
                             @endforelse
                         </div>
                     </div>
+
+                    <div class="work-schedule-box mt-4">
+                        <h2 class="portal-section-title">LỊCH LÀM VIỆC CỦA PHÒNG VĂN HÓA XÃ HỘI</h2>
+                        <div class="p-3">
+                            <div class="table-responsive">
+                                <table class="table work-schedule-table mb-3">
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Thứ Hai - Thứ Sáu</th>
+                                            <td>
+                                                <div>Buổi sáng: 07:00 - 11:00</div>
+                                                <div>Buổi chiều: 13:00 - 17:00</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Thứ Bảy, Chủ Nhật</th>
+                                            <td>Nghỉ</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="small text-muted">Lịch làm việc có thể thay đổi theo thông báo của cơ quan.</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-lg-4">
-                    <div class="portal-section h-100">
+                    <div class="portal-section">
                         <h2 class="portal-section-title">Tra cứu</h2>
                         <div class="utility-grid">
                             <a href="#" class="lookup-card lookup-blue">Dịch vụ công trực tuyến</a>
@@ -149,6 +190,28 @@
                             <a href="#" class="lookup-card lookup-orange">Hiến kế cho UBND</a>
                             <a href="#" class="lookup-card lookup-blue">Lịch làm việc của UBND</a>
                             <a href="{{ route('frontend.documents.index') }}" class="lookup-card lookup-red">Công báo</a>
+                        </div>
+                    </div>
+
+                    <div class="school-links-box mt-4">
+                        <h2 class="portal-section-title">LIÊN KẾT TRƯỜNG HỌC</h2>
+                        <div class="p-3">
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Mầm non Vĩnh Bình">
+                                <span>Trường Mầm non Vĩnh Bình</span>
+                            </a>
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Tiểu học Vĩnh Bình">
+                                <span>Trường Tiểu học Vĩnh Bình</span>
+                            </a>
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường THCS Vĩnh Bình">
+                                <span>Trường THCS Vĩnh Bình</span>
+                            </a>
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trung tâm học tập cộng đồng">
+                                <span>Trung tâm học tập cộng đồng</span>
+                            </a>
                         </div>
                     </div>
                 </div>
