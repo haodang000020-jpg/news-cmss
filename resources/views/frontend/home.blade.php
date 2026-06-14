@@ -43,8 +43,8 @@
         @endif
 
         <section class="mb-4">
-            <div class="row g-4">
-                <div class="col-lg-7">
+            <div class="row g-4 home-main-grid">
+                <div class="col-lg-6 featured-news-column">
                     <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-3">
                         <h1 class="h4 section-title mb-0 flex-shrink-0">Tin nổi bật</h1>
                         @if ($latestArticles->isNotEmpty())
@@ -130,10 +130,10 @@
                     @endif
                 </div>
 
-                <div class="col-lg-5">
+                <div class="col-lg-3 latest-news-column">
                     <h2 class="h4 section-title mb-3">Tin mới nhất</h2>
                     <div class="list-group shadow-sm">
-                        @forelse ($latestArticles as $article)
+                        @forelse ($latestArticles->take(6) as $article)
                             <a href="{{ route('frontend.articles.show', $article->slug) }}" class="list-group-item list-group-item-action p-3">
                                 <div class="fw-semibold text-dark">{{ $article->title }}</div>
                                 <div class="small text-muted mt-1">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
@@ -141,6 +141,22 @@
                         @empty
                             <div class="list-group-item text-muted">Chưa có bài viết.</div>
                         @endforelse
+                    </div>
+                </div>
+
+                <div class="col-lg-3 hotline-column">
+                    <div class="hotline-box">
+                        <h2 class="hotline-title">THÔNG TIN ĐƯỜNG DÂY NÓNG PHÒNG VH-XH</h2>
+                        <div class="hotline-item fw-semibold">Phòng Văn hóa - Xã hội xã Vĩnh Bình</div>
+                        <div class="hotline-item">☎ Điện thoại: Đang cập nhật</div>
+                        <div class="hotline-item">✉ Email: Đang cập nhật</div>
+                        <div class="hotline-item">⌂ Địa chỉ: Xã Vĩnh Bình, tỉnh An Giang</div>
+                        <div class="hotline-item">⏰ Thời gian tiếp nhận: Thứ Hai - Thứ Sáu, giờ hành chính</div>
+                        <p class="hotline-note">Tiếp nhận phản ánh, kiến nghị liên quan đến lĩnh vực văn hóa, xã hội, giáo dục, y tế và đời sống nhân dân.</p>
+                        <div class="hotline-actions">
+                            <a href="#" class="btn btn-sm btn-primary">Gọi ngay</a>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Gửi email</a>
+                        </div>
                     </div>
                 </div>
             </div>

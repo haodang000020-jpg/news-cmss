@@ -36,9 +36,10 @@ Frontend trang chủ hiển thị Lịch làm việc dưới khối Văn bản m
 Admin User CRUD có phân quyền.
 sửa layout admin cho đẹp bắt mắt thân thiện
 Sửa thanh menu cấp 1 thành tên chuyên mục, mục tiêu là khi người dùng nhấn vào chuyên mục trên thanh menu sẽ hiện ra danh sách bài viết thuộc chuyên mục đó
+Xây dựng Banner đầu trang
 
 Mục tiêu tiếp theo:
-Xây dựng Banner đầu trang
+sửa/thêm footer theo yêu cầu
 
 Lưu ý triển khai:
 

@@ -122,6 +122,72 @@
                 width: 2rem;
             }
 
+            .home-main-grid .featured-news-image {
+                height: 380px;
+            }
+
+            .home-main-grid .featured-news-carousel .carousel-control-prev,
+            .home-main-grid .featured-news-carousel .carousel-control-next {
+                top: 165px;
+            }
+
+            .featured-news-column,
+            .latest-news-column,
+            .hotline-column {
+                min-width: 0;
+            }
+
+            .latest-news-column .list-group-item {
+                font-size: .94rem;
+            }
+
+            .hotline-box {
+                background: #fff;
+                border: 1px solid #d8e6f5;
+                box-shadow: 0 .25rem .75rem rgba(15, 64, 112, .06);
+                height: 100%;
+            }
+
+            .hotline-title {
+                background: #0b5cab;
+                color: #fff;
+                font-size: .95rem;
+                font-weight: 700;
+                line-height: 1.35;
+                margin: 0;
+                padding: .75rem 1rem;
+                text-transform: uppercase;
+            }
+
+            .hotline-item {
+                border-bottom: 1px solid #e5edf7;
+                color: #1f2937;
+                font-size: .94rem;
+                line-height: 1.5;
+                padding: .75rem 1rem;
+            }
+
+            .hotline-item:last-of-type {
+                border-bottom: 0;
+            }
+
+            .hotline-note {
+                background: #f5f9ff;
+                border-left: 4px solid #0b5cab;
+                color: #475569;
+                font-size: .9rem;
+                line-height: 1.55;
+                margin: 0 1rem 1rem;
+                padding: .75rem;
+            }
+
+            .hotline-actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: .5rem;
+                padding: 0 1rem 1rem;
+            }
+
             .pre-line {
                 white-space: pre-line;
             }
@@ -397,8 +463,17 @@
                     height: 320px;
                 }
 
+                .home-main-grid .featured-news-image {
+                    height: 320px;
+                }
+
                 .featured-news-carousel .carousel-control-prev,
                 .featured-news-carousel .carousel-control-next {
+                    top: 135px;
+                }
+
+                .home-main-grid .featured-news-carousel .carousel-control-prev,
+                .home-main-grid .featured-news-carousel .carousel-control-next {
                     top: 135px;
                 }
             }
@@ -408,8 +483,17 @@
                     height: 220px;
                 }
 
+                .home-main-grid .featured-news-image {
+                    height: 220px;
+                }
+
                 .featured-news-carousel .carousel-control-prev,
                 .featured-news-carousel .carousel-control-next {
+                    top: 85px;
+                }
+
+                .home-main-grid .featured-news-carousel .carousel-control-prev,
+                .home-main-grid .featured-news-carousel .carousel-control-next {
                     top: 85px;
                 }
 
@@ -423,6 +507,29 @@
 
                 .site-header-banner-image {
                     height: 100px;
+                }
+
+                .site-footer-inner {
+                    min-height: auto;
+                    padding: 1.5rem 0 1rem;
+                }
+
+                .site-footer::after {
+                    height: 150px;
+                    right: -2rem;
+                    top: 1rem;
+                    width: 150px;
+                }
+
+                .site-footer-title {
+                    font-size: 1rem;
+                }
+
+                .back-to-top {
+                    bottom: .75rem;
+                    height: 2.25rem;
+                    right: .75rem;
+                    width: 2.25rem;
                 }
 
                 .homepage-middle-banner-caption {
@@ -443,9 +550,156 @@
                 }
             }
 
-            .portal-footer {
-                background: #0b3f78;
-                color: #dbeafe;
+            .site-footer {
+                background:
+                    radial-gradient(circle at 18% 35%, rgba(255, 255, 255, .12) 0 2px, transparent 3px 12px),
+                    radial-gradient(circle at 78% 20%, rgba(255, 255, 255, .08) 0 1px, transparent 2px 10px),
+                    linear-gradient(135deg, #123f68 0%, #173f66 55%, #0e3152 100%);
+                color: #fff;
+                margin-top: 1.5rem;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .site-footer::before {
+                border: 1px solid rgba(255, 255, 255, .12);
+                border-radius: 50%;
+                content: "";
+                height: 260px;
+                left: 50%;
+                opacity: .25;
+                position: absolute;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 260px;
+            }
+
+            .site-footer::after {
+                background:
+                    repeating-radial-gradient(circle, rgba(255, 255, 255, .14) 0 1px, transparent 1px 18px),
+                    repeating-conic-gradient(from 0deg, rgba(255, 255, 255, .08) 0deg 8deg, transparent 8deg 16deg);
+                border-radius: 50%;
+                content: "";
+                height: 210px;
+                opacity: .18;
+                position: absolute;
+                right: 10%;
+                top: 1.5rem;
+                width: 210px;
+            }
+
+            .site-footer-inner {
+                min-height: 230px;
+                padding: 2rem 0 1rem;
+                position: relative;
+                z-index: 1;
+            }
+
+            .site-footer-title {
+                color: #fff;
+                font-size: 1.05rem;
+                font-weight: 800;
+                letter-spacing: 0;
+                margin-bottom: .85rem;
+                text-transform: uppercase;
+            }
+
+            .site-footer p,
+            .site-footer-contact div {
+                color: rgba(255, 255, 255, .9);
+                font-size: .95rem;
+                line-height: 1.65;
+                margin-bottom: .3rem;
+            }
+
+            .site-footer-badges {
+                display: flex;
+                flex-wrap: wrap;
+                gap: .5rem;
+                margin-top: 1rem;
+            }
+
+            .site-footer-badge {
+                background: rgba(255, 255, 255, .94);
+                border: 1px solid rgba(255, 255, 255, .22);
+                border-radius: .25rem;
+                color: #123f68;
+                display: inline-flex;
+                font-size: .78rem;
+                font-weight: 700;
+                line-height: 1;
+                padding: .45rem .65rem;
+            }
+
+            .site-footer-contact a {
+                color: #fff;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+            .site-footer-contact a:hover,
+            .site-footer-contact a:focus {
+                text-decoration: underline;
+            }
+
+            .site-footer-copyright {
+                border-top: 1px solid rgba(255, 255, 255, .18);
+                color: rgba(255, 255, 255, .9);
+                font-size: .9rem;
+                margin-top: 1.25rem;
+                padding-top: .85rem;
+                text-align: center;
+            }
+
+            .back-to-top {
+                align-items: center;
+                background: #f8c542;
+                border: 0;
+                border-radius: .25rem;
+                bottom: 1rem;
+                box-shadow: 0 .35rem .8rem rgba(0, 0, 0, .22);
+                color: #123f68;
+                display: inline-flex;
+                font-size: 1.15rem;
+                font-weight: 800;
+                height: 2.5rem;
+                justify-content: center;
+                position: fixed;
+                right: 1rem;
+                text-decoration: none;
+                width: 2.5rem;
+                z-index: 1030;
+            }
+
+            .back-to-top:hover,
+            .back-to-top:focus {
+                background: #ffd968;
+                color: #0e3152;
+            }
+
+            @media (max-width: 575.98px) {
+                .site-footer-inner {
+                    min-height: auto;
+                    padding: 1.5rem 0 1rem;
+                }
+
+                .site-footer::after {
+                    height: 150px;
+                    right: -2rem;
+                    top: 1rem;
+                    width: 150px;
+                }
+
+                .site-footer-title {
+                    font-size: 1rem;
+                }
+
+                .back-to-top {
+                    bottom: .75rem;
+                    height: 2.25rem;
+                    right: .75rem;
+                    width: 2.25rem;
+                }
             }
         </style>
     </head>
@@ -537,21 +791,39 @@
             @yield('content')
         </main>
 
-        <footer class="portal-footer py-4 mt-4">
-            <div class="container">
-                <div class="row g-3">
+        <footer class="site-footer">
+            <div class="container site-footer-inner">
+                <div class="row g-4">
                     <div class="col-md-6">
-                        <div class="h5 text-white">Phòng Văn Hóa - Xã Hội VĨNH BÌNH</div>
-                        <div>Cổng thông tin điện tử</div>
+                        <div class="site-footer-title">UBND XÃ VĨNH BÌNH</div>
+                        <p>Người phát ngôn: UBND Xã Vĩnh Bình</p>
+                        <p>Chịu trách nhiệm nội dung: UBND Xã Vĩnh Bình</p>
+
+                        <div class="site-footer-badges" aria-label="Chứng nhận và kênh thông tin">
+                            <span class="site-footer-badge">NCA</span>
+                            <span class="site-footer-badge">Website đạt chứng nhận Tín nhiệm mạng</span>
+                            <span class="site-footer-badge">Facebook</span>
+                            <span class="site-footer-badge">YouTube</span>
+                            <span class="site-footer-badge">IPv6</span>
+                        </div>
                     </div>
-                    <div class="col-md-6 small">
-                        <div>Địa chỉ: Số 01, đường Trung tâm, phường Trung tâm, tỉnh</div>
-                        <div>Điện thoại: 0296 000 000</div>
-                        <div>Email: vanphongubnd@example.gov.vn</div>
+
+                    <div class="col-md-6 site-footer-contact">
+                        <div class="site-footer-title">LIÊN HỆ</div>
+                        <div><a href="{{ route('home') }}">Góp ý</a> | <a href="{{ route('frontend.sitemap') }}">Sơ đồ website</a> | RSS</div>
+                        <div><span aria-hidden="true">⌂</span> ..., Xã Vĩnh Bình, tỉnh An Giang.</div>
+                        <div><span aria-hidden="true">☎</span> Đang cập nhật... - Fax: Đang cập nhật...</div>
+                        <div><span aria-hidden="true">@</span> @angiang.gov.vn</div>
                     </div>
+                </div>
+
+                <div class="site-footer-copyright">
+                    © Copyright Trang thông tin điện tử xã Vĩnh Bình. All Rights Reserved.
                 </div>
             </div>
         </footer>
+
+        <button class="back-to-top" type="button" aria-label="Cuộn lên đầu trang" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑</button>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
