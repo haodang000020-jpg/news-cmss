@@ -22,6 +22,26 @@
                 border-bottom: 1px solid #cfe0f5;
             }
 
+            .site-header-banner {
+                background: #eef5ff;
+                border-bottom: 1px solid #cfe0f5;
+            }
+
+            .site-header-banner-carousel .carousel-item {
+                transition: transform 1s ease-in-out;
+            }
+
+            .site-header-banner-link {
+                display: block;
+            }
+
+            .site-header-banner-image {
+                display: block;
+                height: 150px;
+                object-fit: cover;
+                width: 100%;
+            }
+
             .portal-brand-title {
                 color: #0b3f78;
             }
@@ -401,6 +421,10 @@
                     height: 110px;
                 }
 
+                .site-header-banner-image {
+                    height: 100px;
+                }
+
                 .homepage-middle-banner-caption {
                     font-size: .8rem;
                     padding: .35rem .55rem;
@@ -433,6 +457,38 @@
             </div>
         </div>
 
+        @if ($siteHeaderBanners->isNotEmpty())
+            <header class="site-header-banner py-2">
+                <div class="container">
+                    @if ($siteHeaderBanners->count() > 1)
+                        <div id="siteHeaderBannerCarousel" class="carousel slide site-header-banner-carousel" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="hover" data-bs-touch="true">
+                            <div class="carousel-inner">
+                                @foreach ($siteHeaderBanners as $banner)
+                                    <div class="carousel-item @if ($loop->first) active @endif">
+                                        @if ($banner->link)
+                                            <a class="site-header-banner-link" href="{{ $banner->link }}">
+                                                <img src="{{ asset('storage/'.$banner->image) }}" class="site-header-banner-image" alt="{{ $banner->title }}">
+                                            </a>
+                                        @else
+                                            <img src="{{ asset('storage/'.$banner->image) }}" class="site-header-banner-image" alt="{{ $banner->title }}">
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        @php($banner = $siteHeaderBanners->first())
+                        @if ($banner->link)
+                            <a class="site-header-banner-link" href="{{ $banner->link }}">
+                                <img src="{{ asset('storage/'.$banner->image) }}" class="site-header-banner-image" alt="{{ $banner->title }}">
+                            </a>
+                        @else
+                            <img src="{{ asset('storage/'.$banner->image) }}" class="site-header-banner-image" alt="{{ $banner->title }}">
+                        @endif
+                    @endif
+                </div>
+            </header>
+        @else
         <header class="portal-header py-4">
             <div class="container">
                 <div class="row g-3 align-items-center">
@@ -451,6 +507,7 @@
                 </div>
             </div>
         </header>
+        @endif
 
         <nav class="navbar navbar-expand-lg portal-nav">
             <div class="container">

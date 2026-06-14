@@ -4,6 +4,7 @@
     $bannerPositions = array_replace($positions, [
         'home_slider' => 'Slider trang chủ',
         'work_schedule_banner' => 'Dưới lịch làm việc',
+        'site_header_banner' => 'Banner đầu trang',
     ]);
 @endphp
 

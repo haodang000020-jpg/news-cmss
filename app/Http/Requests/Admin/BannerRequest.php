@@ -35,6 +35,7 @@ class BannerRequest extends AbstractFormRequest
             'position' => ['required', Rule::in([
                 ...array_keys(Banner::POSITIONS),
                 'work_schedule_banner',
+                'site_header_banner',
             ])],
             'sort_order' => ['required', 'integer'],
             'is_active' => ['required', 'boolean'],
