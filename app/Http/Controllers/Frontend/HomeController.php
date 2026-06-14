@@ -68,7 +68,7 @@ class HomeController extends Controller
             ->where('is_active', true)
             ->orderByDesc('issued_at')
             ->orderByDesc('created_at')
-            ->limit(8)
+            ->limit(7)
             ->get();
 
         $workSchedules = WorkSchedule::active()

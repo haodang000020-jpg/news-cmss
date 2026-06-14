@@ -43,8 +43,8 @@
         @endif
 
         <section class="mb-4">
-            <div class="row g-4 home-main-grid">
-                <div class="col-lg-6 featured-news-column">
+            <div class="row g-4 home-main-grid align-items-stretch">
+                <div class="col-lg-6 featured-news-column d-flex flex-column">
                     <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-3">
                         <h1 class="h4 section-title mb-0 flex-shrink-0">Tin nổi bật</h1>
                         @if ($latestArticles->isNotEmpty())
@@ -86,9 +86,7 @@
                                                     <h2 class="h3 featured-carousel-title">
                                                         <a class="text-decoration-none text-dark" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
                                                     </h2>
-                                                    @if ($article->summary)
-                                                        <p class="text-muted mb-0">{{ $article->summary }}</p>
-                                                    @endif
+
                                                 </div>
                                             </div>
                                         </div>
@@ -130,7 +128,7 @@
                     @endif
                 </div>
 
-                <div class="col-lg-3 latest-news-column">
+                <div class="col-lg-3 latest-news-column d-flex flex-column">
                     <h2 class="h4 section-title mb-3">Tin mới nhất</h2>
                     <div class="list-group shadow-sm">
                         @forelse ($latestArticles->take(6) as $article)
@@ -144,19 +142,20 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 hotline-column">
+                <div class="col-lg-3 hotline-column d-flex flex-column">
+                    <div class="hotline-section-title">
+<h4>Đường Dây Nóng</h4>
+</div>
                     <div class="hotline-box">
-                        <h2 class="hotline-title">THÔNG TIN ĐƯỜNG DÂY NÓNG PHÒNG VH-XH</h2>
                         <div class="hotline-item fw-semibold">Phòng Văn hóa - Xã hội xã Vĩnh Bình</div>
                         <div class="hotline-item">☎ Điện thoại: Đang cập nhật</div>
                         <div class="hotline-item">✉ Email: Đang cập nhật</div>
                         <div class="hotline-item">⌂ Địa chỉ: Xã Vĩnh Bình, tỉnh An Giang</div>
                         <div class="hotline-item">⏰ Thời gian tiếp nhận: Thứ Hai - Thứ Sáu, giờ hành chính</div>
                         <p class="hotline-note">Tiếp nhận phản ánh, kiến nghị liên quan đến lĩnh vực văn hóa, xã hội, giáo dục, y tế và đời sống nhân dân.</p>
-                        <div class="hotline-actions">
-                            <a href="#" class="btn btn-sm btn-primary">Gọi ngay</a>
-                            <a href="#" class="btn btn-sm btn-outline-primary">Gửi email</a>
-                        </div>
+                        <div class="hotline-item">
+    
+</div>
                     </div>
                 </div>
             </div>

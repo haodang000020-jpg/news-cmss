@@ -701,6 +701,106 @@
                     width: 2.25rem;
                 }
             }
+
+            .home-main-grid {
+    align-items: stretch;
+}
+
+.home-main-grid > [class*="col-"] {
+    display: flex;
+    flex-direction: column;
+}
+
+.featured-news-column,
+.latest-news-column,
+.hotline-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.featured-news-card,
+.latest-news-card,
+.hotline-box {
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+.hotline-section-title {
+    position: relative;
+    margin-bottom: 16px;
+    padding-left: 14px;
+    color: #004080;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.hotline-section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 4px;
+    height: 32px;
+    background: #0b66b3;
+}
+
+.hotline-section-title span {
+    display: block;
+}
+
+.hotline-box {
+    background: #ffffff;
+    border: 1px solid #d8e4f0;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+}
+
+.hotline-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.hotline-item:last-child {
+    border-bottom: 0;
+}
+
+.hotline-note {
+    margin-top: 12px;
+    padding: 12px;
+    background: #f1f6fb;
+    border-left: 4px solid #0b66b3;
+    color: #3d4b5c;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.hotline-field-list {
+    margin-top: 12px;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.hotline-actions {
+    margin-top: auto;
+    padding-top: 16px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 991.98px) {
+    .hotline-section-title {
+        font-size: 22px;
+    }
+}
         </style>
     </head>
     <body>
