@@ -34,11 +34,11 @@ Admin quản lý Lịch làm việc
 Frontend trang chủ hiển thị Lịch làm việc dưới khối Văn bản mới ban hành
  banner vị trí dưới lịch làm việc không chuyển động từ phải qua trái được mượt
 Admin User CRUD có phân quyền.
+sửa layout admin cho đẹp bắt mắt thân thiện
+Sửa thanh menu cấp 1 thành tên chuyên mục, mục tiêu là khi người dùng nhấn vào chuyên mục trên thanh menu sẽ hiện ra danh sách bài viết thuộc chuyên mục đó
 
 Mục tiêu tiếp theo:
-
-sửa layout admin cho đẹp bắt mắt thân thiện
-
+Xây dựng Banner đầu trang
 
 Lưu ý triển khai:
 

@@ -304,6 +304,35 @@
                                 <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trung tâm học tập cộng đồng">
                                 <span>Trung tâm học tập cộng đồng</span>
                             </a>
+                             <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Mầm non Vĩnh Bình">
+                                <span>Trường Mầm non Vĩnh Bình</span>
+                            </a>
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Tiểu học Vĩnh Bình">
+                                <span>Trường Tiểu học Vĩnh Bình</span>
+                            </a>
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường THCS Vĩnh Bình">
+                                <span>Trường THCS Vĩnh Bình</span>
+                            </a>
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trung tâm học tập cộng đồng">
+                                <span>Trung tâm học tập cộng đồng</span>
+                            </a>
+                             <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Mầm non Vĩnh Bình">
+                                <span>Trường Mầm non Vĩnh Bình</span>
+                            </a>
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Tiểu học Vĩnh Bình">
+                                <span>Trường Tiểu học Vĩnh Bình</span>
+                            </a>
+                            <a href="#" class="school-link-card">
+                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường THCS Vĩnh Bình">
+                                <span>Trường THCS Vĩnh Bình</span>
+                            </a>
+                         
                         </div>
                     </div>
                 </div>

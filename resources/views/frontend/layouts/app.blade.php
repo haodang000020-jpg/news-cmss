@@ -459,38 +459,18 @@
                 </button>
                 <div class="collapse navbar-collapse" id="frontendNavbar">
                     <ul class="navbar-nav me-auto">
-                        @if ($mainMenu && $mainMenu->items->isNotEmpty())
-                            @foreach ($mainMenu->items as $item)
-                                @if ($item->children->isNotEmpty())
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle px-3" href="{{ $item->resolved_url }}" role="button" data-bs-toggle="dropdown" aria-expanded="false" target="{{ $item->safe_target }}" @if ($item->safe_target === '_blank') rel="noopener noreferrer" @endif>
-                                            {{ $item->title }}
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            @foreach ($item->children as $child)
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ $child->resolved_url }}" target="{{ $child->safe_target }}" @if ($child->safe_target === '_blank') rel="noopener noreferrer" @endif>
-                                                        {{ $child->title }}
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </li>
-                                @else
-                                    <li class="nav-item">
-                                        <a class="nav-link px-3" href="{{ $item->resolved_url }}" target="{{ $item->safe_target }}" @if ($item->safe_target === '_blank') rel="noopener noreferrer" @endif>
-                                            {{ $item->title }}
-                                        </a>
-                                    </li>
-                                @endif
-                            @endforeach
-                        @else
                         <li class="nav-item"><a class="nav-link px-3" href="{{ route('home') }}">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link px-3" href="#">Tin tức - Sự kiện</a></li>
-                        <li class="nav-item"><a class="nav-link px-3" href="#">Hoạt động lãnh đạo</a></li>
-                        <li class="nav-item"><a class="nav-link px-3" href="#">Chỉ đạo điều hành</a></li>
-                        <li class="nav-item"><a class="nav-link px-3" href="#">Liên hệ</a></li>
+                        @if ($introPage)
+                            <li class="nav-item">
+                                <a class="nav-link px-3" href="{{ route('frontend.pages.show', $introPage->slug) }}">{{ $introPage->title }}</a>
+                            </li>
                         @endif
+
+                        @foreach ($frontendMenuCategories as $category)
+                            <li class="nav-item">
+                                <a class="nav-link px-3" href="{{ route('frontend.categories.show', $category->slug) }}">{{ $category->name }}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

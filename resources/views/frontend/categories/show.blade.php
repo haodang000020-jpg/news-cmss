@@ -24,6 +24,7 @@
                             @if ($article->summary)
                                 <p class="card-text text-muted">{{ $article->summary }}</p>
                             @endif
+                            <a class="btn btn-sm btn-outline-primary" href="{{ route('frontend.articles.show', $article->slug) }}">Xem chi tiáº¿t</a>
                         </div>
                     </div>
                 </div>

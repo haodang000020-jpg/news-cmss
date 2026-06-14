@@ -122,11 +122,7 @@
                             </x-nav-link>
                         @endif
 
-                        @if (Auth::user()?->hasPermissionTo('menus.manage'))
-                            <x-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.*')">
-                                Menu
-                            </x-nav-link>
-                        @endif
+                    
 
                         @if (Auth::user()?->hasPermissionTo('documents.manage'))
                             <x-nav-link :href="route('admin.documents.index')" :active="request()->routeIs('admin.documents.*')">
@@ -228,11 +224,7 @@
                     </x-responsive-nav-link>
                 @endif
 
-                @if (Auth::user()?->hasPermissionTo('menus.manage'))
-                    <x-responsive-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.*')">
-                        Menu
-                    </x-responsive-nav-link>
-                @endif
+              
 
                 @if (Auth::user()?->hasPermissionTo('documents.manage'))
                     <x-responsive-nav-link :href="route('admin.documents.index')" :active="request()->routeIs('admin.documents.*')">

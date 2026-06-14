@@ -86,7 +86,7 @@ class HomeController extends Controller
             );
         });
 
-        $primaryCategories = $categories->take(2);
+        $primaryCategories = $categories->take(5);
         $noticeCategory = $categories->first(
             fn (Category $category): bool => str_contains((string) $category->name, 'Thông báo')
         );
