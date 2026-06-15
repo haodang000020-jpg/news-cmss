@@ -41,11 +41,16 @@
     </div>
 
     <div>
-        <label for="content" class="block text-sm font-medium text-gray-700">Nội dung</label>
-        <textarea id="content" name="content" rows="10" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>{{ old('content', $article->content) }}</textarea>
-        @error('content')
-            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-        @enderror
+      <textarea
+    id="content-editor"
+    name="content"
+    class="form-control @error('content') is-invalid @enderror"
+    rows="10"
+>{{ old('content', $article->content ?? '') }}</textarea>
+
+@error('content')
+    <div class="invalid-feedback">{{ $message }}</div>
+@enderror
     </div>
 
     <div>
@@ -108,3 +113,145 @@
         Hủy
     </a>
 </div>
+
+@once
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+
+    <style>
+        .note-editor.note-frame {
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .note-editor .note-toolbar {
+            display: flex !important;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .note-editor .note-btn-group {
+            display: inline-flex !important;
+            margin: 0 4px 4px 0;
+        }
+
+        .note-editor .note-btn {
+            border: 1px solid #d1d5db;
+            background: #fff;
+            color: #111827;
+            padding: 5px 9px;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+
+        .note-editor .note-btn:hover {
+            background: #eef2f7;
+        }
+
+        .note-editor .note-dropdown-menu,
+        .note-editor .dropdown-menu {
+            display: none;
+            position: absolute;
+            z-index: 9999;
+        }
+
+        .note-editor .note-dropdown-menu.show,
+        .note-editor .dropdown-menu.show {
+            display: block;
+        }
+
+        .note-editor .note-editing-area {
+            background: #fff;
+        }
+
+        .note-editor .note-editable {
+            min-height: 420px;
+            background: #fff;
+            color: #111827;
+            font-size: 15px;
+            line-height: 1.7;
+            padding: 16px;
+        }
+
+        .note-editor .note-statusbar {
+            background: #f8fafc;
+        }
+
+        .note-modal {
+            z-index: 10000;
+        }
+
+        .note-modal-backdrop {
+            z-index: 9998;
+        }
+
+        .note-editor img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!window.jQuery || !$.fn.summernote) {
+                console.error('Summernote chưa được load.');
+                return;
+            }
+
+            const editor = $('#content-editor');
+
+            if (!editor.length) {
+                return;
+            }
+
+            editor.summernote({
+                height: 420,
+                placeholder: 'Nhập nội dung bài viết...',
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview']]
+                ],
+                callbacks: {
+                    onImageUpload: function (files) {
+                        for (let i = 0; i < files.length; i++) {
+                            uploadSummernoteImage(files[i]);
+                        }
+                    }
+                }
+            });
+
+            function uploadSummernoteImage(file) {
+                let formData = new FormData();
+                formData.append('image', file);
+
+                $.ajax({
+                    url: "{{ route('admin.articles.upload-image') }}",
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    success: function (response) {
+                        editor.summernote('insertImage', response.url);
+                    },
+                    error: function () {
+                        alert('Upload ảnh thất bại. Vui lòng kiểm tra định dạng hoặc dung lượng ảnh.');
+                    }
+                });
+            }
+        });
+    </script>
+@endonce

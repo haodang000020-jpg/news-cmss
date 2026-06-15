@@ -1117,6 +1117,53 @@
         height: 220px !important;
     }
 }
+
+/* ===== Nền tổng thể website ===== */
+html,
+body {
+    background: linear-gradient(180deg, #eaf3ff 0%, #f4f8fc 45%, #eef5fb 100%) !important;
+}
+
+/* Tạo lớp nền xanh nhạt hai bên cho hài hòa với banner */
+body {
+    min-height: 100vh;
+    color: #102a43;
+}
+
+/* Giữ vùng nội dung chính sáng, không bị chìm */
+main {
+    background: transparent;
+}
+
+/* Các container chính giữ cảm giác nổi trên nền */
+.site-header-banner,
+.portal-nav,
+.home-section,
+.portal-content,
+.home-main-grid,
+.site-footer {
+    position: relative;
+}
+
+/* Tạo hiệu ứng nền rất nhẹ hai bên, không ảnh hưởng nội dung */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 8% 18%, rgba(11, 92, 171, 0.08), transparent 28%),
+        radial-gradient(circle at 92% 22%, rgba(11, 92, 171, 0.08), transparent 30%),
+        linear-gradient(180deg, #eaf3ff 0%, #f7fbff 55%, #edf5fc 100%);
+}
+
+/* Nếu có vùng nền trắng/xám cũ quá gắt thì làm dịu lại */
+.bg-light,
+.page-bg,
+.portal-page {
+    background-color: transparent !important;
+}
         </style>
     </head>
     <body>

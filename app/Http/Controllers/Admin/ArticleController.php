@@ -125,4 +125,17 @@ class ArticleController extends Controller
             ->orderBy('name')
             ->get();
     }
+
+    public function uploadImage(Request $request)
+{
+    $request->validate([
+        'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:2048'],
+    ]);
+
+    $path = $request->file('image')->store('articles/content', 'public');
+
+    return response()->json([
+        'url' => Storage::url($path),
+    ]);
+}
 }

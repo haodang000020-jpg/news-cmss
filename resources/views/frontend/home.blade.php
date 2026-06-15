@@ -131,7 +131,7 @@
                 <div class="col-lg-3 latest-news-column d-flex flex-column featured-news-column">
                     <h2 class="h4 section-title mb-3">Tin mới nhất</h2>
                     <div class="list-group shadow-sm">
-                        @forelse ($latestArticles->take(6) as $article)
+                        @forelse ($latestArticles->take(5) as $article)
                             <a href="{{ route('frontend.articles.show', $article->slug) }}" class="list-group-item list-group-item-action p-3">
                                 <div class="fw-semibold text-dark">{{ $article->title }}</div>
                                 <div class="small text-muted mt-1">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
@@ -296,7 +296,7 @@
                         </div>
                     </div>
 
-                    <div class="school-links-box mt-4">
+                    <div class="school-links-box mt-1">
                         <h2 class="portal-section-title">LIÊN KẾT TRƯỜNG HỌC</h2>
                         <div class="p-3">
                             <a href="#" class="school-link-card">

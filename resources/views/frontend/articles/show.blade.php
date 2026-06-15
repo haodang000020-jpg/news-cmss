@@ -32,7 +32,9 @@
                         <p class="lead border-start border-4 border-primary ps-3 text-secondary">{{ $article->summary }}</p>
                     @endif
 
-                    <div class="lh-lg fs-6 pre-line">{{ $article->content }}</div>
+                    <div class="article-content">
+    {!! $article->content !!}
+</div>
                 </div>
             </article>
 
@@ -54,3 +56,21 @@
         </div>
     </div>
 @endsection
+
+<style>
+    .article-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 16px auto;
+    }
+
+    .article-content p {
+        line-height: 1.7;
+    }
+
+    .article-content table {
+        width: 100%;
+        max-width: 100%;
+    }
+</style>

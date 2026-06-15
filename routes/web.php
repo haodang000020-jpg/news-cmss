@@ -49,6 +49,9 @@ Route::prefix('admin')
         Route::resource('categories', CategoryController::class)
             ->except(['show'])
             ->middleware('permission:categories.manage');
+        Route::post('articles/upload-image', [ArticleController::class, 'uploadImage'])
+            ->name('articles.upload-image')
+            ->middleware('permission:articles.manage');
 
         Route::resource('articles', ArticleController::class)
             ->except(['show'])
