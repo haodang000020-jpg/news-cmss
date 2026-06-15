@@ -42,24 +42,60 @@
                 width: 100%;
             }
 
-            .portal-brand-title {
-                color: #0b3f78;
-            }
+.portal-nav {
+    background: transparent;
+    padding-top: 0;
+    padding-bottom: 0;
+}
 
-            .portal-nav {
-                background: #0b5cab;
-            }
+.portal-nav .container {
+    padding-left: var(--bs-gutter-x, .75rem);
+    padding-right: var(--bs-gutter-x, .75rem);
+}
 
-            .portal-nav .nav-link {
-                color: #fff;
-                font-weight: 600;
-            }
+.portal-nav-bar {
+    background: #0b5cab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    width: 100%;
+}
 
-            .portal-nav .nav-link:hover,
-            .portal-nav .nav-link:focus {
-                background: rgba(255, 255, 255, .14);
-                color: #fff;
-            }
+.portal-nav .navbar-collapse {
+    justify-content: center;
+}
+
+.portal-nav .navbar-nav {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.portal-nav .nav-link {
+    color: #fff;
+    font-weight: 600;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.portal-nav .nav-link:hover,
+.portal-nav .nav-link:focus {
+    background: rgba(255, 255, 255, .14);
+    color: #fff;
+}
+
+@media (max-width: 991.98px) {
+    .portal-nav-bar {
+        justify-content: flex-start;
+        padding: .5rem .75rem;
+    }
+
+    .portal-nav .navbar-nav {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
 
             .section-title {
                 border-left: 5px solid #0b5cab;
@@ -801,18 +837,298 @@
         font-size: 22px;
     }
 }
+
+.home-main-grid {
+    align-items: stretch;
+}
+
+.home-main-grid > [class*="col-"] {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cố định chiều cao vùng 3 cột trên desktop */
+.featured-news-card,
+.latest-news-card,
+.hotline-box {
+    height: 560px;
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tin nổi bật */
+.featured-news-card {
+    overflow: hidden;
+}
+
+.featured-news-card .carousel,
+.featured-news-card .carousel-inner,
+.featured-news-card .carousel-item {
+    height: 100%;
+}
+
+.featured-news-card .carousel-item > a,
+.featured-news-card .carousel-item > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.featured-news-image,
+.featured-news-card img {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    display: block;
+}
+
+.featured-news-card .card-body,
+.featured-news-card .featured-news-body {
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Tin mới nhất */
+.latest-news-card {
+    overflow: hidden;
+}
+
+.latest-news-card .list-group,
+.latest-news-card .latest-news-list {
+    flex: 1;
+    overflow: hidden;
+}
+
+.latest-news-card .list-group-item {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+/* Hotline */
+.hotline-box {
+    overflow: hidden;
+}
+
+.hotline-box .hotline-actions {
+    margin-top: auto;
+}
+
+/* Tiêu đề 3 cột căn đều hơn */
+.home-main-grid .section-title,
+.hotline-section-title {
+    min-height: 42px;
+}
+
+/* Mobile thì bỏ chiều cao cố định */
+@media (max-width: 991.98px) {
+    .featured-news-card,
+    .latest-news-card,
+    .hotline-box {
+        height: auto;
+        min-height: auto;
+    }
+
+    .featured-news-image,
+    .featured-news-card img {
+        height: 220px;
+    }
+}
+
+.site-header-banner .container,
+.portal-nav > .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.portal-nav {
+    background: transparent !important;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.portal-nav-bar {
+    width: 100%;
+    min-height: 52px;
+    background: #0b5cab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portal-nav .navbar-collapse {
+    width: 100%;
+    justify-content: center;
+}
+
+.portal-nav .navbar-nav {
+    width: 100%;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.portal-nav .nav-link {
+    color: #fff;
+    font-weight: 600;
+    padding: 1rem 1.05rem;
+}
+
+.portal-nav .nav-link:hover,
+.portal-nav .nav-link:focus {
+    background: rgba(255, 255, 255, .14);
+    color: #fff;
+}
+
+.site-header-banner img,
+.site-header-banner-image {
+    display: block;
+    width: 100%;
+}
+
+@media (max-width: 991.98px) {
+    .portal-nav-bar {
+        justify-content: flex-start;
+        padding: .5rem .75rem;
+    }
+
+    .portal-nav .navbar-nav {
+        width: auto;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+/* ===== FIX: 3 cột trang chủ bằng chiều cao ===== */
+@media (min-width: 992px) {
+    .home-main-grid {
+        display: grid !important;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+        gap: 24px;
+        align-items: stretch;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .home-main-grid > [class*="col-"] {
+        width: auto !important;
+        max-width: none !important;
+        flex: none !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-width: 0;
+    }
+
+    .home-main-grid .section-title,
+    .home-main-grid .hotline-section-title {
+        height: 48px;
+        min-height: 48px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+    }
+
+    .featured-news-card,
+    .latest-news-card,
+    .hotline-box {
+        height: 520px !important;
+        min-height: 520px !important;
+        max-height: 520px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden;
+    }
+
+    .featured-news-card .carousel,
+    .featured-news-card .carousel-inner,
+    .featured-news-card .carousel-item {
+        height: 100%;
+    }
+
+    .featured-news-card .carousel-item > a,
+    .featured-news-card .carousel-item > div {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .featured-news-card img,
+    .featured-news-image {
+        width: 100%;
+        height: 330px !important;
+        object-fit: cover;
+        display: block;
+        flex-shrink: 0;
+    }
+
+    .featured-news-card .card-body,
+    .featured-news-body {
+        flex: 1;
+        overflow: hidden;
+    }
+
+    .latest-news-card {
+        overflow: hidden;
+    }
+
+    .latest-news-card .list-group,
+    .latest-news-list {
+        flex: 1;
+        overflow: hidden;
+    }
+
+    .latest-news-card .list-group-item {
+        padding-top: 13px;
+        padding-bottom: 13px;
+    }
+
+    .hotline-box {
+        padding: 18px;
+    }
+
+    .hotline-actions {
+        margin-top: auto;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .home-main-grid {
+        display: block !important;
+    }
+
+    .featured-news-column,
+    .latest-news-column,
+    .hotline-column {
+        margin-bottom: 24px;
+    }
+
+    .featured-news-card,
+    .latest-news-card,
+    .hotline-box {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+    }
+
+    .featured-news-card img,
+    .featured-news-image {
+        height: 220px !important;
+    }
+}
         </style>
     </head>
     <body>
-        <div class="portal-topbar py-2">
+        <!-- <div class="portal-topbar py-2">
             <div class="container small d-flex justify-content-between">
                 <span>Cổng thông tin điện tử</span>
                 <span>Phòng Văn Hóa - Xã Hội VĨNH BÌNH</span>
             </div>
-        </div>
+        </div> -->
 
         @if ($siteHeaderBanners->isNotEmpty())
-            <header class="site-header-banner py-2">
+            <header class="site-header-banner py-1">
                 <div class="container">
                     @if ($siteHeaderBanners->count() > 1)
                         <div id="siteHeaderBannerCarousel" class="carousel slide site-header-banner-carousel" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="hover" data-bs-touch="true">
@@ -863,13 +1179,14 @@
         </header>
         @endif
 
-        <nav class="navbar navbar-expand-lg portal-nav">
-            <div class="container">
-                <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#frontendNavbar" aria-controls="frontendNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="frontendNavbar">
-                    <ul class="navbar-nav me-auto">
+       <nav class="navbar navbar-expand-lg portal-nav">
+    <div class="container px-0">
+        <div class="portal-nav-bar">
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#frontendNavbar" aria-controls="frontendNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="frontendNavbar">
+                <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link px-3" href="{{ route('home') }}">Trang chủ</a></li>
                         @if ($introPage)
                             <li class="nav-item">
@@ -884,10 +1201,11 @@
                         @endforeach
                     </ul>
                 </div>
+</div>
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-2">
             @yield('content')
         </main>
 

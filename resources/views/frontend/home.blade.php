@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         @if ($homeSliders->isNotEmpty())
-            <section class="mb-4">
+            <section class="mb-1">
                 @if ($homeSliders->count() === 1)
                     @php($banner = $homeSliders->first())
                     @if ($banner->link)
@@ -42,9 +42,9 @@
             </section>
         @endif
 
-        <section class="mb-4">
-            <div class="row g-4 home-main-grid align-items-stretch">
-                <div class="col-lg-6 featured-news-column d-flex flex-column">
+        <section class="mb-1">
+           <div class="row g-1 home-main-grid align-items-stretch">
+               <div class="col-lg-6 featured-news-column d-flex flex-column">
                     <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-3">
                         <h1 class="h4 section-title mb-0 flex-shrink-0">Tin nổi bật</h1>
                         @if ($latestArticles->isNotEmpty())
@@ -128,7 +128,7 @@
                     @endif
                 </div>
 
-                <div class="col-lg-3 latest-news-column d-flex flex-column">
+                <div class="col-lg-3 latest-news-column d-flex flex-column featured-news-column">
                     <h2 class="h4 section-title mb-3">Tin mới nhất</h2>
                     <div class="list-group shadow-sm">
                         @forelse ($latestArticles->take(6) as $article)
@@ -142,27 +142,23 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 hotline-column d-flex flex-column">
-                    <div class="hotline-section-title">
-<h4>Đường Dây Nóng</h4>
-</div>
-                    <div class="hotline-box">
+               <div class="col-lg-3  hotline-column d-flex flex-column featured-news-column">
+                    <h2 class="h4 section-title mb-3">Đường Dây Nóng</h2>
+                    <div class="hotline-box h-100">
                         <div class="hotline-item fw-semibold">Phòng Văn hóa - Xã hội xã Vĩnh Bình</div>
                         <div class="hotline-item">☎ Điện thoại: Đang cập nhật</div>
                         <div class="hotline-item">✉ Email: Đang cập nhật</div>
                         <div class="hotline-item">⌂ Địa chỉ: Xã Vĩnh Bình, tỉnh An Giang</div>
                         <div class="hotline-item">⏰ Thời gian tiếp nhận: Thứ Hai - Thứ Sáu, giờ hành chính</div>
-                        <p class="hotline-note">Tiếp nhận phản ánh, kiến nghị liên quan đến lĩnh vực văn hóa, xã hội, giáo dục, y tế và đời sống nhân dân.</p>
-                        <div class="hotline-item">
-    
-</div>
+                        <p class="hotline-note">Tiếp nhận phản ánh, kiến nghị liên quan đến lĩnh vực văn hóa, xã hội, giáo dục, y tế và đời sống nhân dân.</p>   
                     </div>
                 </div>
             </div>
+            
         </section>
 
-        <section class="mb-4">
-            <div class="row g-4">
+        <section class="mb-1">
+            <div class="row g-1">
                 <div class="col-lg-8">
                     <div class="portal-section">
                         <div class="d-flex justify-content-between align-items-center portal-section-title">
@@ -193,7 +189,7 @@
                         </div>
                     </div>
 
-                    <div class="work-schedule-box mt-4">
+                    <div class="work-schedule-box mt-1">
                         <h2 class="portal-section-title">LỊCH LÀM VIỆC CỦA PHÒNG VĂN HÓA XÃ HỘI</h2>
                         <div class="p-3">
                             <div class="table-responsive">
@@ -355,7 +351,7 @@
         </section>
 
         <section>
-            <div class="row g-4">
+            <div class="row g-1">
                 @foreach ($primaryCategories as $category)
                     @php($leadArticle = $category->articles->first())
                     <div class="col-lg-4">
