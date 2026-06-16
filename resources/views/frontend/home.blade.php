@@ -45,8 +45,8 @@
     
 
 
-        <section class="mb-3">
-    <div class="row g-3 home-main-grid align-items-stretch">
+        <section class="mb-1">
+    <div class="row g-1 home-main-grid align-items-stretch">
         <div class="col-lg-6 featured-news-column d-flex flex-column">
             <div class="home-column-heading d-flex flex-column flex-md-row align-items-md-center gap-2 mb-3">
                 <h1 class="h4 section-title mb-0 flex-shrink-0">Tin nổi bật</h1>
@@ -176,25 +176,40 @@
             @endif
         </div>
 
-        <div class="col-lg-3 latest-news-column d-flex flex-column">
-            <div class="home-column-heading d-flex align-items-center mb-3">
-                <h2 class="h4 section-title mb-0">Tin mới nhất</h2>
+        <div class="latest-news-column">
+    <h2 class="h4 section-title">Tin mới nhất</h2>
+
+    <div class="list-group shadow-sm latest-news-card latest-news-card-with-thumb">
+    @forelse ($latestArticles->take(6) as $article)
+        <a href="{{ route('frontend.articles.show', $article->slug) }}"
+           class="list-group-item list-group-item-action latest-news-item-with-thumb">
+
+            <div class="latest-news-thumb">
+                @if ($article->thumbnail)
+                    <img src="{{ asset('storage/' . $article->thumbnail) }}"
+                         alt="{{ $article->title }}">
+                @else
+                    <div class="latest-news-thumb-placeholder">
+                        Tin
+                    </div>
+                @endif
             </div>
 
-            <div class="list-group shadow-sm latest-news-card">
-                @forelse ($latestArticles->take(5) as $article)
-                    <a href="{{ route('frontend.articles.show', $article->slug) }}"
-                       class="list-group-item list-group-item-action p-3">
-                        <div class="fw-semibold text-dark">{{ $article->title }}</div>
-                        <div class="small text-muted mt-1">
-                            {{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}
-                        </div>
-                    </a>
-                @empty
-                    <div class="list-group-item text-muted">Chưa có bài viết.</div>
-                @endforelse
+            <div class="latest-news-info">
+                <div class="fw-semibold text-dark latest-news-title">
+                    {{ $article->title }}
+                </div>
+
+                <div class="small text-muted mt-1">
+                    {{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}
+                </div>
             </div>
-        </div>
+        </a>
+    @empty
+        <div class="list-group-item text-muted">Chưa có bài viết.</div>
+    @endforelse
+</div>
+</div>
 
         <div class="col-lg-3 hotline-column d-flex flex-column">
             <div class="home-column-heading d-flex align-items-center mb-3">
@@ -207,9 +222,10 @@
                 <div class="hotline-item">✉ Email: Đang cập nhật</div>
                 <div class="hotline-item">⌂ Địa chỉ: Xã Vĩnh Bình, tỉnh An Giang</div>
                 <div class="hotline-item">⏰ Thời gian tiếp nhận: Thứ Hai - Thứ Sáu, giờ hành chính</div>
-
+                <div class="hotline-item">📌 Lĩnh vực tiếp nhận: Văn hóa, xã hội, giáo dục, y tế, đời sống nhân dân</div>
+                <div class="hotline-item">📝 Hình thức tiếp nhận: Trực tiếp tại cơ quan hoặc qua điện thoại</div>
                 <p class="hotline-note">
-                    Tiếp nhận phản ánh, kiến nghị liên quan đến lĩnh vực văn hóa, xã hội, giáo dục, y tế và đời sống nhân dân, nhằm kịp thời hỗ trợ, hướng dẫn và xử lý thông tin theo đúng quy định.
+                    Tiếp nhận phản ánh, kiến nghị liên quan đến lĩnh vực văn hóa, xã hội, giáo dục, y tế và đời sống nhân dân.
                 </p>
             </div>
         </div>

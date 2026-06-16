@@ -1301,6 +1301,56 @@ body::before {
         height: 220px !important;
     }
 }
+
+/* ===== Tin mới nhất có ảnh đại diện ===== */
+.latest-news-item-with-thumb {
+    display: flex !important;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px !important;
+}
+
+.latest-news-thumb {
+    width: 76px;
+    min-width: 76px;
+    height: 58px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #eef4fb;
+    border: 1px solid #dbe7f3;
+}
+
+.latest-news-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.latest-news-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0b5cab;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.latest-news-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.latest-news-title {
+    font-size: 14px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
         </style>
     </head>
     <body>
