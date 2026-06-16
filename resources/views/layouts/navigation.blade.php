@@ -49,11 +49,17 @@
                 'active' => 'admin.pages.*',
                 'permission' => 'pages.manage',
             ],
-            [
+           [
                 'label' => 'Lịch làm việc',
                 'route' => 'admin.work-schedules.index',
                 'active' => 'admin.work-schedules.*',
                 'permission' => 'work-schedules.manage',
+            ],
+            [
+                'label' => 'Liên kết trường học',
+                'route' => 'admin.school-links.index',
+                'active' => 'admin.school-links.*',
+                'permission' => 'school-links.manage',
             ],
             [
                 'label' => 'Người dùng',
@@ -245,6 +251,13 @@
                     <x-responsive-nav-link :href="route('admin.work-schedules.index')" :active="request()->routeIs('admin.work-schedules.*')">
                         Lịch làm việc
                     </x-responsive-nav-link>
+                @endif
+
+                @if(Route::has('admin.school-links.index') && auth()->user()?->hasPermission('school-links.manage'))
+                    <a href="{{ route('admin.school-links.index') }}"
+                    class="admin-nav-link {{ request()->routeIs('admin.school-links.*') ? 'active' : '' }}">
+                        Liên kết trường học
+                    </a>
                 @endif
 
                 @if (Auth::user()?->hasPermissionTo('users.manage'))

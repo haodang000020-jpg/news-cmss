@@ -21,6 +21,8 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'Quan ly lich lam viec', 'code' => 'work-schedules.manage', 'module' => 'work-schedules'],
             ['name' => 'Quan ly nguoi dung', 'code' => 'users.manage', 'module' => 'users'],
             ['name' => 'Quan ly vai tro', 'code' => 'roles.manage', 'module' => 'roles'],
+            ['name' => 'Quan ly quyen', 'code' => 'permissions.manage', 'module' => 'permissions'],
+            ['name' => 'Quan ly lien ket truong hoc', 'code' => 'school-links.manage', 'module' => 'school-links'],
         ])->map(fn (array $permission) => Permission::updateOrCreate(
             ['code' => $permission['code']],
             $permission

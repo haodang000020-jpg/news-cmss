@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SchoolLinkController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\SitemapController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/sitemap.xml', SitemapController::class)->name('frontend.sitemap');
@@ -45,6 +47,10 @@ Route::prefix('admin')
     ->middleware(['auth', 'permission:dashboard.view'])
     ->group(function () {
         Route::get('/', DashboardController::class)->name('dashboard');
+
+        Route::resource('school-links', SchoolLinkController::class)
+            ->except('show')
+            ->middleware('permission:school-links.manage');
 
         Route::resource('categories', CategoryController::class)
             ->except(['show'])

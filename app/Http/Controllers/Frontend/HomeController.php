@@ -8,12 +8,17 @@ use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Document;
 use App\Models\WorkSchedule;
+use App\Models\SchoolLink;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
     public function __invoke(): View
     {
+
+        $schoolLinks = SchoolLink::active()
+            ->ordered()
+            ->get();
         $featuredArticles = Article::query()
             ->with(['category', 'user'])
             ->published()
@@ -103,6 +108,7 @@ class HomeController extends Controller
             'primaryCategories' => $primaryCategories,
             'noticeCategory' => $noticeCategory,
             'noticeArticles' => $noticeArticles,
+            'schoolLinks' => $schoolLinks,
             'metaTitle' => 'Trang chủ',
             'metaDescription' => 'Tin tức mới nhất',
         ]);

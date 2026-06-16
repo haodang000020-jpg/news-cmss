@@ -42,120 +42,179 @@
             </section>
         @endif
 
-        <section class="mb-1">
-           <div class="row g-1 home-main-grid align-items-stretch">
-               <div class="col-lg-6 featured-news-column d-flex flex-column">
-                    <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-3">
-                        <h1 class="h4 section-title mb-0 flex-shrink-0">Tin nổi bật</h1>
-                        @if ($latestArticles->isNotEmpty())
-                            <div class="news-ticker">
-                                <span class="news-ticker-label">Tin nhanh:</span>
-                                <div class="news-ticker-track">
-                                    <div class="news-ticker-content">
-                                        @foreach ($latestArticles->take(2) as $article)
-                                            <a href="{{ route('frontend.articles.show', $article->slug) }}" class="news-ticker-link">{{ $article->title }}</a>
-                                            @unless ($loop->last)
-                                                <span class="mx-2">•</span>
-                                            @endunless
-                                        @endforeach
-                                    </div>
-                                </div>
+    
+
+
+        <section class="mb-3">
+    <div class="row g-3 home-main-grid align-items-stretch">
+        <div class="col-lg-6 featured-news-column d-flex flex-column">
+            <div class="home-column-heading d-flex flex-column flex-md-row align-items-md-center gap-2 mb-3">
+                <h1 class="h4 section-title mb-0 flex-shrink-0">Tin nổi bật</h1>
+
+                @if ($latestArticles->isNotEmpty())
+                    <div class="news-ticker">
+                        <span class="news-ticker-label">Tin nhanh:</span>
+                        <div class="news-ticker-track">
+                            <div class="news-ticker-content">
+                                @foreach ($latestArticles->take(2) as $article)
+                                    <a href="{{ route('frontend.articles.show', $article->slug) }}" class="news-ticker-link">
+                                        {{ $article->title }}
+                                    </a>
+                                    @unless ($loop->last)
+                                        <span class="mx-2">•</span>
+                                    @endunless
+                                @endforeach
                             </div>
-                        @endif
+                        </div>
                     </div>
-                    @if ($featuredArticles->isNotEmpty())
-                        @if ($featuredArticles->count() > 1)
-                            <div id="featuredArticlesCarousel" class="carousel slide featured-news-carousel" data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="hover" data-bs-touch="true">
-                                <div class="carousel-indicators">
-                                    @foreach ($featuredArticles as $article)
-                                        <button type="button" data-bs-target="#featuredArticlesCarousel" data-bs-slide-to="{{ $loop->index }}" class="@if ($loop->first) active @endif" aria-current="@if ($loop->first) true @endif" aria-label="Tin nổi bật {{ $loop->iteration }}"></button>
-                                    @endforeach
-                                </div>
+                @endif
+            </div>
 
-                                <div class="carousel-inner">
-                                    @foreach ($featuredArticles as $article)
-                                        <div class="carousel-item @if ($loop->first) active @endif">
-                                            <div class="card border-0 shadow-sm overflow-hidden">
-                                                @if ($article->thumbnail)
-                                                    <a href="{{ route('frontend.articles.show', $article->slug) }}">
-                                                        <img src="{{ asset('storage/'.$article->thumbnail) }}" class="card-img-top featured-news-image" alt="{{ $article->title }}">
-                                                    </a>
-                                                @endif
-                                                <div class="card-body p-4 featured-carousel-caption">
-                                                    <div class="small text-muted mb-2">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
-                                                    <h2 class="h3 featured-carousel-title">
-                                                        <a class="text-decoration-none text-dark" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
-                                                    </h2>
+            @if ($featuredArticles->isNotEmpty())
+                @if ($featuredArticles->count() > 1)
+                    <div class="featured-news-card">
+                        <div id="featuredArticlesCarousel"
+                             class="carousel slide featured-news-carousel h-100"
+                             data-bs-ride="carousel"
+                             data-bs-interval="5000"
+                             data-bs-pause="hover"
+                             data-bs-touch="true">
 
+                            <div class="carousel-indicators">
+                                @foreach ($featuredArticles as $article)
+                                    <button
+                                        type="button"
+                                        data-bs-target="#featuredArticlesCarousel"
+                                        data-bs-slide-to="{{ $loop->index }}"
+                                        class="@if ($loop->first) active @endif"
+                                        aria-current="@if ($loop->first) true @endif"
+                                        aria-label="Tin nổi bật {{ $loop->iteration }}">
+                                    </button>
+                                @endforeach
+                            </div>
+
+                            <div class="carousel-inner h-100">
+                                @foreach ($featuredArticles as $article)
+                                    <div class="carousel-item h-100 @if ($loop->first) active @endif">
+                                        <div class="card border-0 shadow-sm overflow-hidden h-100">
+                                            @if ($article->thumbnail)
+                                                <a href="{{ route('frontend.articles.show', $article->slug) }}">
+                                                    <img src="{{ asset('storage/'.$article->thumbnail) }}"
+                                                         class="card-img-top featured-news-image"
+                                                         alt="{{ $article->title }}">
+                                                </a>
+                                            @endif
+
+                                            <div class="card-body p-4 featured-carousel-caption">
+                                                <div class="small text-muted mb-2">
+                                                    {{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}
                                                 </div>
+
+                                                <h2 class="h3 featured-carousel-title">
+                                                    <a class="text-decoration-none text-dark"
+                                                       href="{{ route('frontend.articles.show', $article->slug) }}">
+                                                        {{ $article->title }}
+                                                    </a>
+                                                </h2>
+
+                                                @if ($article->summary)
+                                                    <p class="text-muted mb-0">{{ $article->summary }}</p>
+                                                @endif
                                             </div>
                                         </div>
-                                    @endforeach
-                                </div>
-
-                                <button class="carousel-control-prev" type="button" data-bs-target="#featuredArticlesCarousel" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#featuredArticlesCarousel" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        @else
-                            @php($article = $featuredArticles->first())
-                            <div class="featured-news-carousel">
-                                <div class="card border-0 shadow-sm overflow-hidden">
-                                    @if ($article->thumbnail)
-                                        <a href="{{ route('frontend.articles.show', $article->slug) }}">
-                                            <img src="{{ asset('storage/'.$article->thumbnail) }}" class="card-img-top featured-news-image" alt="{{ $article->title }}">
-                                        </a>
-                                    @endif
-                                    <div class="card-body p-4 featured-carousel-caption">
-                                        <div class="small text-muted mb-2">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
-                                        <h2 class="h3 featured-carousel-title">
-                                            <a class="text-decoration-none text-dark" href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
-                                        </h2>
-                                        @if ($article->summary)
-                                            <p class="text-muted mb-0">{{ $article->summary }}</p>
-                                        @endif
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
-                        @endif
-                    @else
-                        <div class="alert alert-light border">Chưa có tin nổi bật.</div>
-                    @endif
-                </div>
 
-                <div class="col-lg-3 latest-news-column d-flex flex-column featured-news-column">
-                    <h2 class="h4 section-title mb-3">Tin mới nhất</h2>
-                    <div class="list-group shadow-sm">
-                        @forelse ($latestArticles->take(5) as $article)
-                            <a href="{{ route('frontend.articles.show', $article->slug) }}" class="list-group-item list-group-item-action p-3">
-                                <div class="fw-semibold text-dark">{{ $article->title }}</div>
-                                <div class="small text-muted mt-1">{{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}</div>
-                            </a>
-                        @empty
-                            <div class="list-group-item text-muted">Chưa có bài viết.</div>
-                        @endforelse
-                    </div>
-                </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#featuredArticlesCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
 
-               <div class="col-lg-3  hotline-column d-flex flex-column featured-news-column">
-                    <h2 class="h4 section-title mb-3">Đường Dây Nóng</h2>
-                    <div class="hotline-box h-100">
-                        <div class="hotline-item fw-semibold">Phòng Văn hóa - Xã hội xã Vĩnh Bình</div>
-                        <div class="hotline-item">☎ Điện thoại: Đang cập nhật</div>
-                        <div class="hotline-item">✉ Email: Đang cập nhật</div>
-                        <div class="hotline-item">⌂ Địa chỉ: Xã Vĩnh Bình, tỉnh An Giang</div>
-                        <div class="hotline-item">⏰ Thời gian tiếp nhận: Thứ Hai - Thứ Sáu, giờ hành chính</div>
-                        <p class="hotline-note">Tiếp nhận phản ánh, kiến nghị liên quan đến lĩnh vực văn hóa, xã hội, giáo dục, y tế và đời sống nhân dân.</p>   
+                            <button class="carousel-control-next" type="button" data-bs-target="#featuredArticlesCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
                     </div>
+                @else
+                    @php($article = $featuredArticles->first())
+
+                    <div class="featured-news-card">
+                        <div class="card border-0 shadow-sm overflow-hidden h-100">
+                            @if ($article->thumbnail)
+                                <a href="{{ route('frontend.articles.show', $article->slug) }}">
+                                    <img src="{{ asset('storage/'.$article->thumbnail) }}"
+                                         class="card-img-top featured-news-image"
+                                         alt="{{ $article->title }}">
+                                </a>
+                            @endif
+
+                            <div class="card-body p-4 featured-carousel-caption">
+                                <div class="small text-muted mb-2">
+                                    {{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}
+                                </div>
+
+                                <h2 class="h3 featured-carousel-title">
+                                    <a class="text-decoration-none text-dark"
+                                       href="{{ route('frontend.articles.show', $article->slug) }}">
+                                        {{ $article->title }}
+                                    </a>
+                                </h2>
+
+                                @if ($article->summary)
+                                    <p class="text-muted mb-0">{{ $article->summary }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @else
+                <div class="alert alert-light border featured-news-card">
+                    Chưa có tin nổi bật.
                 </div>
+            @endif
+        </div>
+
+        <div class="col-lg-3 latest-news-column d-flex flex-column">
+            <div class="home-column-heading d-flex align-items-center mb-3">
+                <h2 class="h4 section-title mb-0">Tin mới nhất</h2>
             </div>
-            
-        </section>
+
+            <div class="list-group shadow-sm latest-news-card">
+                @forelse ($latestArticles->take(5) as $article)
+                    <a href="{{ route('frontend.articles.show', $article->slug) }}"
+                       class="list-group-item list-group-item-action p-3">
+                        <div class="fw-semibold text-dark">{{ $article->title }}</div>
+                        <div class="small text-muted mt-1">
+                            {{ $article->published_at?->format('d/m/Y') ?: $article->created_at->format('d/m/Y') }}
+                        </div>
+                    </a>
+                @empty
+                    <div class="list-group-item text-muted">Chưa có bài viết.</div>
+                @endforelse
+            </div>
+        </div>
+
+        <div class="col-lg-3 hotline-column d-flex flex-column">
+            <div class="home-column-heading d-flex align-items-center mb-3">
+                <h2 class="h4 section-title mb-0">Đường Dây Nóng</h2>
+            </div>
+
+            <div class="hotline-box">
+                <div class="hotline-item fw-semibold">Phòng Văn hóa - Xã hội xã Vĩnh Bình</div>
+                <div class="hotline-item">☎ Điện thoại: Đang cập nhật</div>
+                <div class="hotline-item">✉ Email: Đang cập nhật</div>
+                <div class="hotline-item">⌂ Địa chỉ: Xã Vĩnh Bình, tỉnh An Giang</div>
+                <div class="hotline-item">⏰ Thời gian tiếp nhận: Thứ Hai - Thứ Sáu, giờ hành chính</div>
+
+                <p class="hotline-note">
+                    Tiếp nhận phản ánh, kiến nghị liên quan đến lĩnh vực văn hóa, xã hội, giáo dục, y tế và đời sống nhân dân, nhằm kịp thời hỗ trợ, hướng dẫn và xử lý thông tin theo đúng quy định.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
 
         <section class="mb-1">
             <div class="row g-1">
@@ -299,50 +358,37 @@
                     <div class="school-links-box mt-1">
                         <h2 class="portal-section-title">LIÊN KẾT TRƯỜNG HỌC</h2>
                         <div class="p-3">
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Mầm non Vĩnh Bình">
-                                <span>Trường Mầm non Vĩnh Bình</span>
-                            </a>
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Tiểu học Vĩnh Bình">
-                                <span>Trường Tiểu học Vĩnh Bình</span>
-                            </a>
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường THCS Vĩnh Bình">
-                                <span>Trường THCS Vĩnh Bình</span>
-                            </a>
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trung tâm học tập cộng đồng">
-                                <span>Trung tâm học tập cộng đồng</span>
-                            </a>
-                             <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Mầm non Vĩnh Bình">
-                                <span>Trường Mầm non Vĩnh Bình</span>
-                            </a>
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Tiểu học Vĩnh Bình">
-                                <span>Trường Tiểu học Vĩnh Bình</span>
-                            </a>
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường THCS Vĩnh Bình">
-                                <span>Trường THCS Vĩnh Bình</span>
-                            </a>
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trung tâm học tập cộng đồng">
-                                <span>Trung tâm học tập cộng đồng</span>
-                            </a>
-                             <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Mầm non Vĩnh Bình">
-                                <span>Trường Mầm non Vĩnh Bình</span>
-                            </a>
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường Tiểu học Vĩnh Bình">
-                                <span>Trường Tiểu học Vĩnh Bình</span>
-                            </a>
-                            <a href="#" class="school-link-card">
-                                <img src="{{ asset('images/school-links/school-default.svg') }}" class="school-link-image" alt="Trường THCS Vĩnh Bình">
-                                <span>Trường THCS Vĩnh Bình</span>
-                            </a>
+                           <div class="school-links-list">
+                                @forelse($schoolLinks as $schoolLink)
+                                    @if($schoolLink->url)
+                                        <a href="{{ $schoolLink->url }}" class="school-link-item" target="_blank" rel="noopener">
+                                    @else
+                                        <div class="school-link-item">
+                                    @endif
+
+                                        <div class="school-link-logo">
+                                            @if($schoolLink->logo_path)
+                                                <img src="{{ asset('storage/' . $schoolLink->logo_path) }}" alt="{{ $schoolLink->name }}">
+                                            @else
+                                                <span>{{ mb_substr($schoolLink->name, 0, 1) }}</span>
+                                            @endif
+                                        </div>
+
+                                        <div class="school-link-name">
+                                            {{ $schoolLink->name }}
+                                        </div>
+
+                                    @if($schoolLink->url)
+                                        </a>
+                                    @else
+                                        </div>
+                                    @endif
+                                @empty
+                                    <div class="text-muted p-3">
+                                        Chưa có liên kết trường học.
+                                    </div>
+                                @endforelse
+                            </div>
                          
                         </div>
                     </div>

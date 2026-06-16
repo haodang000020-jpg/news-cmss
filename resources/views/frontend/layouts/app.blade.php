@@ -167,11 +167,11 @@
                 top: 165px;
             }
 
-            .featured-news-column,
+            /* .featured-news-column,
             .latest-news-column,
             .hotline-column {
                 min-width: 0;
-            }
+            } */
 
             .latest-news-column .list-group-item {
                 font-size: .94rem;
@@ -747,12 +747,12 @@
     flex-direction: column;
 }
 
-.featured-news-column,
+/* .featured-news-column,
 .latest-news-column,
 .hotline-column {
     display: flex;
     flex-direction: column;
-}
+} */
 
 .featured-news-card,
 .latest-news-card,
@@ -1004,7 +1004,7 @@
     .home-main-grid {
         display: grid !important;
         grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
-        gap: 24px;
+        gap: 6px;
         align-items: stretch;
         margin-left: 0 !important;
         margin-right: 0 !important;
@@ -1033,9 +1033,9 @@
     .featured-news-card,
     .latest-news-card,
     .hotline-box {
-        height: 520px !important;
-        min-height: 520px !important;
-        max-height: 520px !important;
+        height: 530px !important;
+        min-height: 530px !important;
+        max-height: 530px !important;
         display: flex !important;
         flex-direction: column !important;
         overflow: hidden;
@@ -1098,19 +1098,19 @@
         display: block !important;
     }
 
-    .featured-news-column,
+    /* .featured-news-column,
     .latest-news-column,
     .hotline-column {
         margin-bottom: 24px;
-    }
+    } */
 
-    .featured-news-card,
+    /* .featured-news-card,
     .latest-news-card,
     .hotline-box {
         height: auto !important;
         min-height: auto !important;
         max-height: none !important;
-    }
+    } */
 
     .featured-news-card img,
     .featured-news-image {
@@ -1163,6 +1163,143 @@ body::before {
 .page-bg,
 .portal-page {
     background-color: transparent !important;
+}
+
+.school-link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: #f8fbff;
+    border: 1px solid #d8e6f5;
+    text-decoration: none;
+    color: #004080;
+}
+
+.school-link-item:hover {
+    background: #eef6ff;
+    color: #003366;
+}
+
+.school-link-logo {
+    width: 56px;
+    height: 44px;
+    background: #eef6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.school-link-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.school-link-name {
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* ===== FIX 3 CỘT TRANG CHỦ BẰNG CHIỀU CAO ===== */
+@media (min-width: 992px) {
+    .home-main-grid {
+        align-items: stretch !important;
+    }
+
+    .home-main-grid > [class*="col-"] {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .home-column-heading {
+        min-height: 44px;
+        flex-shrink: 0;
+    }
+
+    .featured-news-card,
+    .latest-news-card,
+    .hotline-box {
+        height: 540px !important;
+        min-height: 540px !important;
+        max-height: 540px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        background: #ffffff;
+    }
+
+    .featured-news-card .carousel,
+    .featured-news-card .carousel-inner,
+    .featured-news-card .carousel-item {
+        height: 100% !important;
+    }
+
+    .featured-news-card .card {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .featured-news-image {
+        width: 100% !important;
+        height: 320px !important;
+        object-fit: cover !important;
+        display: block !important;
+        flex-shrink: 0 !important;
+    }
+
+    .featured-carousel-caption {
+        flex: 1 !important;
+        overflow: hidden !important;
+    }
+
+    .latest-news-card {
+        border-radius: 6px;
+    }
+
+    .latest-news-card .list-group-item {
+        flex: 0 0 auto;
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+    }
+
+    .hotline-box {
+        border: 1px solid #d8e4f0;
+        border-radius: 6px;
+        padding: 18px !important;
+    }
+
+    .hotline-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #edf2f7;
+        line-height: 1.5;
+    }
+
+    .hotline-note {
+        margin-top: 16px;
+        padding: 14px;
+        background: #f1f6fb;
+        border-left: 4px solid #0b66b3;
+        color: #3d4b5c;
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .featured-news-card,
+    .latest-news-card,
+    .hotline-box {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+    }
+
+    .featured-news-image {
+        height: 220px !important;
+    }
 }
         </style>
     </head>
