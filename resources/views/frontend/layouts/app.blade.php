@@ -1183,13 +1183,14 @@ body::before {
 }
 
 .school-link-logo {
-    width: 56px;
-    height: 44px;
+    width: 60px;
+    height: 60px;
     background: #eef6ff;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    border-radius: 10px;
 }
 
 .school-link-logo img {
@@ -1351,6 +1352,378 @@ body::before {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
+/* ===== TRA CỨU HIỂN THỊ DẠNG BANNER NGANG ===== */
+.lookup-banner-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+}
+
+.lookup-banner-item {
+    display: block;
+    width: 100%;
+    height: 100px;
+    border: 1px solid #d8e6f5;
+    background: #f8fbff;
+    overflow: hidden;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.lookup-banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Trường hợp admin chưa upload ảnh thì hiện text thay thế */
+.lookup-banner-fallback {
+    width: 100%;
+    height: 100%;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    background: #eef6ff;
+    color: #004080;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.lookup-banner-item:hover {
+    filter: brightness(0.98);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .lookup-banner-item {
+        height: 64px;
+    }
+}
+
+/* ===== FOOTER FRONTEND ===== */
+.site-footer {
+    background: transparent;
+    margin-top: 32px;
+}
+
+.site-footer > .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.site-footer-panel {
+    background:
+        radial-gradient(circle at 80% 40%, rgba(255,255,255,0.08), transparent 28%),
+        linear-gradient(135deg, #103d64 0%, #0b3558 55%, #082d4d 100%);
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.site-footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    padding: 36px 48px 28px;
+}
+
+.site-footer-title {
+    margin: 0 0 16px;
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.site-footer-text {
+    margin: 0 0 10px;
+    color: rgba(255,255,255,0.95);
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.site-footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-footer-contact li {
+    margin-bottom: 11px;
+    color: rgba(255,255,255,0.95);
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.site-footer-socials {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.footer-social {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+.footer-facebook {
+    background: #2563eb;
+}
+
+.footer-youtube {
+    background: #dc2626;
+    font-size: 16px;
+}
+
+.footer-social:hover {
+    color: #ffffff;
+    filter: brightness(1.08);
+}
+
+.footer-badge {
+    height: 42px;
+    padding: 0 14px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #0b3558;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 800;
+}
+
+.site-footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.18);
+    text-align: center;
+    padding: 14px 20px;
+    color: rgba(255,255,255,0.95);
+    font-size: 14px;
+}
+
+/* ===== LIÊN KẾT TRANG ===== */
+/* ===== CĂN LẠI LIÊN KẾT TRANG THEO CONTENT ===== */
+.site-links-section {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    background: transparent;
+}
+
+.site-links-section > .container {
+    max-width: 1295px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.site-links-panel {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d8e6f5;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+}
+
+/* Phần header của liên kết trang */
+.site-links-heading {
+    padding: 20px 24px 14px;
+    border-bottom: 3px solid #0b5cab;
+    background: #ffffff;
+}
+
+.site-links-heading h2 {
+    margin: 0;
+    color: #003f7d;
+    font-size: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.site-links-heading p {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Tab */
+.site-links-tabs {
+    display: flex;
+    gap: 12px;
+    padding: 16px 24px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5edf7;
+    flex-wrap: wrap;
+}
+
+.site-links-tab {
+    border: 0;
+    background: #eef2f7;
+    color: #64748b;
+    padding: 12px 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.site-links-tab.active {
+    background: #0b5cab;
+    color: #ffffff;
+}
+
+/* Nội dung link */
+.site-links-content {
+    display: none;
+    padding: 20px 24px 26px;
+}
+
+.site-links-content.active {
+    display: block;
+}
+
+.site-links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 34px;
+}
+
+.site-link-item {
+    position: relative;
+    display: block;
+    padding: 8px 8px 8px 22px;
+    color: #0f172a;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 1.45;
+    border-radius: 4px;
+}
+
+.site-link-item::before {
+    content: "›";
+    position: absolute;
+    left: 6px;
+    top: 7px;
+    color: #0b5cab;
+    font-size: 22px;
+    line-height: 1;
+}
+
+.site-link-item:hover {
+    background: #eef6ff;
+    color: #0b5cab;
+}
+
+/* Footer tách riêng khỏi Liên kết trang */
+.site-footer {
+    margin-top: 0;
+}
+
+/* Nếu footer cũng đang full quá rộng thì giữ cùng khung với header */
+.site-footer > .container {
+    max-width: 1200px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .site-links-section > .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .site-links-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .site-links-tabs {
+        padding: 14px 16px;
+        gap: 8px;
+    }
+
+    .site-links-tab {
+        width: 100%;
+        text-align: left;
+    }
+
+    .site-links-content {
+        padding: 16px;
+    }
+
+    .site-links-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== ĐỒNG BỘ CHIỀU RỘNG HEADER - CONTENT - FOOTER ===== */
+:root {
+    --portal-width: 1200px;
+}
+
+/* Các khối chính dùng chung một độ rộng */
+.site-header-banner > .container,
+.portal-nav > .container,
+main > .container,
+.site-links-section > .container,
+.site-footer > .container {
+    max-width: var(--portal-width) !important;
+    width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Footer không được tự co hẹp */
+.site-footer {
+    background: transparent !important;
+    margin-top: 32px;
+}
+
+.site-footer-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Nếu bên trong footer đang có padding làm cảm giác bị hẹp, chỉ giữ padding phần nội dung */
+.site-footer-content {
+    padding-left: 48px;
+    padding-right: 48px;
+}
+
+.site-footer-bottom {
+    width: 100%;
+}
+
+/* Mobile vẫn giữ khoảng cách 2 bên */
+@media (max-width: 991.98px) {
+    .site-header-banner > .container,
+    .portal-nav > .container,
+    main > .container,
+    .site-links-section > .container,
+    .site-footer > .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .site-footer-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
         </style>
     </head>
     <body>
@@ -1443,40 +1816,155 @@ body::before {
             @yield('content')
         </main>
 
-        <footer class="site-footer">
-            <div class="container site-footer-inner">
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="site-footer-title">UBND XÃ VĨNH BÌNH</div>
-                        <p>Người phát ngôn: UBND Xã Vĩnh Bình</p>
-                        <p>Chịu trách nhiệm nội dung: UBND Xã Vĩnh Bình</p>
-
-                        <div class="site-footer-badges" aria-label="Chứng nhận và kênh thông tin">
-                            <span class="site-footer-badge">NCA</span>
-                            <span class="site-footer-badge">Website đạt chứng nhận Tín nhiệm mạng</span>
-                            <span class="site-footer-badge">Facebook</span>
-                            <span class="site-footer-badge">YouTube</span>
-                            <span class="site-footer-badge">IPv6</span>
+        <section class="site-links-section">
+            <div class="container px-0">
+                <div class="site-links-panel">
+                    <div class="site-links-heading">
+                        <div>
+                            <h2>LIÊN KẾT TRANG</h2>
+                            <p>Kết nối nhanh đến các cơ quan, đơn vị và địa phương liên quan</p>
                         </div>
                     </div>
 
-                    <div class="col-md-6 site-footer-contact">
-                        <div class="site-footer-title">LIÊN HỆ</div>
-                        <div><a href="{{ route('home') }}">Góp ý</a> | <a href="{{ route('frontend.sitemap') }}">Sơ đồ website</a> | RSS</div>
-                        <div><span aria-hidden="true">⌂</span> ..., Xã Vĩnh Bình, tỉnh An Giang.</div>
-                        <div><span aria-hidden="true">☎</span> Đang cập nhật... - Fax: Đang cập nhật...</div>
-                        <div><span aria-hidden="true">@</span> @angiang.gov.vn</div>
+                    <div class="site-links-tabs" role="tablist">
+                        <button type="button" class="site-links-tab active" data-tab="departments">
+                            Sở, ban, ngành
+                        </button>
+
+                        <button type="button" class="site-links-tab" data-tab="others">
+                            Đơn vị khác
+                        </button>
+
+                    </div>
+
+                    <div class="site-links-content active" id="departments">
+                        <div class="site-links-grid">
+                            <a href="#" class="site-link-item">VP Đoàn ĐBQH và HĐND tỉnh</a>
+                            <a href="#" class="site-link-item">Văn phòng UBND tỉnh</a>
+                            <a href="#" class="site-link-item">Sở Giáo dục và Đào tạo</a>
+                            <a href="#" class="site-link-item">Sở Dân tộc và Tôn giáo</a>
+                            <a href="#" class="site-link-item">Sở Khoa học và Công nghệ</a>
+                            <a href="#" class="site-link-item">Sở Xây dựng</a>
+
+                            <a href="#" class="site-link-item">Sở Nội vụ</a>
+                            <a href="#" class="site-link-item">Sở Nông nghiệp và Môi trường</a>
+                            <a href="#" class="site-link-item">Sở Tài chính</a>
+                            <a href="#" class="site-link-item">Sở Tư pháp</a>
+                            <a href="#" class="site-link-item">Sở Văn hóa và Thể thao</a>
+                            <a href="#" class="site-link-item">Sở Du lịch</a>
+
+                            <a href="#" class="site-link-item">Sở Y tế</a>
+                            <a href="#" class="site-link-item">Công an tỉnh</a>
+                            <a href="#" class="site-link-item">Thanh tra Tỉnh</a>
+                            <a href="#" class="site-link-item">Ban Quản lý Khu kinh tế</a>
+                            <a href="#" class="site-link-item">Ban Quản lý Khu kinh tế Phú Quốc</a>
+                        </div>
+                    </div>
+
+                    <div class="site-links-content" id="others">
+                        <div class="site-links-grid">
+                            <a href="#" class="site-link-item">Ban Tuyên giáo Tỉnh ủy</a>
+                            <a href="#" class="site-link-item">Ban Tiếp công dân tỉnh</a>
+                            <a href="#" class="site-link-item">Bảo hiểm xã hội tỉnh</a>
+                            <a href="#" class="site-link-item">Cục hải quan</a>
+                            <a href="#" class="site-link-item">Cục thuế tỉnh</a>
+                            <a href="#" class="site-link-item">Hội Nông dân tỉnh</a>
+
+                            <a href="#" class="site-link-item">Kho bạc nhà nước tỉnh An Giang</a>
+                            <a href="#" class="site-link-item">Liên đoàn Lao động tỉnh</a>
+                            <a href="#" class="site-link-item">Trường chính trị Tôn Đức Thắng</a>
+                            <a href="#" class="site-link-item">Viện kiểm sát</a>
+                            <a href="#" class="site-link-item">Ủy ban MTTQ Việt Nam tỉnh</a>
+                            <a href="#" class="site-link-item">Tỉnh đoàn An Giang</a>
+
+                            <a href="#" class="site-link-item">Hội liên hiệp phụ nữ tỉnh An Giang</a>
+                            <a href="#" class="site-link-item">Hiệp hội Thủy sản tỉnh An Giang</a>
+                            <a href="#" class="site-link-item">Hiệp hội doanh nghiệp</a>
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+    <div class="container px-0">
+        <div class="site-footer-panel">
+            <div class="site-footer-content">
+                <div class="site-footer-col">
+                    <h3 class="site-footer-title">PHÒNG VH-XH XÃ VĨNH BÌNH</h3>
+
+                    <p class="site-footer-text">
+                        Trang thông tin điện tử Phòng Văn hóa - Xã hội xã Vĩnh Bình
+                    </p>
+
+                    <p class="site-footer-text">
+                        Chịu trách nhiệm nội dung: Phòng VH-XH xã Vĩnh Bình
+                    </p>
+
+                    <div class="site-footer-socials">
+                        <a href="#" class="footer-social footer-facebook" aria-label="Facebook">
+                            f
+                        </a>
+
+                        <a href="#" class="footer-social footer-youtube" aria-label="YouTube">
+                            ▶
+                        </a>
+
+                        <span class="footer-badge">IPv6</span>
                     </div>
                 </div>
 
-                <div class="site-footer-copyright">
-                    © Copyright Trang thông tin điện tử xã Vĩnh Bình. All Rights Reserved.
+                <div class="site-footer-col">
+                    <h3 class="site-footer-title">LIÊN HỆ</h3>
+
+                    <ul class="site-footer-contact">
+                        <li>☎ Điện thoại: Đang cập nhật</li>
+                        <li>✉ Email: Đang cập nhật</li>
+                        <li>⌂ Địa chỉ: Xã Vĩnh Bình, tỉnh An Giang</li>
+                        <li>⏰ Thời gian tiếp nhận: Thứ Hai - Thứ Sáu, giờ hành chính</li>
+                    </ul>
                 </div>
             </div>
-        </footer>
+
+            <div class="site-footer-bottom">
+                © Copyright Trang thông tin điện tử xã Vĩnh Bình. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+</footer>
 
         <button class="back-to-top" type="button" aria-label="Cuộn lên đầu trang" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑</button>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const tabs = document.querySelectorAll('.site-links-tab');
+                const contents = document.querySelectorAll('.site-links-content');
+
+                tabs.forEach(function (tab) {
+                    tab.addEventListener('click', function () {
+                        const targetId = tab.getAttribute('data-tab');
+
+                        tabs.forEach(function (item) {
+                            item.classList.remove('active');
+                        });
+
+                        contents.forEach(function (content) {
+                            content.classList.remove('active');
+                        });
+
+                        tab.classList.add('active');
+
+                        const targetContent = document.getElementById(targetId);
+                        if (targetContent) {
+                            targetContent.classList.add('active');
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>

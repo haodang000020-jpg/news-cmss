@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Document;
 use App\Models\WorkSchedule;
 use App\Models\SchoolLink;
+use App\Models\LookupLink;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -91,6 +92,9 @@ class HomeController extends Controller
             );
         });
 
+        $lookupLinks = LookupLink::active()
+            ->ordered()
+            ->get();
         $primaryCategories = $categories->take(5);
         $noticeCategory = $categories->first(
             fn (Category $category): bool => str_contains((string) $category->name, 'Thông báo')
@@ -109,6 +113,7 @@ class HomeController extends Controller
             'noticeCategory' => $noticeCategory,
             'noticeArticles' => $noticeArticles,
             'schoolLinks' => $schoolLinks,
+            'lookupLinks' => $lookupLinks,
             'metaTitle' => 'Trang chủ',
             'metaDescription' => 'Tin tức mới nhất',
         ]);

@@ -359,15 +359,28 @@
                 <div class="col-lg-4">
                     <div class="portal-section">
                         <h2 class="portal-section-title">Tra cứu</h2>
-                        <div class="utility-grid">
-                            <a href="#" class="lookup-card lookup-blue">Dịch vụ công trực tuyến</a>
-                            <a href="#" class="lookup-card lookup-red">Nộp hồ sơ trực tuyến</a>
-                            <a href="#" class="lookup-card lookup-orange">Tra cứu hồ sơ</a>
-                            <a href="#" class="lookup-card lookup-blue">Bộ thủ tục của tất cả cơ quan</a>
-                            <a href="#" class="lookup-card lookup-red">Phản ánh kiến nghị</a>
-                            <a href="#" class="lookup-card lookup-orange">Hiến kế cho UBND</a>
-                            <a href="#" class="lookup-card lookup-blue">Lịch làm việc của UBND</a>
-                            <a href="{{ route('frontend.documents.index') }}" class="lookup-card lookup-red">Công báo</a>
+                        <div class="lookup-banner-list">
+                            @forelse($lookupLinks as $lookupLink)
+                                <a href="{{ $lookupLink->url ?: '#' }}"
+                                class="lookup-banner-item"
+                                @if($lookupLink->open_new_tab && $lookupLink->url) target="_blank" rel="noopener" @endif>
+
+                                    @if($lookupLink->image_path)
+                                        <img src="{{ asset('storage/' . $lookupLink->image_path) }}"
+                                            alt="{{ $lookupLink->title }}"
+                                            class="lookup-banner-image">
+                                    @else
+                                        <div class="lookup-banner-fallback">
+                                            {{ $lookupLink->title }}
+                                        </div>
+                                    @endif
+
+                                </a>
+                            @empty
+                                <div class="text-muted p-3">
+                                    Chưa có mục tra cứu.
+                                </div>
+                            @endforelse
                         </div>
                     </div>
 

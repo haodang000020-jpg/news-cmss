@@ -67,6 +67,12 @@
                 'active' => 'admin.users.*',
                 'permission' => 'users.manage',
             ],
+            [
+                'label' => 'Tra cứu',
+                'route' => 'admin.lookup-links.index',
+                'active' => 'admin.lookup-links.*',
+                'permission' => 'lookup-links.manage',
+            ],
         ];
     @endphp
 

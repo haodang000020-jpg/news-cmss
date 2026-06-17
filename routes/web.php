@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WorkScheduleController;
+use App\Http\Controllers\Admin\LookupLinkController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
@@ -47,6 +48,10 @@ Route::prefix('admin')
     ->middleware(['auth', 'permission:dashboard.view'])
     ->group(function () {
         Route::get('/', DashboardController::class)->name('dashboard');
+
+        Route::resource('lookup-links', LookupLinkController::class)
+            ->except('show')
+            ->middleware('permission:lookup-links.manage');
 
         Route::resource('school-links', SchoolLinkController::class)
             ->except('show')
