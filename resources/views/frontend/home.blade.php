@@ -278,10 +278,10 @@
                                             <th>Ghi chú</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody>                          
                                         @forelse (($workSchedules ?? collect()) as $workSchedule)
                                             <tr>
-                                                <th scope="row">{{ $workSchedule->day_name }}</th>
+                                                <th scope="row">{{ $workSchedule->day_name }}</th> 
                                                 <td>{{ $workSchedule->is_working_day ? ($workSchedule->title ?: '-') : 'Nghỉ' }}</td>
                                                 @if ($workSchedule->is_working_day)
                                                     <td>{{ $workSchedule->morning_time ?: '-' }}</td>
@@ -358,7 +358,13 @@
 
                 <div class="col-lg-4">
                     <div class="portal-section">
-                        <h2 class="portal-section-title">Tra cứu</h2>
+                        <div class="lookup-header-with-counter">
+    <span>TRA CỨU</span>
+
+    <span class="site-visit-counter">
+        👁 Lượt truy cập: {{ number_format($siteVisitCount ?? 0) }}
+    </span>
+</div>
                         <div class="lookup-banner-list">
                             @forelse($lookupLinks as $lookupLink)
                                 <a href="{{ $lookupLink->url ?: '#' }}"

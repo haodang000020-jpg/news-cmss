@@ -1724,6 +1724,57 @@ main > .container,
     }
 }
 
+/* ===== Lượt truy cập tại khối Tra cứu ===== */
+.lookup-header-with-counter {
+    min-height: 44px;
+    background: #0b5cab;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.site-visit-counter {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: none;
+    white-space: nowrap;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 5px 10px;
+    border-radius: 999px;
+}
+
+@media (max-width: 576px) {
+    .lookup-header-with-counter {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 14px;
+    }
+
+    .site-visit-counter {
+        font-size: 12px;
+    }
+}
+
+/* ===== Ngày tháng trong lịch làm việc ===== */
+.work-schedule-day strong {
+    display: block;
+    color: #004080;
+    font-weight: 700;
+}
+
+.work-schedule-date {
+    margin-top: 4px;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 500;
+}
         </style>
     </head>
     <body>

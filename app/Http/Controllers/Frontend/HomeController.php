@@ -10,6 +10,7 @@ use App\Models\Document;
 use App\Models\WorkSchedule;
 use App\Models\SchoolLink;
 use App\Models\LookupLink;
+use App\Models\SiteVisit;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -92,6 +93,8 @@ class HomeController extends Controller
             );
         });
 
+        $siteVisitCount = SiteVisit::count();
+
         $lookupLinks = LookupLink::active()
             ->ordered()
             ->get();
@@ -114,6 +117,7 @@ class HomeController extends Controller
             'noticeArticles' => $noticeArticles,
             'schoolLinks' => $schoolLinks,
             'lookupLinks' => $lookupLinks,
+            'siteVisitCount' => $siteVisitCount,
             'metaTitle' => 'Trang chủ',
             'metaDescription' => 'Tin tức mới nhất',
         ]);
