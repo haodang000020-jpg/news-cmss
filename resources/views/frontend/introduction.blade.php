@@ -446,7 +446,7 @@
         /* ===== SỬA LỖI SƠ ĐỒ TỔ CHỨC BỊ CHỒNG LAYOUT ===== */
         .organization-section { width: 100%; height: auto; overflow: visible; } .organization-branches { align-items: start; } .organization-branch { display: flex; flex-direction: column; min-width: 0; height: auto; }
         /* Không cho thẻ Phó phòng kéo dài bằng cả nhánh */
-        .organization-member-card--deputy { width: 100%; height: auto !important; flex: 0 0 auto; }
+        .organization-member-card--deputy {  height: auto !important; flex: 0 0 auto; }
         /* Đường nối không được co giãn */
         .organization-child-connector { flex: 0 0 auto; }
         /* Khối công chức phải nằm đúng bên dưới Phó phòng */
@@ -493,7 +493,79 @@
         padding-right: 10px !important;
     }
 }
-```
+
+/* ===== ĐỒNG BỘ KHUNG TRƯỞNG PHÒNG VÀ PHÓ PHÒNG ===== */
+
+/* Khung Trưởng phòng */
+.organization-head-level .organization-member-card--head {
+    width: min(100%, 390px);
+    min-height: 270px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Mỗi nhánh tổ chức căn giữa thẻ Phó phòng */
+.organization-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+/* Khung Phó phòng bằng khung Trưởng phòng */
+.organization-member-card--deputy {
+    width: min(100%, 390px) !important;
+    min-height: 270px;
+    height: auto !important;
+    flex: 0 0 auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 24px 20px 20px;
+}
+
+/* Ảnh Phó phòng đồng kích thước với ảnh Trưởng phòng */
+.organization-member-card--deputy .organization-member-photo {
+    width: 132px;
+    height: 132px;
+    border-width: 4px;
+}
+
+/* Công chức bên dưới vẫn sử dụng hết chiều rộng */
+.organization-branch > .organization-staff-grid {
+    width: 100%;
+    align-self: stretch;
+}
+
+/* Đường nối nằm chính giữa */
+.organization-child-connector {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Trường hợp chỉ có một Phó phòng */
+.organization-branches.is-single {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.organization-branches.is-single .organization-branch {
+    width: 100%;
+}
+
+/* Điện thoại */
+@media (max-width: 576px) {
+    .organization-head-level .organization-member-card--head,
+    .organization-member-card--deputy {
+        width: 100% !important;
+        min-height: 0;
+    }
+
+    .organization-member-card--deputy .organization-member-photo {
+        width: 108px;
+        height: 108px;
+    }
+}
+
 
     </style>
 
