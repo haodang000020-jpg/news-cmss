@@ -139,7 +139,13 @@
             }
 
             .featured-carousel-title {
-                line-height: 1.3;
+                font-size: 25px;
+                line-height: 1.35;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                font-weight: 700;
             }
 
             .featured-news-carousel .carousel-control-prev,
@@ -1872,6 +1878,15 @@ main > .container,
         font-size: 12px;
     }
 }
+.summary-tnb{
+    font-size: 15px;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
         </style>
     </head>
     <body>

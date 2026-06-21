@@ -24,12 +24,12 @@
                         <span>{{ number_format($article->view_count) }} lượt xem</span>
                     </div>
 
-                    @if ($article->thumbnail)
+                    <!-- @if ($article->thumbnail)
                         <img src="{{ asset('storage/'.$article->thumbnail) }}" class="img-fluid rounded mb-4 w-100" alt="{{ $article->title }}">
-                    @endif
+                    @endif -->
 
                     @if ($article->summary)
-                        <p class="lead border-start border-4 border-primary ps-3 text-secondary">{{ $article->summary }}</p>
+                        <p class="lead border-start border-4 border-primary ps-3 text-secondary fw-bold">{{ $article->summary }}</p>
                     @endif
 
                     <div class="article-content">

@@ -80,7 +80,7 @@
                              data-bs-pause="hover"
                              data-bs-touch="true">
 
-                            <div class="carousel-indicators">
+                            <div class="carousel-indicators mb-0">
                                 @foreach ($featuredArticles as $article)
                                     <button
                                         type="button"
@@ -118,7 +118,7 @@
                                                 </h2>
 
                                                 @if ($article->summary)
-                                                    <p class="text-muted mb-0">{{ $article->summary }}</p>
+                                                    <p class=" summary-tnb text-muted mb-0">{{ $article->summary }}</p>
                                                 @endif
                                             </div>
                                         </div>
@@ -163,7 +163,7 @@
                                 </h2>
 
                                 @if ($article->summary)
-                                    <p class="text-muted mb-0">{{ $article->summary }}</p>
+                                    <p class="summary-tnb text-muted mb-0" >{{ $article->summary }}</p>
                                 @endif
                             </div>
                         </div>
