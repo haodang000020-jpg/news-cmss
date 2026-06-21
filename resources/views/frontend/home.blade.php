@@ -212,14 +212,14 @@
 </div>
 
         <div class="col-lg-3 hotline-column d-flex flex-column">
-            <div class="home-column-heading d-flex align-items-center mb-3">
+            <div class="home-column-heading d-flex align-items-center" style="margin-bottom: 12px !important">
                 <h2 class="h4 section-title mb-0">Đường Dây Nóng</h2>
             </div>
 
             <div class="hotline-box">
                 <div class="hotline-item fw-semibold">Phòng Văn hóa - Xã hội xã Vĩnh Bình</div>
                 <div class="hotline-item">☎ Điện thoại: Đang cập nhật</div>
-                <div class="hotline-item">✉ Email: Đang cập nhật</div>
+                <div class="hotline-item">✉ Email: vhxh.vinhbinh@angiang.gov.vn</div>
                 <div class="hotline-item">⌂ Địa chỉ: Xã Vĩnh Bình, tỉnh An Giang</div>
                 <div class="hotline-item">⏰ Thời gian tiếp nhận: Thứ Hai - Thứ Sáu, giờ hành chính</div>
                 <div class="hotline-item">📌 Lĩnh vực tiếp nhận: Văn hóa, xã hội, giáo dục, y tế, đời sống nhân dân</div>
@@ -235,11 +235,32 @@
         <section class="mb-1">
             <div class="row g-1">
                 <div class="col-lg-8">
-                    <div class="portal-section">
+                    <div class="portal-section"  id="latest-documents">
                         <div class="d-flex justify-content-between align-items-center portal-section-title">
                             <span>Văn bản mới ban hành</span>
                             <a href="{{ route('frontend.documents.index') }}" class="small text-white text-decoration-none">Xem thêm</a>
                         </div>
+                        @if (($documentCategories ?? collect())->isNotEmpty())
+    <div class="document-category-filter" aria-label="Lọc văn bản theo loại">
+        <a
+            href="{{ url('/') }}#latest-documents"
+            class="document-category-chip {{ empty($selectedDocumentCategoryId) ? 'active' : '' }}"
+        >
+            <span class="document-category-chip-icon">▦</span>
+            Tất cả
+        </a>
+
+        @foreach ($documentCategories as $documentCategory)
+            <a
+                href="{{ url('/') }}?document_category_id={{ $documentCategory->id }}#latest-documents"
+                class="document-category-chip {{ (int) $selectedDocumentCategoryId === (int) $documentCategory->id ? 'active' : '' }}"
+            >
+                <span class="document-category-chip-icon">◆</span>
+                {{ $documentCategory->name }}
+            </a>
+        @endforeach
+    </div>
+@endif
                         <div class="document-list">
                             @forelse (($latestDocuments ?? collect()) as $document)
                                 <div class="document-item d-flex gap-2">

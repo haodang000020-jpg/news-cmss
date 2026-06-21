@@ -11,11 +11,13 @@ use App\Models\WorkSchedule;
 use App\Models\SchoolLink;
 use App\Models\LookupLink;
 use App\Models\SiteVisit;
+use App\Models\DocumentCategory;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function __invoke(): View
+    public function __invoke(Request $request): View
     {
 
         $schoolLinks = SchoolLink::active()
@@ -71,8 +73,33 @@ class HomeController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        $latestDocuments = Document::with('category')
+      $documentCategories = DocumentCategory::query()
+    ->where('is_active', true)
+    ->orderBy('name')
+    ->get();
+
+        $selectedDocumentCategoryId = $request->integer('document_category_id');
+
+        if (
+            $selectedDocumentCategoryId <= 0 ||
+            ! $documentCategories->contains('id', $selectedDocumentCategoryId)
+        ) {
+            $selectedDocumentCategoryId = null;
+        }
+
+        $selectedDocumentCategory = $selectedDocumentCategoryId
+            ? $documentCategories->firstWhere('id', $selectedDocumentCategoryId)
+            : null;
+
+        $latestDocuments = Document::query()
             ->where('is_active', true)
+            ->when(
+                $selectedDocumentCategoryId,
+                fn ($query) => $query->where(
+                    'document_category_id',
+                    $selectedDocumentCategoryId
+                )
+            )
             ->orderByDesc('issued_at')
             ->orderByDesc('created_at')
             ->limit(7)
@@ -118,6 +145,9 @@ class HomeController extends Controller
             'schoolLinks' => $schoolLinks,
             'lookupLinks' => $lookupLinks,
             'siteVisitCount' => $siteVisitCount,
+            'documentCategories' => $documentCategories,
+            'selectedDocumentCategoryId' => $selectedDocumentCategoryId,
+            'selectedDocumentCategory' => $selectedDocumentCategory,
             'metaTitle' => 'Trang chủ',
             'metaDescription' => 'Tin tức mới nhất',
         ]);

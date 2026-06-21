@@ -1270,7 +1270,7 @@ body::before {
     .hotline-box {
         border: 1px solid #d8e4f0;
         border-radius: 6px;
-        padding: 18px !important;
+        padding: 10px !important;
     }
 
     .hotline-item {
@@ -1775,6 +1775,103 @@ main > .container,
     line-height: 1.4;
     font-weight: 500;
 }
+
+/* ===== THẺ LỌC LOẠI VĂN BẢN ===== */
+.document-category-filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 13px 14px;
+    background:
+        linear-gradient(135deg, #f7fbff 0%, #eef6ff 100%);
+    border-bottom: 1px solid #d8e6f4;
+}
+
+.document-category-chip {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border: 1px solid #bdd5ec;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #07579e;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+    box-shadow: 0 2px 6px rgba(8, 83, 151, 0.06);
+    transition:
+        transform 0.18s ease,
+        background 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.document-category-chip:hover {
+    color: #ffffff;
+    background: #1680cf;
+    border-color: #1680cf;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(8, 83, 151, 0.2);
+}
+
+.document-category-chip.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #07579e 0%, #1680cf 100%);
+    border-color: #07579e;
+    box-shadow: 0 5px 14px rgba(8, 83, 151, 0.25);
+}
+
+.document-category-chip-icon {
+    font-size: 10px;
+    opacity: 0.9;
+}
+
+.document-filter-result {
+    padding: 9px 14px;
+    background: #fff9e9;
+    border-bottom: 1px solid #f2dfaa;
+    color: #6b5100;
+    font-size: 13px;
+}
+
+.document-filter-result strong {
+    color: #a76500;
+}
+
+.document-filter-result a {
+    margin-left: 8px;
+    color: #07579e;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.document-filter-result a:hover {
+    text-decoration: underline;
+}
+
+.document-empty-state {
+    padding: 28px 16px;
+    text-align: center;
+    color: #64748b;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+@media (max-width: 576px) {
+    .document-category-filter {
+        gap: 7px;
+        padding: 10px;
+    }
+
+    .document-category-chip {
+        padding: 7px 11px;
+        font-size: 12px;
+    }
+}
         </style>
     </head>
     <body>
@@ -1890,47 +1987,47 @@ main > .container,
 
                     <div class="site-links-content active" id="departments">
                         <div class="site-links-grid">
-                            <a href="#" class="site-link-item">VP Đoàn ĐBQH và HĐND tỉnh</a>
-                            <a href="#" class="site-link-item">Văn phòng UBND tỉnh</a>
-                            <a href="#" class="site-link-item">Sở Giáo dục và Đào tạo</a>
-                            <a href="#" class="site-link-item">Sở Dân tộc và Tôn giáo</a>
-                            <a href="#" class="site-link-item">Sở Khoa học và Công nghệ</a>
-                            <a href="#" class="site-link-item">Sở Xây dựng</a>
+                            <a href="https://vpddbqh-hdnd.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">VP Đoàn ĐBQH và HĐND tỉnh</a>
+                            <a href="https://vpubnd.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">Văn phòng UBND tỉnh</a>
+                            <a href="https://angiang.edu.vn/" class="site-link-item">Sở Giáo dục và Đào tạo</a>
+                            <a href="https://bandantoc.angiang.gov.vn/" class="site-link-item">Sở Dân tộc và Tôn giáo</a>
+                            <a href="https://skhcn.angiang.gov.vn/" class="site-link-item">Sở Khoa học và Công nghệ</a>
+                            <a href="https://sxd.angiang.gov.vn/" class="site-link-item">Sở Xây dựng</a>
 
-                            <a href="#" class="site-link-item">Sở Nội vụ</a>
-                            <a href="#" class="site-link-item">Sở Nông nghiệp và Môi trường</a>
-                            <a href="#" class="site-link-item">Sở Tài chính</a>
-                            <a href="#" class="site-link-item">Sở Tư pháp</a>
-                            <a href="#" class="site-link-item">Sở Văn hóa và Thể thao</a>
-                            <a href="#" class="site-link-item">Sở Du lịch</a>
+                            <a href="https://snv.angiang.gov.vn/" class="site-link-item">Sở Nội vụ</a>
+                            <a href="https://snnmt.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">Sở Nông nghiệp và Môi trường</a>
+                            <a href="https://stc.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">Sở Tài chính</a>
+                            <a href="https://stp.angiang.gov.vn/" class="site-link-item">Sở Tư pháp</a>
+                            <a href="https://svhtt.angiang.gov.vn/" class="site-link-item">Sở Văn hóa và Thể thao</a>
+                            <a href="https://sdl.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">Sở Du lịch</a>
 
-                            <a href="#" class="site-link-item">Sở Y tế</a>
-                            <a href="#" class="site-link-item">Công an tỉnh</a>
-                            <a href="#" class="site-link-item">Thanh tra Tỉnh</a>
-                            <a href="#" class="site-link-item">Ban Quản lý Khu kinh tế</a>
-                            <a href="#" class="site-link-item">Ban Quản lý Khu kinh tế Phú Quốc</a>
+                            <a href="https://syt.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">Sở Y tế</a>
+                            <a href="https://congan.angiang.gov.vn/" class="site-link-item">Công an tỉnh</a>
+                            <a href="https://thanhtra.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">Thanh tra Tỉnh</a>
+                            <a href="https://bqlkkt.angiang.gov.vn/" class="site-link-item">Ban Quản lý Khu kinh tế</a>
+                            <a href="https://bqlkktpq.angiang.gov.vn/" class="site-link-item">Ban Quản lý Khu kinh tế Phú Quốc</a>
                         </div>
                     </div>
 
                     <div class="site-links-content" id="others">
                         <div class="site-links-grid">
-                            <a href="#" class="site-link-item">Ban Tuyên giáo Tỉnh ủy</a>
+                            <a href="https://noibo.angiang.dcs.vn/" class="site-link-item">Ban Tuyên giáo Tỉnh ủy</a>
                             <a href="#" class="site-link-item">Ban Tiếp công dân tỉnh</a>
-                            <a href="#" class="site-link-item">Bảo hiểm xã hội tỉnh</a>
-                            <a href="#" class="site-link-item">Cục hải quan</a>
-                            <a href="#" class="site-link-item">Cục thuế tỉnh</a>
-                            <a href="#" class="site-link-item">Hội Nông dân tỉnh</a>
+                            <a href="https://angiang.baohiemxahoi.gov.vn/Pages/default.aspx" class="site-link-item">Bảo hiểm xã hội tỉnh</a>
+                            <a href="https://www.customs.gov.vn/" class="site-link-item">Cục hải quan</a>
+                            <a href="https://angiang.gdt.gov.vn/wps/portal" class="site-link-item">Cục thuế tỉnh</a>
+                            <a href="https://hoinongdanag.org.vn/wps/portal" class="site-link-item">Hội Nông dân tỉnh</a>
 
                             <a href="#" class="site-link-item">Kho bạc nhà nước tỉnh An Giang</a>
-                            <a href="#" class="site-link-item">Liên đoàn Lao động tỉnh</a>
+                            <a href="https://ldld.angiang.gov.vn/" class="site-link-item">Liên đoàn Lao động tỉnh</a>
                             <a href="#" class="site-link-item">Trường chính trị Tôn Đức Thắng</a>
-                            <a href="#" class="site-link-item">Viện kiểm sát</a>
+                            <a href="https://vks.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">Viện kiểm sát</a>
                             <a href="#" class="site-link-item">Ủy ban MTTQ Việt Nam tỉnh</a>
-                            <a href="#" class="site-link-item">Tỉnh đoàn An Giang</a>
+                            <a href="https://tinhdoanangiang.vn/" class="site-link-item">Tỉnh đoàn An Giang</a>
 
-                            <a href="#" class="site-link-item">Hội liên hiệp phụ nữ tỉnh An Giang</a>
-                            <a href="#" class="site-link-item">Hiệp hội Thủy sản tỉnh An Giang</a>
-                            <a href="#" class="site-link-item">Hiệp hội doanh nghiệp</a>
+                            <a href="https://hlhpn.angiang.gov.vn/Trang/TrangChu.aspx" class="site-link-item">Hội liên hiệp phụ nữ tỉnh An Giang</a>
+                            <a href="https://vinafis.org.vn/" class="site-link-item">Hiệp hội Thủy sản tỉnh An Giang</a>
+                            <a href="https://aba.angiang.vn/" class="site-link-item">Hiệp hội doanh nghiệp</a>
                         </div>
                     </div>
 
