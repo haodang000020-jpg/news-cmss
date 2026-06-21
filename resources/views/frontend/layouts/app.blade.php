@@ -1406,7 +1406,7 @@ body::before {
 /* ===== FOOTER FRONTEND ===== */
 .site-footer {
     background: transparent;
-    margin-top: 32px;
+    margin-top: 10px;
 }
 
 .site-footer > .container {
@@ -1943,6 +1943,7 @@ main > .container,
             <div class="collapse navbar-collapse" id="frontendNavbar">
                 <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link px-3" href="{{ route('home') }}">Trang chủ</a></li>
+                        <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.introduction') }}">Giới thiệu</a></li>
                         @if ($introPage)
                             <li class="nav-item">
                                 <a class="nav-link px-3" href="{{ route('frontend.pages.show', $introPage->slug) }}">{{ $introPage->title }}</a>
