@@ -33,16 +33,7 @@
         {{ $member->name }}
     </h3>
 
-    <div class="organization-member-position">
-        {{ $member->position }}
-    </div>
-
-    @if ($member->department)
-        <div class="organization-member-department">
-            {{ $member->department }}
-        </div>
-    @endif
-
+   
     @if ($member->responsibility)
         <div class="organization-member-responsibility">
             <strong>Lĩnh vực phụ trách:</strong>
@@ -67,10 +58,5 @@
         @endif
     </div>
 
-    @if ($member->biography)
-        <div class="organization-member-biography">
-            {{ $member->biography }}
-        </div>
-    @endif
 </article>
 

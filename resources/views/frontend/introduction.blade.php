@@ -565,6 +565,46 @@
         height: 108px;
     }
 }
+/* Nền mờ cho khung Phó phòng */
+.organization-member-card--deputy {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(22, 129, 204, 0.14),
+            transparent 38%
+        ),
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f1f8fe 100%
+        ) !important;
+
+    border: 2px solid #5aa9df !important;
+    box-shadow: 0 10px 24px rgba(7, 87, 158, 0.10);
+}
+
+/* Họa tiết nền mờ nhẹ */
+.organization-member-card--deputy::after {
+    content: "";
+    position: absolute;
+    right: -55px;
+    bottom: -65px;
+    width: 180px;
+    height: 180px;
+    border: 30px solid rgba(22, 129, 204, 0.06);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Đảm bảo nội dung nằm trên nền mờ */
+.organization-member-card--deputy > * {
+    position: relative;
+    z-index: 1;
+}
+
 
 
     </style>
