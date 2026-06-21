@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WorkScheduleController;
 use App\Http\Controllers\Admin\LookupLinkController;
+use App\Http\Controllers\Admin\OrganizationMemberController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
@@ -103,6 +104,7 @@ Route::prefix('admin')
                 Route::resource('items', MenuItemController::class)
                     ->except(['show']);
             });
+        Route::resource( 'organization-members', OrganizationMemberController::class ) ->except('show') ->middleware('permission:organization-members.manage');
     });
 
 Route::middleware('auth')->group(function () {

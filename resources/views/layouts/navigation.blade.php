@@ -55,6 +55,7 @@
                 'active' => 'admin.work-schedules.*',
                 'permission' => 'work-schedules.manage',
             ],
+            [ 'label' => 'Cơ cấu tổ chức', 'route' => 'admin.organization-members.index', 'active' => 'admin.organization-members.*', 'permission' => 'organization-members.manage', ],
             [
                 'label' => 'Liên kết trường học',
                 'route' => 'admin.school-links.index',
