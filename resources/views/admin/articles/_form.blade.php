@@ -21,11 +21,23 @@
         <label for="category_id" class="block text-sm font-medium text-gray-700">Chuyên mục</label>
         <select id="category_id" name="category_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
             <option value="">Chọn chuyên mục</option>
-            @foreach ($categories as $category)
-                <option value="{{ $category->id }}" @selected((string) old('category_id', $article->category_id) === (string) $category->id)>
-                    {{ $category->name }}
-                </option>
-            @endforeach
+           @foreach ($categories as $category)
+    <option
+        value="{{ $category->id }}"
+        @selected(
+            (string) old(
+                'category_id',
+                $article->category_id ?? ''
+            ) === (string) $category->id
+        )
+    >
+        {{ $category->name }}
+
+        @if (! $category->is_active)
+            — Ẩn khỏi menu
+        @endif
+    </option>
+@endforeach
         </select>
         @error('category_id')
             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

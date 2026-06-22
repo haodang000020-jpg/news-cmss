@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WorkScheduleController;
 use App\Http\Controllers\Admin\LookupLinkController;
+use App\Http\Controllers\Admin\OrganizationMemberController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\RobotsController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\SitemapController;
+use App\Http\Controllers\Frontend\IntroductionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('home');
 Route::get('/sitemap.xml', SitemapController::class)->name('frontend.sitemap');
 Route::get('/robots.txt', RobotsController::class)->name('frontend.robots');
+Route::get('/gioi-thieu', [IntroductionController::class, 'index']) ->name('frontend.introduction');
 Route::get('/chuyen-muc/{slug}', FrontendCategoryController::class)->name('frontend.categories.show');
 Route::get('/bai-viet/{slug}', FrontendArticleController::class)->name('frontend.articles.show');
 Route::get('/trang/{slug}', FrontendPageController::class)->name('frontend.pages.show');
@@ -103,6 +106,7 @@ Route::prefix('admin')
                 Route::resource('items', MenuItemController::class)
                     ->except(['show']);
             });
+        Route::resource( 'organization-members', OrganizationMemberController::class ) ->except('show') ->middleware('permission:organization-members.manage');
     });
 
 Route::middleware('auth')->group(function () {
