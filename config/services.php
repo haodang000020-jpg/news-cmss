@@ -34,5 +34,6 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'weather' => [ 'location' => env( 'WEATHER_LOCATION', 'Vĩnh Bình, An Giang' ), 'latitude' => env('WEATHER_LATITUDE'), 'longitude' => env('WEATHER_LONGITUDE'), ],
 
 ];
