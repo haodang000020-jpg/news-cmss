@@ -292,54 +292,77 @@
         <section class="mb-1">
             <div class="row g-1">
                 <div class="col-lg-8">
-                    <div class="portal-section" id="latest-documents">
-                        <div class="d-flex justify-content-between align-items-center portal-section-title">
-                            <span>Văn bản mới ban hành</span>
-                            <a href="{{ route('frontend.documents.index') }}"
-                                class="small text-white text-decoration-none">Xem thêm</a>
-                        </div>
-                        @if (($documentCategories ?? collect())->isNotEmpty())
-                            <div class="document-category-filter" aria-label="Lọc văn bản theo loại">
-                                <a href="{{ url('/') }}#latest-documents"
-                                    class="document-category-chip {{ empty($selectedDocumentCategoryId) ? 'active' : '' }}">
-                                    <span class="document-category-chip-icon">▦</span>
-                                    Tất cả
-                                </a>
 
-                                @foreach ($documentCategories as $documentCategory)
-                                    <a href="{{ url('/') }}?document_category_id={{ $documentCategory->id }}#latest-documents"
-                                        class="document-category-chip {{ (int) $selectedDocumentCategoryId === (int) $documentCategory->id ? 'active' : '' }}">
-                                        <span class="document-category-chip-icon">◆</span>
-                                        {{ $documentCategory->name }}
-                                    </a>
-                                @endforeach
-                            </div>
-                        @endif
-                        <div class="document-list">
-                            @forelse (($latestDocuments ?? collect()) as $document)
-                                <div class="document-item d-flex gap-2">
-                                    <span class="document-icon">◆</span>
-                                    <div>
-                                        <a class="fw-semibold text-dark text-decoration-none"
-                                            href="{{ route('frontend.documents.show', $document->slug) }}">
+                    <div class="latest-documents-panel">
+                        {{-- Tiêu đề --}}
+                        <div class="latest-documents-header">
+                            <h2>VĂN BẢN MỚI BAN HÀNH</h2>
+                        </div>
+
+                        {{-- Các loại văn bản --}}
+                        <div class="document-category-tabs">
+                            <a href="{{ url('/') }}#latest-documents"
+                                class="document-category-tab {{ empty($selectedDocumentCategoryId) ? 'active' : '' }}">
+                                <span class="document-category-icon">■</span>
+                                Tất cả
+                            </a>
+
+                            @foreach ($documentCategories as $documentCategory)
+                                <a href="{{ url('/') }}?document_category_id={{ $documentCategory->id }}#latest-documents"
+                                    class="document-category-tab {{ (int) $selectedDocumentCategoryId === (int) $documentCategory->id ? 'active' : '' }}">
+                                    <span class="document-category-icon">◆</span>
+                                    {{ $documentCategory->name }}
+                                </a>
+                            @endforeach
+                        </div>
+
+                        {{-- Danh sách văn bản có thanh cuộn --}}
+                        <div id="latest-documents" class="latest-documents-scroll">
+                            @forelse ($latestDocuments as $document)
+                                <a href="{{ route('frontend.documents.show', $document->slug) }}"
+                                    class="latest-document-item">
+                                    <span class="latest-document-bullet">◆</span>
+
+                                    <div class="latest-document-content">
+                                        <h3 class="latest-document-title">
                                             {{ $document->title }}
-                                        </a>
-                                        <div class="small text-muted mt-1">
+                                        </h3>
+
+                                        <div class="latest-document-meta">
                                             @if ($document->code)
-                                                <span>Số hiệu: {{ $document->code }}</span>
+                                                <span>
+                                                    Số hiệu:
+                                                    <strong>{{ $document->code }}</strong>
+                                                </span>
                                             @endif
+
                                             @if ($document->issued_at)
-                                                <span class="ms-2">Ngày ban hành:
-                                                    {{ $document->issued_at->format('d/m/Y') }}</span>
+                                                <span>
+                                                    Ngày ban hành:
+                                                    <strong>
+                                                        {{ $document->issued_at->format('d/m/Y') }}
+                                                    </strong>
+                                                </span>
                                             @endif
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             @empty
-                                <div class="p-3 text-muted">Chưa có văn bản mới.</div>
+                                <div class="latest-documents-empty">
+                                    <div class="latest-documents-empty-icon">
+                                        📄
+                                    </div>
+
+                                    <strong>Chưa có văn bản mới</strong>
+
+                                    <span>
+                                        Các văn bản mới ban hành sẽ được hiển thị tại đây.
+                                    </span>
+                                </div>
                             @endforelse
                         </div>
                     </div>
+
 
                     <div class="work-schedule-box mt-1">
                         <h2 class="portal-section-title">LỊCH LÀM VIỆC CỦA PHÒNG VĂN HÓA XÃ HỘI</h2>
