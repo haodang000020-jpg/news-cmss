@@ -378,6 +378,7 @@
         .portal-news-box .box-body,
         .portal-sidebar-box .box-body {
             padding: 1rem;
+
         }
 
         .portal-news-box .featured-image,
@@ -390,7 +391,17 @@
         .portal-news-box .news-list-item,
         .portal-sidebar-box .news-list-item {
             border-bottom: 1px solid #e5edf7;
-            padding: .65rem 0;
+            padding: .5rem 0;
+
+            min-width: 0;
+            color: #172b3d !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1.4 !important;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
         }
 
         .portal-news-box .news-list-item:last-child,
@@ -2500,7 +2511,7 @@
         .latest-document-title {
             margin: 0;
             color: #182635;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 700;
             line-height: 1.45;
 
@@ -2883,127 +2894,1023 @@
             }
         }
 
-    
-/* ==================================================
+
+        /* ==================================================
    KHUNG CUỘN TIN MỚI NHẤT
    ================================================== */
 
-.latest-news-column {
-    min-width: 0;
-    min-height: 0;
-}
+        .latest-news-column {
+            min-width: 0;
+            min-height: 0;
+        }
 
-/* Khung bên ngoài cố định chiều cao */
-.latest-news-card {
-    width: 100%;
-    height: 505px !important;
-    min-height: 542px !important;
-    max-height: 505px !important;
+        /* Khung bên ngoài cố định chiều cao */
+        .latest-news-card {
+            width: 100%;
+            height: 505px !important;
+            min-height: 542px !important;
+            max-height: 505px !important;
 
-    display: block !important;
-    overflow: hidden !important;
+            display: block !important;
+            overflow: hidden !important;
 
-    border: 1px solid #d4e1ec;
-    border-radius: 8px;
-    background: #ffffff;
+            border: 1px solid #d4e1ec;
+            border-radius: 8px;
+            background: #ffffff;
 
-    box-shadow: 0 4px 14px rgba(7, 87, 158, 0.08);
-}
+            box-shadow: 0 4px 14px rgba(7, 87, 158, 0.08);
+        }
 
-/* Chỉ phần này được cuộn */
-.latest-news-scroll {
-    width: 100%;
-    height: 100%;
-    max-height: 100%;
+        /* Chỉ phần này được cuộn */
+        .latest-news-scroll {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
 
-    display: block !important;
+            display: block !important;
 
-    overflow-x: hidden !important;
-    overflow-y: scroll !important;
+            overflow-x: hidden !important;
+            overflow-y: scroll !important;
 
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable;
-}
+            overscroll-behavior: contain;
+            scrollbar-gutter: stable;
+        }
 
-/* Không để từng tin bị co chiều cao */
-.latest-news-scroll .latest-news-item-with-thumb {
-    width: 100%;
-    min-height: 92px;
+        /* Không để từng tin bị co chiều cao */
+        .latest-news-scroll .latest-news-item-with-thumb {
+            width: 100%;
+            min-height: 92px;
 
-    display: flex !important;
-    align-items: flex-start;
-    flex: none !important;
+            display: flex !important;
+            align-items: flex-start;
+            flex: none !important;
 
-    padding: 12px 10px;
-    border-left: 0;
-    border-right: 0;
-}
+            padding: 12px 10px;
+            border-left: 0;
+            border-right: 0;
+        }
 
-/* Ảnh cố định */
-.latest-news-scroll .latest-news-thumb {
-    flex: 0 0 70px;
-    width: 70px;
-    height: 72px;
-    overflow: hidden;
-    border-radius: 5px;
-    background: #edf3f8;
-}
+        /* Ảnh cố định */
+        .latest-news-scroll .latest-news-thumb {
+            flex: 0 0 70px;
+            width: 70px;
+            height: 72px;
+            overflow: hidden;
+            border-radius: 5px;
+            background: #edf3f8;
+        }
 
-.latest-news-scroll .latest-news-thumb img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-}
+        .latest-news-scroll .latest-news-thumb img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
 
-/* Nội dung không làm tràn khung */
-.latest-news-scroll .latest-news-info {
-    min-width: 0;
-    flex: 1 1 auto;
-    padding-left: 10px;
-}
+        /* Nội dung không làm tràn khung */
+        .latest-news-scroll .latest-news-info {
+            min-width: 0;
+            flex: 1 1 auto;
+            padding-left: 10px;
+        }
 
-/* Thanh cuộn Chrome và Edge */
-.latest-news-scroll::-webkit-scrollbar {
-    width: 9px;
-}
+        /* Thanh cuộn Chrome và Edge */
+        .latest-news-scroll::-webkit-scrollbar {
+            width: 9px;
+        }
 
-.latest-news-scroll::-webkit-scrollbar-track {
-    background: #edf3f8;
-}
+        .latest-news-scroll::-webkit-scrollbar-track {
+            background: #edf3f8;
+        }
 
-.latest-news-scroll::-webkit-scrollbar-thumb {
-    border: 2px solid #edf3f8;
-    border-radius: 999px;
-    background: #6fa4cc;
-}
+        .latest-news-scroll::-webkit-scrollbar-thumb {
+            border: 2px solid #edf3f8;
+            border-radius: 999px;
+            background: #6fa4cc;
+        }
 
-.latest-news-scroll::-webkit-scrollbar-thumb:hover {
-    background: #2875aa;
-}
+        .latest-news-scroll::-webkit-scrollbar-thumb:hover {
+            background: #2875aa;
+        }
 
-/* Firefox */
-.latest-news-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: #6fa4cc #edf3f8;
-}
+        /* Firefox */
+        .latest-news-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #6fa4cc #edf3f8;
+        }
 
-@media (max-width: 991.98px) {
-    .latest-news-card {
-        height: 470px !important;
-        min-height: 470px !important;
-        max-height: 470px !important;
-    }
-}
+        @media (max-width: 991.98px) {
+            .latest-news-card {
+                height: 470px !important;
+                min-height: 470px !important;
+                max-height: 470px !important;
+            }
+        }
 
-@media (max-width: 576px) {
-    .latest-news-card {
-        height: 420px !important;
-        min-height: 420px !important;
-        max-height: 420px !important;
-    }
-}
+        @media (max-width: 576px) {
+            .latest-news-card {
+                height: 420px !important;
+                min-height: 420px !important;
+                max-height: 420px !important;
+            }
+        }
 
+        /* ==================================================
+   THÔNG BÁO VÀ BANNER TUYÊN TRUYỀN
+   ================================================== */
+
+        .homepage-secondary-row {
+            --secondary-box-height: 650px;
+        }
+
+        .homepage-secondary-row>div {
+            min-width: 0;
+        }
+
+        /* Hai khung bằng nhau */
+        .homepage-notice-card,
+        .homepage-propaganda-card {
+            width: 100%;
+            height: var(--secondary-box-height);
+            min-height: var(--secondary-box-height);
+
+            overflow: hidden;
+            border: 1px solid #cbddea;
+            border-radius: 7px;
+            background: #ffffff;
+
+            box-shadow: 0 3px 10px rgba(7, 87, 158, 0.08);
+        }
+
+        /* ================= THÔNG BÁO ================= */
+
+        .homepage-notice-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .homepage-notice-header {
+            flex: 0 0 38px;
+            min-height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+
+            padding: 0 12px;
+
+            background: linear-gradient(135deg,
+                    #075da8 0%,
+                    #1681cc 100%);
+        }
+
+        .homepage-notice-heading {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+        }
+
+        .homepage-notice-icon {
+            font-size: 13px;
+        }
+
+        .homepage-notice-view-all {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .homepage-notice-view-all:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        .homepage-notice-scroll {
+            flex: 1 1 auto;
+            min-height: 0;
+
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            overscroll-behavior: contain;
+            background: #ffffff;
+        }
+
+        .homepage-notice-item {
+            min-height: 32px;
+
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 10px;
+
+            border-bottom: 1px solid #e1ebf3;
+            color: #243747;
+
+            font-size: 11px;
+            line-height: 1.35;
+            text-decoration: none;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .homepage-notice-item:last-child {
+            border-bottom: 0;
+        }
+
+        .homepage-notice-item:hover {
+            color: #075da8;
+            background: #f0f8fe;
+        }
+
+        .homepage-notice-bullet {
+            flex: 0 0 6px;
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+            background: #1681cc;
+        }
+
+        .homepage-notice-title {
+            min-width: 0;
+            flex: 1 1 auto;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+            font-weight: 600;
+        }
+
+        .homepage-notice-date {
+            flex: 0 0 auto;
+
+            padding: 2px 5px;
+
+            border-radius: 999px;
+            background: #edf6fd;
+
+            color: #607b91;
+            font-size: 9px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .homepage-notice-empty {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            color: #75899a;
+            font-size: 12px;
+        }
+
+        .homepage-notice-empty-icon {
+            font-size: 20px;
+        }
+
+        /* Thanh cuộn Thông báo */
+        .homepage-notice-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .homepage-notice-scroll::-webkit-scrollbar-track {
+            background: #edf3f8;
+        }
+
+        .homepage-notice-scroll::-webkit-scrollbar-thumb {
+            border-radius: 999px;
+            background: #7faed1;
+        }
+
+        .homepage-notice-scroll::-webkit-scrollbar-thumb:hover {
+            background: #3e82b2;
+        }
+
+        .homepage-notice-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: #7faed1 #edf3f8;
+        }
+
+        /* ================= BANNER TUYÊN TRUYỀN ================= */
+
+        .homepage-propaganda-card {
+            position: relative;
+            background: #e9f3fa;
+        }
+
+        .homepage-propaganda-carousel,
+        .homepage-propaganda-carousel .carousel-inner,
+        .homepage-propaganda-carousel .carousel-item,
+        .homepage-propaganda-link {
+            width: 100%;
+            height: 100%;
+        }
+
+        .homepage-propaganda-link {
+            display: block;
+        }
+
+        .homepage-propaganda-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+
+            transition: transform 5s;
+        }
+
+        .homepage-propaganda-carousel .carousel-item.active .homepage-propaganda-image {
+            transform: scale(1.035);
+        }
+
+        .homepage-propaganda-badge {
+            position: absolute;
+            top: 8px;
+            left: 9px;
+
+            padding: 4px 8px;
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 999px;
+
+            background: rgba(0, 77, 137, 0.82);
+            color: #ffffff;
+
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+        }
+
+        .homepage-propaganda-caption {
+            position: absolute;
+            right: 8px;
+            bottom: 7px;
+            left: 8px;
+
+            overflow: hidden;
+            padding: 6px 9px;
+
+            border-radius: 5px;
+
+            background: linear-gradient(90deg,
+                    rgba(0, 54, 101, 0.9),
+                    rgba(0, 77, 137, 0.68));
+
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+            line-height: 1.3;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .homepage-propaganda-control {
+            width: 34px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .homepage-propaganda-card:hover .homepage-propaganda-control {
+            opacity: 0.88;
+        }
+
+        .homepage-propaganda-control .carousel-control-prev-icon,
+        .homepage-propaganda-control .carousel-control-next-icon {
+            width: 24px;
+            height: 24px;
+
+            border-radius: 50%;
+
+            background-color: rgba(0, 54, 101, 0.75);
+            background-size: 11px;
+        }
+
+        .homepage-propaganda-indicators {
+            right: 8px;
+            bottom: 4px;
+            left: auto;
+
+            width: auto;
+            margin: 0;
+        }
+
+        .homepage-propaganda-indicators [data-bs-target] {
+            width: 6px;
+            height: 6px;
+
+            margin: 0 2px;
+
+            border: 0;
+            border-radius: 50%;
+
+            background-color: rgba(255, 255, 255, 0.65);
+        }
+
+        .homepage-propaganda-indicators .active {
+            background-color: #ffffff;
+        }
+
+        .homepage-propaganda-empty {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 11px;
+
+            background: linear-gradient(135deg,
+                    #edf7ff 0%,
+                    #dceefc 100%);
+
+            color: #07579e;
+        }
+
+        .homepage-propaganda-empty-icon {
+            font-size: 30px;
+        }
+
+        .homepage-propaganda-empty div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .homepage-propaganda-empty strong {
+            font-size: 12px;
+        }
+
+        .homepage-propaganda-empty small {
+            margin-top: 3px;
+            color: #6d8396;
+            font-size: 9px;
+        }
+
+        /* Responsive */
+        @media (max-width: 767.98px) {
+            .homepage-secondary-row {
+                --secondary-box-height: 140px;
+            }
+
+            .homepage-secondary-row>div+div {
+                margin-top: 8px;
+            }
+        }
+
+
+        /* ===== DANH SÁCH THÔNG BÁO TRANG CHỦ ===== */
+
+        .homepage-notice-scroll {
+            width: 100%;
+            flex: 1 1 auto;
+            min-height: 0;
+
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            background: #ffffff;
+        }
+
+        .notice-box-item {
+            width: 100%;
+            min-height: 42px;
+
+            display: flex !important;
+            align-items: center;
+            gap: 8px;
+
+            padding: 9px 10px;
+
+            border-bottom: 1px solid #dce8f1;
+            background: #ffffff;
+
+            color: #172b3d !important;
+            text-decoration: none !important;
+        }
+
+        .notice-box-item:hover {
+            background: #f1f8fe;
+        }
+
+        .notice-box-bullet {
+            width: 6px;
+            height: 6px;
+            flex: 0 0 6px;
+
+            display: block;
+            border-radius: 50%;
+            background: #0873bd;
+        }
+
+        .notice-box-title {
+            min-width: 0;
+            flex: 1 1 auto;
+
+            display: -webkit-box !important;
+            overflow: hidden;
+
+            color: #172b3d !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1.4 !important;
+
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .notice-box-item:hover .notice-box-title {
+            color: #075da8 !important;
+        }
+
+        .notice-box-date {
+            flex: 0 0 auto;
+
+            padding: 3px 6px;
+            border-radius: 999px;
+            background: #edf6fd;
+
+            color: #61798c !important;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* ==================================================
+   SLIDER BANNER TUYÊN TRUYỀN
+   Trượt từ phải sang trái, tự đổi mỗi 3 giây
+   ================================================== */
+
+        .homepage-propaganda-carousel {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Thời gian chuyển động của mỗi lần trượt */
+        .homepage-propaganda-carousel .carousel-item {
+            height: 100%;
+            transition: transform 3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backface-visibility: hidden;
+            will-change: transform;
+        }
+
+        /*
+Bootstrap Carousel:
+- Slide kế tiếp bắt đầu bên phải
+- Khi chạy sẽ di chuyển sang trái
+*/
+        .homepage-propaganda-carousel .carousel-item-next:not(.carousel-item-start) {
+            transform: translateX(100%);
+        }
+
+        .homepage-propaganda-carousel .active.carousel-item-start {
+            transform: translateX(-100%);
+        }
+
+        .homepage-propaganda-carousel .carousel-item-prev:not(.carousel-item-end) {
+            transform: translateX(-100%);
+        }
+
+        .homepage-propaganda-carousel .active.carousel-item-end {
+            transform: translateX(100%);
+        }
+
+        .homepage-propaganda-carousel .carousel-inner,
+        .homepage-propaganda-carousel .carousel-item,
+        .homepage-propaganda-link {
+            width: 100%;
+            height: 100%;
+        }
+
+        .homepage-propaganda-link {
+            display: block;
+            overflow: hidden;
+        }
+
+
+
+        /* Phóng nhẹ ảnh trong lúc đang hiển thị */
+        .homepage-propaganda-carousel .carousel-item.active .homepage-propaganda-image {
+            transform: scale(1.025);
+        }
+
+
+        /* ==================================================
+   TIÊU ĐỀ BÀI NỔI BẬT TRONG KHỐI CHUYÊN MỤC
+   Đồng bộ với tiêu đề trong box Thông báo
+   ================================================== */
+
+        .category-featured-article {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .category-featured-image-wrap {
+            position: relative;
+            width: 100%;
+            height: 145px;
+            overflow: hidden;
+            background: #edf4f9;
+        }
+
+        .category-featured-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .category-featured-image-placeholder {
+            position: absolute;
+            inset: 0;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(135deg,
+                    #edf6fd 0%,
+                    #dcecf8 100%);
+
+            color: #2879af;
+            font-size: 30px;
+        }
+
+        /* Hàng tiêu đề giống box Thông báo */
+        .category-featured-title-row {
+            width: 100%;
+            min-height: 48px;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 9px 10px;
+
+            border-bottom: 1px solid #dce8f1;
+            background: #ffffff;
+
+            transition:
+                background-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .category-featured-article:hover .category-featured-title-row {
+            background: #f1f8fe;
+        }
+
+        .category-featured-bullet {
+            width: 6px;
+            height: 6px;
+            flex: 0 0 6px;
+
+            border-radius: 50%;
+            background: #0873bd;
+        }
+
+        .category-featured-title {
+            min-width: 0;
+            flex: 1 1 auto;
+
+            display: -webkit-box;
+            overflow: hidden;
+
+            color: #172b3d;
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.4;
+
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .category-featured-article:hover .category-featured-title {
+            color: #075da8;
+        }
+
+        .category-featured-date {
+            flex: 0 0 auto;
+
+            padding: 3px 6px;
+            border-radius: 999px;
+            background: #edf6fd;
+
+            color: #61798c;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 576px) {
+            .category-featured-image-wrap {
+                height: 130px;
+            }
+
+            .category-featured-title {
+                font-size: 12px;
+            }
+        }
+
+
+        /* ==================================================
+   MENU CHÍNH HIỆN ĐẠI
+   ================================================== */
+
+        .portal-nav {
+            width: 100%;
+            padding: 0;
+            background: transparent;
+        }
+
+        .portal-nav .container {
+            max-width: var(--portal-width, 1200px);
+        }
+
+        .portal-nav-bar {
+            width: 100%;
+            min-height: 54px;
+
+            display: flex;
+            align-items: stretch;
+
+            background: linear-gradient(135deg,
+                    #075aa5 0%,
+                    #0872be 55%,
+                    #0665ad 100%);
+
+            border-bottom: 3px solid #f2b323;
+            box-shadow: 0 4px 12px rgba(4, 65, 115, 0.14);
+        }
+
+        /* Khối collapse chiếm hết chiều rộng */
+        .portal-nav .navbar-collapse {
+            width: 100%;
+        }
+
+        /* Danh sách menu */
+        .portal-menu-list {
+            width: 100%;
+
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+
+            margin: 0;
+            padding: 0;
+
+            overflow-x: auto;
+            overflow-y: hidden;
+
+            scrollbar-width: none;
+        }
+
+        .portal-menu-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Mỗi mục menu */
+        .portal-menu-list .nav-item {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+        }
+
+        /* Chữ menu */
+        .portal-menu-list .portal-menu-link {
+            position: relative;
+
+            min-height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0 17px !important;
+
+            color: rgba(255, 255, 255, 0.95) !important;
+
+            font-family:
+                "Segoe UI",
+                "Inter",
+                "Roboto",
+                Arial,
+                sans-serif;
+
+            font-size: 15px;
+            font-weight: 650;
+            line-height: 1.25;
+            letter-spacing: 0.05px;
+
+            text-align: center;
+            text-decoration: none;
+            white-space: nowrap;
+
+            transition:
+                color 0.22s ease,
+                background-color 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        /* Vạch phân cách giữa các mục */
+        .portal-menu-list .nav-item+.nav-item::before {
+            content: "";
+
+            position: absolute;
+            top: 15px;
+            bottom: 15px;
+            left: 0;
+
+            width: 1px;
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        /* Gạch vàng bên dưới */
+        .portal-menu-list .portal-menu-link::after {
+            content: "";
+
+            position: absolute;
+            right: 18px;
+            bottom: 6px;
+            left: 18px;
+
+            height: 3px;
+
+            border-radius: 999px;
+            background: linear-gradient(90deg,
+                    #ffd66b,
+                    #f3ae19);
+
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: center;
+
+            transition:
+                opacity 0.22s ease,
+                transform 0.22s ease;
+        }
+
+        /* Chữ dịch nhẹ khi rê chuột */
+        .portal-menu-link span {
+            display: inline-block;
+
+            transition:
+                transform 0.22s ease,
+                text-shadow 0.22s ease;
+        }
+
+        .portal-menu-link:hover span {
+            transform: translateY(-1px);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+        }
+
+        /* Hover */
+        .portal-menu-list .portal-menu-link:hover,
+        .portal-menu-list .portal-menu-link:focus {
+            color: #ffffff !important;
+
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .portal-menu-list .portal-menu-link:hover::after,
+        .portal-menu-list .portal-menu-link:focus::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        /* Mục đang mở */
+        .portal-menu-list .portal-menu-link.active {
+            color: #ffffff !important;
+            font-weight: 750;
+
+            background: linear-gradient(180deg,
+                    rgba(0, 55, 103, 0.28),
+                    rgba(0, 50, 94, 0.4));
+        }
+
+        .portal-menu-list .portal-menu-link.active::after {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        /* Nút mở menu trên điện thoại */
+        .portal-navbar-toggler {
+            margin: 7px 10px;
+            padding: 6px 9px;
+
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 6px;
+
+            background: #ffffff;
+            box-shadow: none;
+        }
+
+        .portal-navbar-toggler:focus {
+            box-shadow: 0 0 0 3px rgba(255, 214, 107, 0.3);
+        }
+
+        /* Màn hình vừa */
+        @media (max-width: 1199.98px) {
+            .portal-menu-list {
+                justify-content: flex-start;
+            }
+
+            .portal-menu-list .portal-menu-link {
+                padding: 0 13px !important;
+                font-size: 13px;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 991.98px) {
+            .portal-nav-bar {
+                min-height: 50px;
+                display: block;
+            }
+
+            .portal-nav .navbar-collapse {
+                border-top: 1px solid rgba(255, 255, 255, 0.16);
+            }
+
+            .portal-menu-list {
+                display: block;
+                width: 100%;
+                padding: 5px 0 8px;
+            }
+
+            .portal-menu-list .nav-item {
+                width: 100%;
+                display: block;
+            }
+
+            .portal-menu-list .nav-item+.nav-item::before {
+                top: 0;
+                right: 14px;
+                bottom: auto;
+                left: 14px;
+
+                width: auto;
+                height: 1px;
+            }
+
+            .portal-menu-list .portal-menu-link {
+                width: 100%;
+                min-height: 44px;
+
+                justify-content: flex-start;
+
+                padding: 0 18px !important;
+
+                font-size: 13px;
+                text-align: left;
+            }
+
+            .portal-menu-list .portal-menu-link::after {
+                top: 10px;
+                right: auto;
+                bottom: 10px;
+                left: 6px;
+
+                width: 3px;
+                height: auto;
+
+                transform: scaleY(0);
+            }
+
+            .portal-menu-list .portal-menu-link:hover::after,
+            .portal-menu-list .portal-menu-link:focus::after,
+            .portal-menu-list .portal-menu-link.active::after {
+                transform: scaleY(1);
+            }
+
+            .portal-menu-link:hover span {
+                transform: translateX(3px);
+            }
+        }
     </style>
 </head>
 
@@ -3076,27 +3983,53 @@
     <nav class="navbar navbar-expand-lg portal-nav">
         <div class="container px-0">
             <div class="portal-nav-bar">
-                <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse"
+                <button class="navbar-toggler portal-navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#frontendNavbar" aria-controls="frontendNavbar" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                    aria-label="Mở menu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="frontendNavbar">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link px-3" href="{{ route('home') }}">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.introduction') }}">Giới
-                                thiệu</a></li>
+                    <ul class="navbar-nav portal-menu-list">
+                        {{-- Trang chủ --}}
+                        <li class="nav-item">
+                            <a class="nav-link portal-menu-link
+                                {{ request()->routeIs('home') ? 'active' : '' }}"
+                                href="{{ route('home') }}"
+                                @if (request()->routeIs('home')) aria-current="page" @endif>
+                                <span>Trang chủ</span>
+                            </a>
+                        </li>
+
+                        {{-- Giới thiệu --}}
+                        <li class="nav-item">
+                            <a class="nav-link portal-menu-link
+                                {{ request()->routeIs('frontend.introduction') ? 'active' : '' }}"
+                                href="{{ route('frontend.introduction') }}"
+                                @if (request()->routeIs('frontend.introduction')) aria-current="page" @endif>
+                                <span>Giới thiệu</span>
+                            </a>
+                        </li>
+
+                        {{-- Trang giới thiệu tĩnh nếu có --}}
                         @if ($introPage)
                             <li class="nav-item">
-                                <a class="nav-link px-3"
-                                    href="{{ route('frontend.pages.show', $introPage->slug) }}">{{ $introPage->title }}</a>
+                                <a class="nav-link portal-menu-link
+                                    {{ request()->url() === route('frontend.pages.show', $introPage->slug) ? 'active' : '' }}"
+                                    href="{{ route('frontend.pages.show', $introPage->slug) }}">
+                                    <span>{{ $introPage->title }}</span>
+                                </a>
                             </li>
                         @endif
 
+                        {{-- Các chuyên mục đang hoạt động --}}
                         @foreach ($frontendMenuCategories as $category)
                             <li class="nav-item">
-                                <a class="nav-link px-3"
-                                    href="{{ route('frontend.categories.show', $category->slug) }}">{{ $category->name }}</a>
+                                <a class="nav-link portal-menu-link
+                                    {{ request()->url() === route('frontend.categories.show', $category->slug) ? 'active' : '' }}"
+                                    href="{{ route('frontend.categories.show', $category->slug) }}">
+                                    <span>{{ $category->name }}</span>
+                                </a>
                             </li>
                         @endforeach
                     </ul>
@@ -3104,6 +4037,7 @@
             </div>
         </div>
     </nav>
+
 
     <main class="py-2">
         @yield('content')

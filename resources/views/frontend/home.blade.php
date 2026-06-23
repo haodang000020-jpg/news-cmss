@@ -466,7 +466,7 @@
 
                     @if ($workScheduleBanners->isNotEmpty())
                         @if ($workScheduleBanners->count() > 1)
-                            <div id="workScheduleBanner" class="carousel slide work-schedule-banner mt-4"
+                            <div id="workScheduleBanner" class="carousel slide work-schedule-banner mt-0"
                                 data-bs-ride="carousel" data-bs-interval="4500" data-bs-pause="hover"
                                 data-bs-touch="true">
                                 <div class="carousel-inner">
@@ -500,7 +500,7 @@
                             </div>
                         @else
                             @php($banner = $workScheduleBanners->first())
-                            <div class="work-schedule-banner mt-4">
+                            <div class="work-schedule-banner mt-0">
                                 @if ($banner->link)
                                     <a href="{{ $banner->link }}" target="_blank" rel="noopener">
                                         <img src="{{ asset('storage/' . $banner->image) }}"
@@ -513,6 +513,132 @@
                             </div>
                         @endif
                     @endif
+
+                    {{-- Thông báo và banner tuyên truyền --}}
+                    <div class="row g-2 mt-0 homepage-secondary-row">
+                        {{-- Thông báo --}}
+                        <div class="col-md-6 d-flex">
+                            <div class="homepage-notice-card">
+                                <div class="homepage-notice-header">
+                                    <span class="homepage-notice-heading">
+                                        <span class="homepage-notice-icon">🔔</span>
+                                        {{ mb_strtoupper($noticeCategory?->name ?? 'Thông báo', 'UTF-8') }}
+                                    </span>
+
+                                    @if ($noticeCategory)
+                                        <a href="{{ route('frontend.categories.show', $noticeCategory->slug) }}"
+                                            class="homepage-notice-view-all">
+                                            Xem tất cả
+                                        </a>
+                                    @endif
+                                </div>
+
+                                <div class="homepage-notice-scroll">
+
+                                    @forelse (($noticeArticles ?? collect()) as $noticeArticle)
+                                        <a href="{{ route('frontend.articles.show', $noticeArticle->slug) }}"
+                                            class="notice-box-item" title="{{ $noticeArticle->title }}">
+                                            <span class="notice-box-bullet"></span>
+
+                                            <span class="notice-box-title">
+                                                {{ $noticeArticle->title }}
+                                            </span>
+
+                                            <span class="notice-box-date">
+                                                {{ ($noticeArticle->published_at ?? $noticeArticle->created_at)->format('d/m') }}
+                                            </span>
+                                        </a>
+                                    @empty
+                                        <div class="homepage-notice-empty">
+                                            <span>📄</span>
+                                            <span>Chưa có thông báo mới.</span>
+                                        </div>
+                                    @endforelse
+
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Banner tuyên truyền --}}
+                        <div class="col-md-6 d-flex">
+                            <div class="homepage-propaganda-card">
+                                @if (($propagandaBanners ?? collect())->isNotEmpty())
+
+                                    <div id="propagandaBannerCarousel" class="carousel slide homepage-propaganda-carousel"
+                                        data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="hover"
+                                        data-bs-touch="true" data-bs-wrap="true">
+
+                                        <div class="carousel-inner h-100">
+                                            @foreach ($propagandaBanners ?? collect() as $banner)
+                                                <div class="carousel-item h-100 {{ $loop->first ? 'active' : '' }}">
+                                                    @if ($banner->link)
+                                                        <a href="{{ $banner->link }}" target="_blank"
+                                                            rel="noopener noreferrer" class="homepage-propaganda-link">
+                                                            <img src="{{ asset('storage/' . $banner->image) }}"
+                                                                class="homepage-propaganda-image"
+                                                                alt="{{ $banner->title }}">
+                                                        </a>
+                                                    @else
+                                                        <img src="{{ asset('storage/' . $banner->image) }}"
+                                                            class="homepage-propaganda-image" alt="{{ $banner->title }}">
+                                                    @endif
+
+                                                    <span class="homepage-propaganda-badge">
+                                                        TUYÊN TRUYỀN
+                                                    </span>
+
+                                                    @if ($banner->title)
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        @if (($propagandaBanners ?? collect())->count() > 1)
+                                            <button class="carousel-control-prev homepage-propaganda-control"
+                                                type="button" data-bs-target="#propagandaBannerCarousel"
+                                                data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+
+                                                <span class="visually-hidden">
+                                                    Banner trước
+                                                </span>
+                                            </button>
+
+                                            <button class="carousel-control-next homepage-propaganda-control"
+                                                type="button" data-bs-target="#propagandaBannerCarousel"
+                                                data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+
+                                                <span class="visually-hidden">
+                                                    Banner tiếp theo
+                                                </span>
+                                            </button>
+
+                                            <div class="carousel-indicators homepage-propaganda-indicators">
+                                                @foreach ($propagandaBanners ?? collect() as $banner)
+                                                    <button type="button" data-bs-target="#propagandaBannerCarousel"
+                                                        data-bs-slide-to="{{ $loop->index }}"
+                                                        class="{{ $loop->first ? 'active' : '' }}"
+                                                        aria-current="{{ $loop->first ? 'true' : 'false' }}"
+                                                        aria-label="Banner {{ $loop->iteration }}"></button>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
+                                @else
+                                    <div class="homepage-propaganda-empty">
+                                        <span class="homepage-propaganda-empty-icon">📢</span>
+
+                                        <div>
+                                            <strong>BANNER TUYÊN TRUYỀN</strong>
+                                            <small>Chưa có banner đang hoạt động.</small>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="col-lg-4">
@@ -628,41 +754,8 @@
                 </div>
             @endforeach
 
-            <div class="col-lg-4">
-                <div class="portal-sidebar-box">
-                    <div class="d-flex justify-content-between align-items-center portal-section-title">
-                        <span>Thông báo</span>
-                        @if ($noticeCategory)
-                            <a href="{{ route('frontend.categories.show', $noticeCategory->slug) }}"
-                                class="small text-white text-decoration-none">Xem thêm</a>
-                        @endif
-                    </div>
-                    <div class="box-body">
-                        @php($noticeLead = $noticeArticles->first())
-                        @if ($noticeLead)
-                            @if ($noticeLead->thumbnail)
-                                <img src="{{ asset('storage/' . $noticeLead->thumbnail) }}" class="featured-image mb-3"
-                                    alt="{{ $noticeLead->title }}">
-                            @endif
-                            <h3 class="h6">
-                                <a class="text-dark text-decoration-none"
-                                    href="{{ route('frontend.articles.show', $noticeLead->slug) }}">{{ $noticeLead->title }}</a>
-                            </h3>
-                            <div class="small text-muted mb-2">
-                                {{ $noticeLead->published_at?->format('d/m/Y') ?: $noticeLead->created_at->format('d/m/Y') }}
-                            </div>
-                            @foreach ($noticeArticles->skip(1)->take(4) as $article)
-                                <div class="news-list-item">
-                                    <a class="text-dark text-decoration-none"
-                                        href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
-                                </div>
-                            @endforeach
-                        @else
-                            <p class="text-muted mb-0">Chưa có thông báo.</p>
-                        @endif
-                    </div>
-                </div>
-            </div>
+
+        </div>
         </div>
     </section>
     </div>
@@ -693,6 +786,30 @@
             updateHotlineClock();
             setInterval(updateHotlineClock, 1000);
 
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const propagandaCarouselElement =
+                document.getElementById('propagandaBannerCarousel');
+
+            if (
+                !propagandaCarouselElement ||
+                typeof bootstrap === 'undefined'
+            ) {
+                return;
+            }
+
+            const propagandaCarousel =
+                bootstrap.Carousel.getOrCreateInstance(
+                    propagandaCarouselElement, {
+                        interval: 3000,
+                        ride: 'carousel',
+                        pause: 'hover',
+                        wrap: true,
+                        touch: true,
+                    }
+                );
+
+            propagandaCarousel.cycle();
         });
     </script>
 @endsection

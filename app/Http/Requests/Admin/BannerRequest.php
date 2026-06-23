@@ -36,6 +36,8 @@ class BannerRequest extends AbstractFormRequest
                 ...array_keys(Banner::POSITIONS),
                 'work_schedule_banner',
                 'site_header_banner',
+                'home_slider',
+                'propaganda_slider',
             ])],
             'sort_order' => ['required', 'integer'],
             'is_active' => ['required', 'boolean'],
