@@ -1426,7 +1426,7 @@
         /* ===== FOOTER FRONTEND ===== */
         .site-footer {
             background: transparent;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .site-footer>.container {
@@ -1614,7 +1614,7 @@
         .site-links-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px 34px;
+          
         }
 
         .site-link-item {
@@ -1707,7 +1707,7 @@
         /* Footer không được tự co hẹp */
         .site-footer {
             background: transparent !important;
-            margin-top: 32px;
+            margin-top: 5px;
         }
 
         .site-footer-panel {
@@ -1895,7 +1895,7 @@
         }
 
         .summary-tnb {
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.45;
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -4039,7 +4039,7 @@ Bootstrap Carousel:
     </nav>
 
 
-    <main class="py-2">
+    <main class="py-1">
         @yield('content')
     </main>
 
