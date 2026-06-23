@@ -201,42 +201,49 @@
                         </div>
                     </div>
 
-
-                    <div class="list-group shadow-sm latest-news-card latest-news-card-with-thumb">
-                        @forelse ($latestArticles->take(6) as $article)
-                            <a href="{{ route('frontend.articles.show', $article->slug) }}"
-                                class="list-group-item list-group-item-action latest-news-item-with-thumb">
-
-                                <div class="latest-news-thumb">
-                                    @if ($article->thumbnail)
-                                        <img src="{{ asset('storage/' . $article->thumbnail) }}"
-                                            alt="{{ $article->title }}">
-                                    @else
-                                        <div class="latest-news-thumb-placeholder">
-                                            Tin
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="latest-news-info">
-                                    <div class="fw-semibold text-dark latest-news-title">
-                                        {{ $article->title }}
+                    <div class="latest-news-card shadow-sm">
+                        <div class="latest-news-scroll list-group list-group-flush">
+                            @forelse ($latestArticles as $article)
+                                <a href="{{ route('frontend.articles.show', $article->slug) }}"
+                                    class="list-group-item list-group-item-action latest-news-item-with-thumb">
+                                    <div class="latest-news-thumb">
+                                        @if ($article->thumbnail)
+                                            <img src="{{ asset('storage/' . $article->thumbnail) }}"
+                                                alt="{{ $article->title }}">
+                                        @else
+                                            <div class="latest-news-thumb-placeholder">
+                                                Tin
+                                            </div>
+                                        @endif
                                     </div>
 
-                                    <div class="latest-news-time mt-1"> <span class="latest-news-date">
-                                            {{ ($article->published_at ?? $article->created_at)->format('d/m/Y') }}
-                                        </span> <span class="latest-news-time-dot">•</span> <span
-                                            class="article-age latest-news-age"
-                                            data-published-at="{{ ($article->published_at ?? $article->created_at)->toIso8601String() }}"
-                                            title="Đăng lúc {{ ($article->published_at ?? $article->created_at)->format('d/m/Y H:i:s') }}">
-                                            {{ ($article->published_at ?? $article->created_at)->locale('vi')->diffForHumans() }}
-                                        </span> </div>
+                                    <div class="latest-news-info">
+                                        <div class="fw-semibold text-dark latest-news-title">
+                                            {{ $article->title }}
+                                        </div>
+
+                                        <div class="latest-news-time mt-1">
+                                            <span class="latest-news-date">
+                                                {{ ($article->published_at ?? $article->created_at)->format('d/m/Y') }}
+                                            </span>
+
+                                            <span class="latest-news-time-dot">•</span>
+
+                                            <span class="article-age latest-news-age"
+                                                data-published-at="{{ ($article->published_at ?? $article->created_at)->toIso8601String() }}">
+                                                {{ ($article->published_at ?? $article->created_at)->locale('vi')->diffForHumans() }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            @empty
+                                <div class="list-group-item text-muted text-center py-4">
+                                    Chưa có bài viết.
                                 </div>
-                            </a>
-                        @empty
-                            <div class="list-group-item text-muted">Chưa có bài viết.</div>
-                        @endforelse
+                            @endforelse
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="col-lg-3 hotline-column d-flex flex-column">
@@ -368,25 +375,66 @@
                         <h2 class="portal-section-title">LỊCH LÀM VIỆC CỦA PHÒNG VĂN HÓA XÃ HỘI</h2>
                         <div class="p-3">
                             <div class="table-responsive">
-                                <table class="table work-schedule-table mb-3">
+
+                                <table class="table work-schedule-table">
+                                    <colgroup>
+                                        <col class="work-schedule-col-day">
+                                        <col class="work-schedule-col-content">
+                                        <col class="work-schedule-col-session">
+                                        <col class="work-schedule-col-session">
+                                        <col class="work-schedule-col-note">
+                                    </colgroup>
+
                                     <thead>
                                         <tr>
                                             <th>Thứ/ngày</th>
                                             <th>Nội dung công việc</th>
-                                            <th>Buổi sáng</th>
-                                            <th>Buổi chiều</th>
+                                            <th class="work-schedule-session-heading">
+                                                Buổi sáng
+                                            </th>
+                                            <th class="work-schedule-session-heading">
+                                                Buổi chiều
+                                            </th>
                                             <th>Ghi chú</th>
                                         </tr>
                                     </thead>
+
+
+
                                     <tbody>
                                         @forelse (($workSchedules ?? collect()) as $workSchedule)
                                             <tr>
-                                                <th scope="row">{{ $workSchedule->day_name }}</th>
+
+
+                                                <th scope="row" class="work-schedule-day-cell">
+                                                    <strong class="work-schedule-day-name">
+                                                        {{ $workSchedule->day_name }}
+                                                    </strong>
+
+                                                    <span class="work-schedule-date">
+                                                        <span class="work-schedule-date-label">
+                                                            Ngày
+                                                        </span>
+
+                                                        <span class="work-schedule-date-value">
+                                                            {{ now('Asia/Ho_Chi_Minh')->startOfWeek(\Carbon\CarbonInterface::MONDAY)->addDays($loop->index)->format('d/m/Y') }}
+                                                        </span>
+                                                    </span>
+                                                </th>
+
+
+
+
                                                 <td>{{ $workSchedule->is_working_day ? ($workSchedule->title ?: '-') : 'Nghỉ' }}
                                                 </td>
                                                 @if ($workSchedule->is_working_day)
-                                                    <td>{{ $workSchedule->morning_time ?: '-' }}</td>
-                                                    <td>{{ $workSchedule->afternoon_time ?: '-' }}</td>
+                                                    <td class="work-schedule-time-cell">
+                                                        {{ $workSchedule->morning_time ?: '-' }}
+                                                    </td>
+
+                                                    <td class="work-schedule-time-cell">
+                                                        {{ $workSchedule->afternoon_time ?: '-' }}
+                                                    </td>
                                                 @else
                                                     <td>-</td>
                                                     <td>-</td>

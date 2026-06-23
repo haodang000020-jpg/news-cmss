@@ -1323,7 +1323,7 @@
         .latest-news-thumb {
             width: 76px;
             min-width: 76px;
-            height: 58px;
+            height: 73px;
             border-radius: 4px;
             overflow: hidden;
             background: #eef4fb;
@@ -1354,10 +1354,10 @@
         }
 
         .latest-news-title {
-            font-size: 14px;
+            font-size: 13px;
             line-height: 1.35;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -2635,6 +2635,375 @@
                 font-size: 13px;
             }
         }
+
+
+        /* =========================================
+   BẢNG LỊCH LÀM VIỆC
+   ========================================= */
+
+        .work-schedule-table {
+            width: 100%;
+            margin-bottom: 0;
+            table-layout: fixed;
+            border-collapse: collapse;
+        }
+
+        /* Độ rộng từng cột */
+        .work-schedule-table .work-schedule-col-day {
+            width: 120px;
+        }
+
+        .work-schedule-table .work-schedule-col-content {
+            width: 120px;
+        }
+
+        .work-schedule-table .work-schedule-col-session {
+            width: 76px;
+        }
+
+        .work-schedule-table .work-schedule-col-note {
+            width: 120px;
+        }
+
+        /* Tiêu đề bảng */
+        .work-schedule-table thead th {
+            padding: 12px 8px;
+            vertical-align: middle;
+            border-bottom: 1px solid #cbddea;
+            background: #f8fbfe;
+            color: #073f73;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        /* Buổi sáng và Buổi chiều luôn nằm một hàng */
+        .work-schedule-session-heading {
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        /* Các ô nội dung */
+        .work-schedule-table tbody th,
+        .work-schedule-table tbody td {
+            padding: 11px 8px;
+            vertical-align: top;
+            border-bottom: 1px solid #dce8f1;
+            color: #1f2f3e;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+
+        /* Cột thứ và ngày */
+        .work-schedule-day-cell {
+            width: 120px;
+            min-width: 120px;
+            vertical-align: top !important;
+        }
+
+        .work-schedule-day-name {
+            display: block;
+            color: #064b87;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.25;
+            white-space: nowrap;
+        }
+
+        /* Ngày tháng nằm dưới thứ */
+        .work-schedule-date {
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1px;
+
+            margin-top: 6px;
+            padding: 5px 8px;
+
+            border-left: 3px solid #1681cc;
+            border-radius: 0 6px 6px 0;
+
+            background: linear-gradient(135deg,
+                    #edf7ff 0%,
+                    #f7fbff 100%);
+
+            box-shadow: 0 2px 6px rgba(7, 87, 158, 0.08);
+            white-space: nowrap;
+        }
+
+        .work-schedule-date-label {
+            color: #7890a4;
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .work-schedule-date-value {
+            color: #07579e;
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        /* Hai cột giờ */
+        .work-schedule-time-cell {
+            text-align: center;
+            color: #28475f !important;
+            font-size: 13px !important;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Hover nhẹ từng hàng */
+        .work-schedule-table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .work-schedule-table tbody tr:hover {
+            background: #f6fbff;
+        }
+
+        /* Tablet */
+        @media (max-width: 991.98px) {
+            .work-schedule-table .work-schedule-col-day {
+                width: 110px;
+            }
+
+            .work-schedule-table .work-schedule-col-session {
+                width: 72px;
+            }
+
+            .work-schedule-table .work-schedule-col-note {
+                width: 110px;
+            }
+
+            .work-schedule-day-cell {
+                width: 110px;
+                min-width: 110px;
+            }
+
+            .work-schedule-table tbody th,
+            .work-schedule-table tbody td {
+                padding: 9px 6px;
+                font-size: 13px;
+            }
+        }
+
+        /* Điện thoại: cho phép cuộn ngang toàn bảng */
+        @media (max-width: 767.98px) {
+            .work-schedule-table {
+                min-width: 720px;
+            }
+
+            .work-schedule-day-name {
+                font-size: 14px;
+            }
+
+            .work-schedule-date {
+                padding: 4px 7px;
+            }
+
+            .work-schedule-date-value {
+                font-size: 11px;
+            }
+        }
+
+
+        /* ==================================================
+   THANH CUỘN CHO DANH SÁCH TIN MỚI NHẤT
+   ================================================== */
+
+        .latest-news-card {
+            height: 505px;
+            max-height: 505px;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            overscroll-behavior: contain;
+            scrollbar-gutter: stable;
+
+            border: 1px solid #d5e2ed;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        /* Mỗi tin giữ chiều cao tự nhiên, không bị co lại */
+        .latest-news-card .latest-news-item-with-thumb {
+            flex: 0 0 auto;
+            min-height: 88px;
+        }
+
+        /* Thanh cuộn trên Chrome, Edge */
+        .latest-news-card::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        .latest-news-card::-webkit-scrollbar-track {
+            background: #edf3f8;
+            border-radius: 999px;
+        }
+
+        .latest-news-card::-webkit-scrollbar-thumb {
+            border: 2px solid #edf3f8;
+            border-radius: 999px;
+            background: #7faed1;
+        }
+
+        .latest-news-card::-webkit-scrollbar-thumb:hover {
+            background: #397fae;
+        }
+
+        /* Thanh cuộn trên Firefox */
+        .latest-news-card {
+            scrollbar-width: thin;
+            scrollbar-color: #7faed1 #edf3f8;
+        }
+
+        /* Tablet */
+        @media (max-width: 991.98px) {
+            .latest-news-card {
+                height: 460px;
+                max-height: 460px;
+            }
+        }
+
+        /* Điện thoại */
+        @media (max-width: 576px) {
+            .latest-news-card {
+                height: 420px;
+                max-height: 420px;
+            }
+
+            .latest-news-card .latest-news-item-with-thumb {
+                min-height: 82px;
+            }
+        }
+
+    
+/* ==================================================
+   KHUNG CUỘN TIN MỚI NHẤT
+   ================================================== */
+
+.latest-news-column {
+    min-width: 0;
+    min-height: 0;
+}
+
+/* Khung bên ngoài cố định chiều cao */
+.latest-news-card {
+    width: 100%;
+    height: 505px !important;
+    min-height: 542px !important;
+    max-height: 505px !important;
+
+    display: block !important;
+    overflow: hidden !important;
+
+    border: 1px solid #d4e1ec;
+    border-radius: 8px;
+    background: #ffffff;
+
+    box-shadow: 0 4px 14px rgba(7, 87, 158, 0.08);
+}
+
+/* Chỉ phần này được cuộn */
+.latest-news-scroll {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+
+    display: block !important;
+
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+
+/* Không để từng tin bị co chiều cao */
+.latest-news-scroll .latest-news-item-with-thumb {
+    width: 100%;
+    min-height: 92px;
+
+    display: flex !important;
+    align-items: flex-start;
+    flex: none !important;
+
+    padding: 12px 10px;
+    border-left: 0;
+    border-right: 0;
+}
+
+/* Ảnh cố định */
+.latest-news-scroll .latest-news-thumb {
+    flex: 0 0 70px;
+    width: 70px;
+    height: 72px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #edf3f8;
+}
+
+.latest-news-scroll .latest-news-thumb img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+/* Nội dung không làm tràn khung */
+.latest-news-scroll .latest-news-info {
+    min-width: 0;
+    flex: 1 1 auto;
+    padding-left: 10px;
+}
+
+/* Thanh cuộn Chrome và Edge */
+.latest-news-scroll::-webkit-scrollbar {
+    width: 9px;
+}
+
+.latest-news-scroll::-webkit-scrollbar-track {
+    background: #edf3f8;
+}
+
+.latest-news-scroll::-webkit-scrollbar-thumb {
+    border: 2px solid #edf3f8;
+    border-radius: 999px;
+    background: #6fa4cc;
+}
+
+.latest-news-scroll::-webkit-scrollbar-thumb:hover {
+    background: #2875aa;
+}
+
+/* Firefox */
+.latest-news-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #6fa4cc #edf3f8;
+}
+
+@media (max-width: 991.98px) {
+    .latest-news-card {
+        height: 470px !important;
+        min-height: 470px !important;
+        max-height: 470px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .latest-news-card {
+        height: 420px !important;
+        min-height: 420px !important;
+        max-height: 420px !important;
+    }
+}
+
     </style>
 </head>
 
