@@ -1614,7 +1614,7 @@
         .site-links-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-          
+
         }
 
         .site-link-item {
@@ -3911,6 +3911,1051 @@ Bootstrap Carousel:
                 transform: translateX(3px);
             }
         }
+
+        /* =====================================================
+   TIỆN ÍCH SỐ VĨNH BÌNH
+   Prefix riêng: vb-digital-
+===================================================== */
+
+        .vb-digital-panel {
+            --vb-primary: #0868bd;
+            --vb-primary-dark: #075397;
+            --vb-primary-light: #eaf5ff;
+            --vb-border: #d7e8f7;
+            --vb-text: #18334d;
+            --vb-muted: #647b91;
+
+            width: 100%;
+            margin-top: 8px;
+            overflow: hidden;
+
+            border: 1px solid rgba(8, 104, 189, 0.18);
+            border-radius: 12px;
+
+            background:
+                linear-gradient(180deg,
+                    #f7fbff 0%,
+                    #eef7ff 100%);
+
+            box-shadow:
+                0 9px 25px rgba(13, 86, 145, 0.1),
+                0 2px 6px rgba(13, 86, 145, 0.06);
+        }
+
+        /* Header */
+        .vb-digital-header {
+            position: relative;
+
+            min-height: 62px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 10px 13px;
+
+            overflow: hidden;
+
+            color: #ffffff;
+
+            background:
+                radial-gradient(circle at 95% 20%,
+                    rgba(255, 255, 255, 0.21),
+                    transparent 35%),
+                linear-gradient(135deg,
+                    #07579e 0%,
+                    #0875d1 65%,
+                    #0a85dd 100%);
+        }
+
+        .vb-digital-header::after {
+            content: "";
+
+            position: absolute;
+            top: -38px;
+            right: -25px;
+
+            width: 115px;
+            height: 115px;
+
+            border: 22px solid rgba(255, 255, 255, 0.07);
+            border-radius: 50%;
+        }
+
+        .vb-digital-header-icon {
+            position: relative;
+            z-index: 1;
+
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            border-radius: 11px;
+
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(5px);
+        }
+
+        .vb-digital-header-icon svg {
+            width: 22px;
+            height: 22px;
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .vb-digital-header h2 {
+            position: relative;
+            z-index: 1;
+
+            margin: 0;
+
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: 0.2px;
+        }
+
+        .vb-digital-header p {
+            position: relative;
+            z-index: 1;
+
+            margin: 4px 0 0;
+
+            color: rgba(255, 255, 255, 0.84);
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .vb-digital-status {
+            position: relative;
+            z-index: 1;
+
+            margin-left: auto;
+            padding: 4px 8px;
+
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            border-radius: 999px;
+
+            background: rgba(255, 255, 255, 0.13);
+
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* Nội dung */
+        .vb-digital-body {
+            padding: 10px;
+        }
+
+        /* Trợ lý AI */
+        .vb-digital-assistant {
+            position: relative;
+
+            padding: 8px;
+
+            overflow: hidden;
+
+            border: 1px solid var(--vb-border);
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            box-shadow:
+                0 6px 15px rgba(13, 86, 145, 0.07);
+        }
+
+        .vb-digital-assistant::before {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+
+            height: 3px;
+
+            background: linear-gradient(90deg,
+                    #0868bd,
+                    #25a2e9);
+        }
+
+        .vb-digital-assistant-heading {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .vb-digital-robot {
+            width: 43px;
+            height: 43px;
+            flex: 0 0 43px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            color: #0871cc;
+
+            background:
+                linear-gradient(145deg,
+                    #edf7ff,
+                    #dceeff);
+
+            box-shadow:
+                inset 0 0 0 1px rgba(8, 104, 189, 0.1);
+        }
+
+        .vb-digital-robot svg {
+            width: 27px;
+            height: 27px;
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .vb-digital-assistant-text {
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .vb-digital-assistant-text h3 {
+            margin: 0;
+
+            color: #07599f;
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .vb-digital-assistant-text p {
+            margin: 3px 0 0;
+
+            overflow: hidden;
+
+            color: var(--vb-muted);
+            font-size: 10px;
+            line-height: 1.35;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .vb-digital-ai-badge {
+            align-self: flex-start;
+
+            padding: 3px 6px;
+
+            border-radius: 999px;
+
+            background: linear-gradient(135deg,
+                    #e6f4ff,
+                    #d5ecff);
+
+            color: #0871cc;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        /* Ô tìm kiếm */
+        .vb-digital-search {
+            margin-top: 10px;
+
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 7px;
+        }
+
+        .vb-digital-search-field {
+            min-width: 0;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 0 10px;
+
+            border: 1px solid #cfe2f3;
+            border-radius: 8px;
+
+            background: #fbfdff;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background-color 0.2s ease;
+        }
+
+        .vb-digital-search-field:focus-within {
+            border-color: #2887d2;
+            background: #ffffff;
+
+            box-shadow:
+                0 0 0 3px rgba(8, 104, 189, 0.1);
+        }
+
+        .vb-digital-search-field svg {
+            width: 16px;
+            height: 16px;
+            flex: 0 0 16px;
+
+            fill: none;
+            stroke: #6b8ca7;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .vb-digital-search-field input {
+            min-width: 0;
+            width: 100%;
+            height: 100%;
+
+            padding: 0;
+
+            border: 0;
+            outline: none;
+
+            background: transparent;
+
+            color: var(--vb-text);
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+        .vb-digital-search-field input::placeholder {
+            color: #8ba0b2;
+        }
+
+        .vb-digital-assistant-button {
+            height: 38px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+
+            padding: 0 11px;
+
+            border: 0;
+            border-radius: 8px;
+
+            background:
+                linear-gradient(135deg,
+                    #075da8,
+                    #1686dd);
+
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 750;
+            white-space: nowrap;
+
+            box-shadow:
+                0 5px 12px rgba(8, 104, 189, 0.22);
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+        }
+
+        .vb-digital-assistant-button svg {
+            width: 15px;
+            height: 15px;
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .vb-digital-assistant-button:hover {
+            color: #ffffff;
+
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 16px rgba(8, 104, 189, 0.28);
+        }
+
+        .vb-digital-assistant-button:active {
+            transform: translateY(0);
+        }
+
+        /* Câu hỏi gợi ý */
+        .vb-digital-suggestions {
+            margin-top: 8px;
+
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .vb-digital-suggestions>span {
+            color: #8194a5;
+            font-size: 9px;
+            font-weight: 600;
+        }
+
+        .vb-digital-suggestions a {
+            padding: 3px 7px;
+
+            border: 1px solid #d8e9f7;
+            border-radius: 999px;
+
+            background: #f2f8fd;
+
+            color: #41708f;
+            font-size: 9px;
+            font-weight: 600;
+            line-height: 1.2;
+            text-decoration: none;
+
+            transition:
+                color 0.2s ease,
+                border-color 0.2s ease,
+                background-color 0.2s ease;
+        }
+
+        .vb-digital-suggestions a:hover {
+            border-color: #a9d2f2;
+            background: #e6f3fd;
+            color: #075da8;
+        }
+
+        /* Grid tiện ích */
+        .vb-digital-grid {
+            margin-top: 9px;
+
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .vb-digital-item {
+            position: relative;
+
+            min-width: 0;
+            min-height: 69px;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 9px;
+
+            overflow: hidden;
+
+            border: 1px solid var(--vb-border);
+            border-radius: 9px;
+
+            background:
+                linear-gradient(145deg,
+                    #ffffff 0%,
+                    #f8fbfe 100%);
+
+            color: var(--vb-text);
+            text-decoration: none;
+
+            box-shadow:
+                0 3px 9px rgba(13, 86, 145, 0.045);
+
+            transition:
+                border-color 0.22s ease,
+                box-shadow 0.22s ease,
+                transform 0.22s ease,
+                background-color 0.22s ease;
+        }
+
+        .vb-digital-item::after {
+            content: "";
+
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+
+            width: 3px;
+
+            background: linear-gradient(180deg,
+                    #0876cf,
+                    #38abea);
+
+            opacity: 0;
+            transform: scaleY(0.4);
+
+            transition:
+                opacity 0.22s ease,
+                transform 0.22s ease;
+        }
+
+        .vb-digital-item:hover {
+            border-color: #abd5f5;
+
+            background:
+                linear-gradient(145deg,
+                    #ffffff,
+                    #eef8ff);
+
+            color: var(--vb-primary-dark);
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 17px rgba(13, 86, 145, 0.11);
+        }
+
+        .vb-digital-item:hover::after {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        .vb-digital-item-icon {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            color: #0871cc;
+
+            background:
+                linear-gradient(145deg,
+                    #eef8ff,
+                    #deeffd);
+
+            transition:
+                color 0.22s ease,
+                transform 0.22s ease,
+                background-color 0.22s ease;
+        }
+
+        .vb-digital-item:hover .vb-digital-item-icon {
+            color: #ffffff;
+
+            background:
+                linear-gradient(145deg,
+                    #0871cc,
+                    #1a91df);
+
+            transform: scale(1.04);
+        }
+
+        .vb-digital-item-icon svg {
+            width: 21px;
+            height: 21px;
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.65;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .vb-digital-item-content {
+            min-width: 0;
+            flex: 1 1 auto;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vb-digital-item-content strong {
+            overflow: hidden;
+
+            color: #21415e;
+            font-size: 10.5px;
+            font-weight: 750;
+            line-height: 1.25;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .vb-digital-item-content small {
+            margin-top: 3px;
+
+            display: -webkit-box;
+            overflow: hidden;
+
+            color: #708599;
+            font-size: 8.5px;
+            font-weight: 500;
+            line-height: 1.3;
+
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .vb-digital-arrow,
+        .vb-digital-external {
+            flex: 0 0 auto;
+
+            color: #91a8ba;
+            font-size: 16px;
+            font-weight: 500;
+
+            transition:
+                color 0.22s ease,
+                transform 0.22s ease;
+        }
+
+        .vb-digital-item:hover .vb-digital-arrow {
+            color: #0871cc;
+            transform: translateX(2px);
+        }
+
+        .vb-digital-item:hover .vb-digital-external {
+            color: #0871cc;
+            transform: translate(1px, -1px);
+        }
+
+        /* Tablet */
+        @media (max-width: 1199.98px) {
+            .vb-digital-search {
+                grid-template-columns: 1fr;
+            }
+
+            .vb-digital-assistant-button {
+                width: 100%;
+            }
+
+            .vb-digital-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Khi cột rộng trở lại ở màn hình nhỏ */
+        @media (min-width: 576px) and (max-width: 991.98px) {
+            .vb-digital-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .vb-digital-search {
+                grid-template-columns: minmax(0, 1fr) auto;
+            }
+        }
+
+        /* Điện thoại */
+        @media (max-width: 575.98px) {
+            .vb-digital-panel {
+                border-radius: 9px;
+            }
+
+            .vb-digital-header {
+                min-height: 58px;
+            }
+
+            .vb-digital-status {
+                display: none;
+            }
+
+            .vb-digital-body {
+                padding: 8px;
+            }
+
+            .vb-digital-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .vb-digital-item {
+                min-height: 62px;
+            }
+
+            .vb-digital-suggestions {
+                display: none;
+            }
+        }
+
+        /* Hỗ trợ người dùng giảm chuyển động */
+        @media (prefers-reduced-motion: reduce) {
+
+            .vb-digital-item,
+            .vb-digital-item::after,
+            .vb-digital-item-icon,
+            .vb-digital-arrow,
+            .vb-digital-external,
+            .vb-digital-assistant-button {
+                transition: none !important;
+            }
+        }
+
+        /* =====================================================
+   NÂNG CẤP GIAO DIỆN TIỆN ÍCH SỐ
+===================================================== */
+
+        .vb-digital-panel {
+            border: 2px solid rgba(12, 112, 194, 0.32);
+            border-radius: 14px;
+
+            background:
+                linear-gradient(180deg,
+                    #f9fcff 0%,
+                    #edf7ff 100%);
+
+            box-shadow:
+                0 14px 32px rgba(5, 82, 145, 0.15),
+                0 3px 8px rgba(5, 82, 145, 0.08);
+        }
+
+        /* Header lớn và nổi bật hơn */
+        .vb-digital-header {
+            min-height: 72px;
+            padding: 12px 15px;
+        }
+
+        .vb-digital-header-icon {
+            width: 43px;
+            height: 43px;
+            flex-basis: 43px;
+        }
+
+        .vb-digital-header-icon svg {
+            width: 25px;
+            height: 25px;
+        }
+
+        .vb-digital-header h2 {
+            font-size: 17px;
+            font-weight: 850;
+            letter-spacing: 0.3px;
+        }
+
+        .vb-digital-header p {
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+        /* Trạng thái đang nâng cấp */
+        .vb-digital-status.is-upgrading {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+
+            padding: 6px 9px;
+
+            border: 1px solid rgba(255, 218, 125, 0.65);
+            background: rgba(255, 187, 28, 0.2);
+
+            color: #fff5cf;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .vb-digital-status-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+            background: #ffd268;
+
+            box-shadow: 0 0 0 4px rgba(255, 210, 104, 0.16);
+        }
+
+        /* Thông báo nâng cấp */
+        .vb-digital-upgrade-notice {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin: 10px 10px 0;
+            padding: 10px 11px;
+
+            border: 1px solid #f2d28a;
+            border-radius: 10px;
+
+            background:
+                linear-gradient(135deg,
+                    #fffaf0 0%,
+                    #fff3d4 100%);
+
+            color: #6d510d;
+
+            box-shadow:
+                0 4px 10px rgba(165, 113, 0, 0.07);
+        }
+
+        .vb-digital-upgrade-icon {
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+            background: #ffe7ae;
+            color: #b87800;
+        }
+
+        .vb-digital-upgrade-icon svg {
+            width: 20px;
+            height: 20px;
+
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .vb-digital-upgrade-content {
+            min-width: 0;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vb-digital-upgrade-content strong {
+            font-size: 11.5px;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        .vb-digital-upgrade-content small {
+            margin-top: 3px;
+
+            color: #8b702e;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+
+        /* Nội dung có thêm khoảng thở */
+        .vb-digital-body {
+            padding: 10px 11px 12px;
+        }
+
+        /* Khối trợ lý số */
+        .vb-digital-assistant {
+            padding: 13px;
+            border-radius: 11px;
+        }
+
+        .vb-digital-robot {
+            width: 47px;
+            height: 47px;
+            flex-basis: 47px;
+        }
+
+        .vb-digital-robot svg {
+            width: 29px;
+            height: 29px;
+        }
+
+        .vb-digital-assistant-text h3 {
+            font-size: 14.5px;
+            font-weight: 800;
+        }
+
+        .vb-digital-assistant-text p {
+            margin-top: 4px;
+            font-size: 11px;
+        }
+
+        .vb-digital-ai-badge {
+            padding: 4px 7px;
+            font-size: 10px;
+        }
+
+        .vb-digital-search-field {
+            height: 42px;
+        }
+
+        .vb-digital-search-field input {
+            font-size: 12px;
+        }
+
+        .vb-digital-assistant-button {
+            height: 42px;
+            padding: 0 14px;
+
+            font-size: 11.5px;
+            font-weight: 800;
+        }
+
+        .vb-digital-assistant-button:disabled {
+            cursor: not-allowed;
+
+            background:
+                linear-gradient(135deg,
+                    #7ba8ca,
+                    #8ab6d4);
+
+            box-shadow: none;
+            opacity: 0.82;
+        }
+
+        /* Các ô tiện ích lớn hơn */
+        .vb-digital-grid {
+            margin-top: 10px;
+            gap: 8px;
+        }
+
+        .vb-digital-item {
+            min-height: 73px;
+            padding: 11px 9px;
+
+            border-radius: 11px;
+        }
+
+        .vb-digital-item-icon {
+            width: 42px;
+            height: 42px;
+            flex-basis: 42px;
+
+            border-radius: 11px;
+        }
+
+        .vb-digital-item-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .vb-digital-item-content strong {
+            padding-right: 2px;
+
+            color: #163d5e;
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1.3;
+
+            text-overflow: unset;
+            white-space: normal;
+        }
+
+        .vb-digital-item-content small {
+            margin-top: 4px;
+
+            color: #617b91;
+            font-size: 10px;
+            line-height: 1.35;
+        }
+
+        /* Tiện ích đang nâng cấp */
+        .vb-digital-item.is-upgrading {
+            cursor: not-allowed;
+            opacity: 0.82;
+
+            background:
+                linear-gradient(145deg,
+                    #ffffff 0%,
+                    #f2f7fb 100%);
+
+            filter: saturate(0.8);
+        }
+
+        .vb-digital-item.is-upgrading::before {
+            content: "SẮP MỞ";
+
+            position: absolute;
+            top: 5px;
+            right: 6px;
+
+            padding: 2px 5px;
+
+            border: 1px solid #f0cf82;
+            border-radius: 999px;
+
+            background: #fff6df;
+
+            color: #9a6a00;
+            font-size: 7.5px;
+            font-weight: 850;
+            letter-spacing: 0.1px;
+        }
+
+        .vb-digital-item.is-upgrading:hover {
+            border-color: var(--vb-border);
+            color: var(--vb-text);
+
+            transform: none;
+
+            box-shadow:
+                0 3px 9px rgba(13, 86, 145, 0.045);
+        }
+
+        .vb-digital-item.is-upgrading:hover::after {
+            opacity: 0;
+            transform: scaleY(0.4);
+        }
+
+        .vb-digital-item.is-upgrading .vb-digital-arrow,
+        .vb-digital-item.is-upgrading .vb-digital-external {
+            display: none;
+        }
+
+        .vb-digital-item.is-upgrading:hover .vb-digital-item-icon {
+            color: #0871cc;
+
+            background:
+                linear-gradient(145deg,
+                    #eef8ff,
+                    #deeffd);
+
+            transform: none;
+        }
+
+        /* Tablet */
+        @media (max-width: 1199.98px) {
+            .vb-digital-item-content strong {
+                font-size: 11.5px;
+            }
+
+            .vb-digital-item-content small {
+                font-size: 9.5px;
+            }
+        }
+
+        /* Điện thoại */
+        @media (max-width: 575.98px) {
+            .vb-digital-header h2 {
+                font-size: 16px;
+            }
+
+            .vb-digital-upgrade-notice {
+                margin: 8px 8px 0;
+            }
+
+            .vb-digital-item {
+                min-height: 72px;
+            }
+
+            .vb-digital-item-content strong {
+                font-size: 12px;
+            }
+
+            .vb-digital-item-content small {
+                font-size: 10px;
+            }
+        }
+
+        
     </style>
 </head>
 

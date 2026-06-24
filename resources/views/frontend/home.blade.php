@@ -711,52 +711,269 @@
                         </div>
 
                     </div>
-                </div>
-            </div>
-    </div>
-    </section>
 
-    <section>
-        <div class="row g-1">
-            @foreach ($primaryCategories as $category)
-                @php($leadArticle = $category->articles->first())
-                <div class="col-lg-4">
-                    <div class="portal-news-box">
-                        <div class="d-flex justify-content-between align-items-center portal-section-title">
-                            <span>{{ $category->name }}</span>
-                            <a href="{{ route('frontend.categories.show', $category->slug) }}"
-                                class="small text-white text-decoration-none">Xem thêm</a>
+
+
+
+
+                </div>
+
+                {{-- =====================================================
+    TIỆN ÍCH SỐ DÀNH CHO NGƯỜI DÂN
+    Đặt dưới khối liên kết trường học ở cột bên phải
+===================================================== --}}
+                <section class="vb-digital-panel homepage-top-grid" aria-labelledby="vbDigitalPanelTitle">
+                    {{-- ================= HEADER ================= --}}
+                    <div class="vb-digital-header">
+                        <div class="vb-digital-header-icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path
+                                    d="M12 2a2 2 0 0 1 2 2v1h3a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-1.5l-2.2 2.2a1.8 1.8 0 0 1-2.6 0L8.5 19H7a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3h3V4a2 2 0 0 1 2-2Z" />
+                                <circle cx="9" cy="11" r="1.2" />
+                                <circle cx="15" cy="11" r="1.2" />
+                                <path d="M8.5 15c1 .8 2.2 1.2 3.5 1.2s2.5-.4 3.5-1.2" />
+                            </svg>
                         </div>
-                        <div class="box-body">
-                            @if ($leadArticle)
-                                @if ($leadArticle->thumbnail)
-                                    <img src="{{ asset('storage/' . $leadArticle->thumbnail) }}"
-                                        class="featured-image mb-3" alt="{{ $leadArticle->title }}">
-                                @endif
-                                <h3 class="h6">
-                                    <a class="text-dark text-decoration-none"
-                                        href="{{ route('frontend.articles.show', $leadArticle->slug) }}">{{ $leadArticle->title }}</a>
-                                </h3>
-                                <div class="small text-muted mb-2">
-                                    {{ $leadArticle->published_at?->format('d/m/Y') ?: $leadArticle->created_at->format('d/m/Y') }}
+
+                        <div class="vb-digital-header-content">
+                            <h2 id="vbDigitalPanelTitle">
+                                TIỆN ÍCH SỐ
+                            </h2>
+
+                            <p>Dành cho người dân</p>
+                        </div>
+
+                        <span class="vb-digital-status is-upgrading">
+                            <span class="vb-digital-status-dot"></span>
+                            Đang nâng cấp
+                        </span>
+                    </div>
+
+                    {{-- ============= THÔNG BÁO NÂNG CẤP ============= --}}
+
+
+                    {{-- ================= NỘI DUNG ================= --}}
+                    <div class="vb-digital-body">
+                        {{-- Trợ lý số --}}
+                        <div class="vb-digital-assistant">
+                            <div class="vb-digital-assistant-heading">
+                                <div class="vb-digital-robot">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <rect x="4" y="6" width="16" height="13" rx="5" />
+                                        <path d="M12 3v3" />
+                                        <circle cx="9" cy="12" r="1.2" />
+                                        <circle cx="15" cy="12" r="1.2" />
+                                        <path d="M9 16c.9.6 1.9.9 3 .9s2.1-.3 3-.9" />
+                                        <path d="M4 11H2.5M21.5 11H20" />
+                                    </svg>
                                 </div>
-                                @foreach ($category->articles->skip(1)->take(4) as $article)
-                                    <div class="news-list-item">
-                                        <a class="text-dark text-decoration-none"
-                                            href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
-                                    </div>
-                                @endforeach
-                            @else
-                                <p class="text-muted mb-0">Chưa có bài viết.</p>
-                            @endif
+
+                                <div class="vb-digital-assistant-text">
+                                    <h3>Trợ lý số Vĩnh Bình</h3>
+
+                                    <p>
+                                        Hỏi thủ tục, hồ sơ, thời hạn xử lý...
+                                    </p>
+                                </div>
+
+                                <span class="vb-digital-ai-badge">
+                                    AI
+                                </span>
+                            </div>
+
+                            {{-- Chưa dùng form vì chức năng chưa hoạt động --}}
+                            <div class="vb-digital-search">
+                                <label for="vbDigitalQuestion" class="visually-hidden">
+                                    Nội dung cần hỗ trợ
+                                </label>
+
+                                <div class="vb-digital-search-field">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <circle cx="11" cy="11" r="7" />
+                                        <path d="m16.5 16.5 4 4" />
+                                    </svg>
+
+                                    <input id="vbDigitalQuestion" type="text" disabled aria-disabled="true"
+                                        placeholder="Tính năng đang được hoàn thiện">
+                                </div>
+
+                                <button type="button" class="vb-digital-assistant-button" disabled aria-disabled="true"
+                                    title="Chức năng đang được nâng cấp">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path
+                                            d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.7 9.7 0 0 1-4-.9L3 21l1.7-4.4A8.5 8.5 0 1 1 21 11.5Z" />
+                                        <path d="M8 10h8M8 14h5" />
+                                    </svg>
+
+                                    <span>Sắp mở</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {{-- ================= TIỆN ÍCH ================= --}}
+                        <div class="vb-digital-grid">
+                            {{-- Tra cứu thủ tục: chưa hoạt động --}}
+                            <div class="vb-digital-item is-upgrading" role="link" aria-disabled="true"
+                                title="Chức năng đang được nâng cấp">
+                                <span class="vb-digital-item-icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" />
+                                        <path d="M14 2v5h5" />
+                                        <path d="M8 11h5M8 15h4" />
+                                        <circle cx="17" cy="17" r="3" />
+                                        <path d="m19.2 19.2 2 2" />
+                                    </svg>
+                                </span>
+
+                                <span class="vb-digital-item-content">
+                                    <strong>Tra cứu thủ tục</strong>
+                                    <small>Tìm hồ sơ cần chuẩn bị</small>
+                                </span>
+                            </div>
+
+                            {{-- Phản ánh kiến nghị: chưa hoạt động --}}
+                            <div class="vb-digital-item is-upgrading" role="link" aria-disabled="true"
+                                title="Chức năng đang được nâng cấp">
+                                <span class="vb-digital-item-icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M3 11v2a2 2 0 0 0 2 2h2l3 5h3l-2-5 8-3V6L7 10H5a2 2 0 0 0-2 1Z" />
+                                        <path d="M19 9h2M18 5l1-2M18 13l1 2" />
+                                    </svg>
+                                </span>
+
+                                <span class="vb-digital-item-content">
+                                    <strong>Phản ánh kiến nghị</strong>
+                                    <small>Gửi góp ý trực tuyến</small>
+                                </span>
+                            </div>
+
+                            {{-- Tra cứu văn bản: đã hoạt động --}}
+                            <a href="{{ route('frontend.documents.index') }}" class="vb-digital-item"
+                                title="Tra cứu văn bản">
+                                <span class="vb-digital-item-icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M6 2h9l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" />
+                                        <path d="M15 2v5h5" />
+                                        <path d="M8 11h7M8 15h7M8 19h4" />
+                                    </svg>
+                                </span>
+
+                                <span class="vb-digital-item-content">
+                                    <strong>Tra cứu văn bản</strong>
+                                    <small>Tìm số ký hiệu nhanh</small>
+                                </span>
+
+                                <span class="vb-digital-arrow" aria-hidden="true">
+                                    ›
+                                </span>
+                            </a>
+
+                            {{-- Lịch tiếp dân: chưa hoạt động --}}
+                            <div class="vb-digital-item is-upgrading" role="link" aria-disabled="true"
+                                title="Chức năng đang được nâng cấp">
+                                <span class="vb-digital-item-icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <rect x="3" y="5" width="18" height="16" rx="2" />
+                                        <path d="M8 3v4M16 3v4M3 10h18" />
+                                        <path d="M8 14h3M8 17h6" />
+                                    </svg>
+                                </span>
+
+                                <span class="vb-digital-item-content">
+                                    <strong>Lịch tiếp dân</strong>
+                                    <small>Xem lịch làm việc</small>
+                                </span>
+                            </div>
+
+                            {{-- Liên hệ cán bộ: dẫn đến trang giới thiệu --}}
+                            <a href="{{ route('frontend.introduction') }}" class="vb-digital-item"
+                                title="Xem thông tin cán bộ">
+                                <span class="vb-digital-item-icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <circle cx="12" cy="8" r="4" />
+                                        <path d="M4 21a8 8 0 0 1 16 0" />
+                                    </svg>
+                                </span>
+
+                                <span class="vb-digital-item-content">
+                                    <strong>Liên hệ cán bộ</strong>
+                                    <small>Danh bạ và lĩnh vực phụ trách</small>
+                                </span>
+
+                                <span class="vb-digital-arrow" aria-hidden="true">
+                                    ›
+                                </span>
+                            </a>
+
+                            {{-- Dịch vụ công quốc gia --}}
+                            <a href="https://dichvucong.gov.vn/" class="vb-digital-item" target="_blank"
+                                rel="noopener noreferrer" title="Mở Cổng Dịch vụ công quốc gia">
+                                <span class="vb-digital-item-icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <rect x="3" y="4" width="18" height="14" rx="2" />
+                                        <path d="M8 22h8M12 18v4" />
+                                        <circle cx="12" cy="10.5" r="3.5" />
+                                        <path d="M8.5 10.5h7M12 7v7" />
+                                    </svg>
+                                </span>
+
+                                <span class="vb-digital-item-content">
+                                    <strong>Dịch vụ công</strong>
+                                    <small>Truy cập dịch vụ trực tuyến</small>
+                                </span>
+
+                                <span class="vb-digital-external" aria-hidden="true">
+                                    ↗
+                                </span>
+                            </a>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                </section>
+
+            </div>
+        </section>
+
+        <section>
+            <div class="row g-1">
+                @foreach ($primaryCategories as $category)
+                    @php($leadArticle = $category->articles->first())
+                    <div class="col-lg-4">
+                        <div class="portal-news-box">
+                            <div class="d-flex justify-content-between align-items-center portal-section-title">
+                                <span>{{ $category->name }}</span>
+                                <a href="{{ route('frontend.categories.show', $category->slug) }}"
+                                    class="small text-white text-decoration-none">Xem thêm</a>
+                            </div>
+                            <div class="box-body">
+                                @if ($leadArticle)
+                                    @if ($leadArticle->thumbnail)
+                                        <img src="{{ asset('storage/' . $leadArticle->thumbnail) }}"
+                                            class="featured-image mb-3" alt="{{ $leadArticle->title }}">
+                                    @endif
+                                    <h3 class="h6">
+                                        <a class="text-dark text-decoration-none"
+                                            href="{{ route('frontend.articles.show', $leadArticle->slug) }}">{{ $leadArticle->title }}</a>
+                                    </h3>
+                                    <div class="small text-muted mb-2">
+                                        {{ $leadArticle->published_at?->format('d/m/Y') ?: $leadArticle->created_at->format('d/m/Y') }}
+                                    </div>
+                                    @foreach ($category->articles->skip(1)->take(4) as $article)
+                                        <div class="news-list-item">
+                                            <a class="text-dark text-decoration-none"
+                                                href="{{ route('frontend.articles.show', $article->slug) }}">{{ $article->title }}</a>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-muted mb-0">Chưa có bài viết.</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
 
 
-        </div>
-        </div>
+            </div>
+    </div>
     </section>
     </div>
     <script>
