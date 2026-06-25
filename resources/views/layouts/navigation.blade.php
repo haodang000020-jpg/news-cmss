@@ -44,6 +44,18 @@
                 'permission' => 'documents.manage',
             ],
             [
+                'label' => 'Thủ tục hành chính',
+                'route' => 'admin.procedures.index',
+                'active' => 'admin.procedures.*',
+                'permission' => 'procedures.manage',
+            ],
+            [
+                'label' => 'Lĩnh vực thủ tục',
+                'route' => 'admin.procedure-groups.index',
+                'active' => 'admin.procedure-groups.*',
+                'permission' => 'procedures.manage',
+            ],
+            [
                 'label' => 'Trang tĩnh',
                 'route' => 'admin.pages.index',
                 'active' => 'admin.pages.*',
@@ -143,6 +155,15 @@
                             </x-nav-link>
                             <x-nav-link :href="route('admin.document-categories.index')" :active="request()->routeIs('admin.document-categories.*')">
                                 Loại văn bản
+                            </x-nav-link>
+                        @endif
+
+                        @if (Auth::user()?->hasPermissionTo('procedures.manage'))
+                            <x-nav-link :href="route('admin.procedures.index')" :active="request()->routeIs('admin.procedures.*')">
+                                Thủ tục hành chính
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.procedure-groups.index')" :active="request()->routeIs('admin.procedure-groups.*')">
+                                Lĩnh vực thủ tục
                             </x-nav-link>
                         @endif
 
@@ -248,6 +269,15 @@
                     </x-responsive-nav-link>
                 @endif
 
+                @if (Auth::user()?->hasPermissionTo('procedures.manage'))
+                    <x-responsive-nav-link :href="route('admin.procedures.index')" :active="request()->routeIs('admin.procedures.*')">
+                        Thủ tục hành chính
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.procedure-groups.index')" :active="request()->routeIs('admin.procedure-groups.*')">
+                        Lĩnh vực thủ tục
+                    </x-responsive-nav-link>
+                @endif
+
                 @if (Auth::user()?->hasPermissionTo('pages.manage'))
                     <x-responsive-nav-link :href="route('admin.pages.index')" :active="request()->routeIs('admin.pages.*')">
                         Trang tĩnh
@@ -260,7 +290,7 @@
                     </x-responsive-nav-link>
                 @endif
 
-                @if(Route::has('admin.school-links.index') && auth()->user()?->hasPermission('school-links.manage'))
+                @if(Route::has('admin.school-links.index') && auth()->user()?->hasPermissionTo('school-links.manage'))
                     <a href="{{ route('admin.school-links.index') }}"
                     class="admin-nav-link {{ request()->routeIs('admin.school-links.*') ? 'active' : '' }}">
                         Liên kết trường học

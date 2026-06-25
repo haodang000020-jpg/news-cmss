@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WorkScheduleController;
 use App\Http\Controllers\Admin\LookupLinkController;
 use App\Http\Controllers\Admin\OrganizationMemberController;
+use App\Http\Controllers\Admin\ProcedureController;
+use App\Http\Controllers\Admin\ProcedureGroupController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\Frontend\RobotsController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\SitemapController;
 use App\Http\Controllers\Frontend\IntroductionController;
+use App\Http\Controllers\Frontend\ProcedureController as FrontendProcedureController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +43,12 @@ Route::get('/van-ban/{document}/download', [FrontendDocumentController::class, '
     ->name('frontend.documents.download');
 Route::get('/van-ban/{slug}', [FrontendDocumentController::class, 'show'])
     ->name('frontend.documents.show');
+Route::get('/thu-tuc-hanh-chinh', [FrontendProcedureController::class, 'index'])
+    ->name('frontend.procedures.index');
+Route::get('/thu-tuc-hanh-chinh/bieu-mau/{requiredDocument}/tai', [FrontendProcedureController::class, 'downloadForm'])
+    ->name('frontend.procedures.forms.download');
+Route::get('/thu-tuc-hanh-chinh/{slug}', [FrontendProcedureController::class, 'show'])
+    ->name('frontend.procedures.show');
 Route::get('/tim-kiem', SearchController::class)->name('frontend.search');
 
 Route::get('/dashboard', function () {
@@ -86,6 +95,14 @@ Route::prefix('admin')
         Route::resource('documents', DocumentController::class)
             ->except(['show'])
             ->middleware('permission:documents.manage');
+
+        Route::resource('procedure-groups', ProcedureGroupController::class)
+            ->except(['show'])
+            ->middleware('permission:procedures.manage');
+
+        Route::resource('procedures', ProcedureController::class)
+            ->except(['show'])
+            ->middleware('permission:procedures.manage');
 
         Route::resource('pages', PageController::class)
             ->except(['show'])

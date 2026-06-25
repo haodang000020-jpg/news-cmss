@@ -745,7 +745,7 @@
 
                         <span class="vb-digital-status is-upgrading">
                             <span class="vb-digital-status-dot"></span>
-                            Đang nâng cấp
+                            Đang hoàn thiện
                         </span>
                     </div>
 
@@ -812,9 +812,9 @@
 
                         {{-- ================= TIỆN ÍCH ================= --}}
                         <div class="vb-digital-grid">
-                            {{-- Tra cứu thủ tục: chưa hoạt động --}}
-                            <div class="vb-digital-item is-upgrading" role="link" aria-disabled="true"
-                                title="Chức năng đang được nâng cấp">
+                            {{-- Tra cứu thủ tục: đã hoạt động --}}
+                            <a href="{{ route('frontend.procedures.index') }}" class="vb-digital-item"
+                                title="Tra cứu thủ tục hành chính">
                                 <span class="vb-digital-item-icon">
                                     <svg viewBox="0 0 24 24" aria-hidden="true">
                                         <path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" />
@@ -829,7 +829,9 @@
                                     <strong>Tra cứu thủ tục</strong>
                                     <small>Tìm hồ sơ cần chuẩn bị</small>
                                 </span>
-                            </div>
+
+                                <span class="vb-digital-arrow" aria-hidden="true">›</span>
+                            </a>
 
                             {{-- Phản ánh kiến nghị: chưa hoạt động --}}
                             <div class="vb-digital-item is-upgrading" role="link" aria-disabled="true"

@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Document;
 use App\Models\Page;
+use App\Models\Procedure;
 use Illuminate\Http\Response;
 
 class SitemapController extends Controller
@@ -16,6 +17,10 @@ class SitemapController extends Controller
         $urls = [
             [
                 'loc' => route('home'),
+                'lastmod' => now()->format('Y-m-d'),
+            ],
+            [
+                'loc' => route('frontend.procedures.index'),
                 'lastmod' => now()->format('Y-m-d'),
             ],
         ];
@@ -61,6 +66,18 @@ class SitemapController extends Controller
                 $urls[] = [
                     'loc' => route('frontend.pages.show', $page->slug),
                     'lastmod' => $page->updated_at?->format('Y-m-d'),
+                ];
+            });
+
+
+        Procedure::query()
+            ->where('is_active', true)
+            ->whereNotNull('slug')
+            ->get()
+            ->each(function (Procedure $procedure) use (&$urls): void {
+                $urls[] = [
+                    'loc' => route('frontend.procedures.show', $procedure->slug),
+                    'lastmod' => ($procedure->updated_on ?? $procedure->updated_at)?->format('Y-m-d'),
                 ];
             });
 
