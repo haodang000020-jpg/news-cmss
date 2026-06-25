@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="{{ $metaDescription ?? 'Cổng thông tin điện tử Phòng Văn Hóa - Xã Hội' }}">
     <title>{{ ($metaTitle ?? 'Trang chủ') . ' - Phòng Văn Hóa - Xã Hội' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -4955,7 +4956,7 @@ Bootstrap Carousel:
             }
         }
 
-        
+
 
         /* =====================================================
            TRANG TRA CỨU THỦ TỤC HÀNH CHÍNH
@@ -5910,7 +5911,663 @@ Bootstrap Carousel:
             }
         }
 
-    </style>
+
+        /* =====================================================
+           TRỢ LÝ SỐ VĨNH BÌNH - GIAI ĐOẠN 1
+        ===================================================== */
+        .vb-digital-status.is-online {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 8px;
+            border: 1px solid rgba(169, 255, 205, .58);
+            border-radius: 999px;
+            color: #effff5;
+            background: rgba(23, 174, 88, .2);
+            font-size: 9px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .vb-digital-status.is-online .vb-digital-status-dot {
+            width: 7px;
+            height: 7px;
+            background: #70f0a5;
+            box-shadow: 0 0 0 4px rgba(112, 240, 165, .16);
+        }
+
+        .vb-digital-search-field input:not(:disabled) {
+            color: #173a56;
+            cursor: text;
+        }
+
+        .vb-digital-suggestions button {
+            padding: 3px 7px;
+            border: 1px solid #d8e9f7;
+            border-radius: 999px;
+            color: #41708f;
+            background: #f2f8fd;
+            font-family: inherit;
+            font-size: 9px;
+            font-weight: 700;
+            line-height: 1.2;
+            cursor: pointer;
+            transition: border-color .2s ease, background-color .2s ease, color .2s ease;
+        }
+
+        .vb-digital-suggestions button:hover,
+        .vb-digital-suggestions button:focus {
+            border-color: #9ecdf0;
+            color: #075da8;
+            background: #e7f4fd;
+        }
+
+        .digital-assistant-modal .modal-dialog {
+            max-width: 780px;
+        }
+
+        .digital-assistant-modal .modal-content {
+            overflow: hidden;
+            border: 0;
+            border-radius: 1rem;
+            box-shadow: 0 24px 70px rgba(3, 46, 84, .26);
+        }
+
+        .digital-assistant-modal-header {
+            align-items: center;
+            padding: 1rem 1.15rem;
+            border: 0;
+            color: #fff;
+            background:
+                radial-gradient(circle at 92% 15%, rgba(255, 255, 255, .18), transparent 30%),
+                linear-gradient(135deg, #075397 0%, #0876cf 68%, #1b99df 100%);
+        }
+
+        .digital-assistant-modal-brand {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            min-width: 0;
+        }
+
+        .digital-assistant-modal-robot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 46px;
+            height: 46px;
+            flex: 0 0 46px;
+            border: 1px solid rgba(255, 255, 255, .28);
+            border-radius: .85rem;
+            background: rgba(255, 255, 255, .14);
+        }
+
+        .digital-assistant-modal-robot svg {
+            width: 28px;
+            height: 28px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .digital-assistant-modal-brand h2 {
+            margin: 0;
+            font-size: 1.15rem;
+            font-weight: 850;
+        }
+
+        .digital-assistant-modal-brand p {
+            margin: .2rem 0 0;
+            color: rgba(255, 255, 255, .84);
+            font-size: .78rem;
+        }
+
+        .digital-assistant-modal-body {
+            padding: 1rem 1.1rem 1.15rem;
+            background: #f5f9fd;
+        }
+
+        .digital-assistant-form label {
+            display: block;
+            margin-bottom: .45rem;
+            color: #174367;
+            font-size: .84rem;
+            font-weight: 800;
+        }
+
+        .digital-assistant-input-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: .55rem;
+        }
+
+        .digital-assistant-input-row input {
+            min-width: 0;
+            height: 46px;
+            padding: 0 .9rem;
+            border: 1px solid #c9ddeb;
+            border-radius: .7rem;
+            outline: 0;
+            color: #173a56;
+            background: #fff;
+            font-family: inherit;
+            font-size: .92rem;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+
+        .digital-assistant-input-row input:focus {
+            border-color: #2584cf;
+            box-shadow: 0 0 0 4px rgba(8, 104, 189, .1);
+        }
+
+        .digital-assistant-input-row button {
+            min-width: 118px;
+            height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .45rem;
+            padding: 0 1rem;
+            border: 0;
+            border-radius: .7rem;
+            color: #fff;
+            background: linear-gradient(135deg, #075da8, #1686dd);
+            font-family: inherit;
+            font-size: .86rem;
+            font-weight: 800;
+            box-shadow: 0 7px 16px rgba(8, 104, 189, .2);
+        }
+
+        .digital-assistant-input-row button:disabled {
+            cursor: wait;
+            opacity: .75;
+        }
+
+        .digital-assistant-suggestion-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .45rem;
+            margin-top: .7rem;
+        }
+
+        .digital-assistant-suggestion-list button {
+            padding: .4rem .7rem;
+            border: 1px solid #d1e4f3;
+            border-radius: 999px;
+            color: #376986;
+            background: #fff;
+            font-family: inherit;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .digital-assistant-suggestion-list button:hover {
+            border-color: #8fc5ea;
+            color: #075da8;
+            background: #eaf6ff;
+        }
+
+        .digital-assistant-results {
+            margin-top: 1rem;
+        }
+
+        .digital-assistant-empty-state,
+        .digital-assistant-loading,
+        .digital-assistant-alert {
+            border: 1px solid #d8e6f2;
+            border-radius: .8rem;
+            background: #fff;
+        }
+
+        .digital-assistant-empty-state {
+            padding: 1.35rem;
+            text-align: center;
+        }
+
+        .digital-assistant-empty-state > span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin-bottom: .6rem;
+            border-radius: 50%;
+            color: #0a6dbd;
+            background: #e8f4fd;
+            font-size: 1.4rem;
+        }
+
+        .digital-assistant-empty-state strong {
+            display: block;
+            color: #174367;
+            font-size: .92rem;
+        }
+
+        .digital-assistant-empty-state p,
+        .digital-assistant-alert p {
+            margin: .35rem 0 0;
+            color: #6b7f91;
+            font-size: .8rem;
+            line-height: 1.5;
+        }
+
+        .digital-assistant-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .7rem;
+            min-height: 110px;
+            color: #0a64ad;
+            font-size: .86rem;
+        }
+
+        .digital-assistant-loading .spinner-border {
+            width: 1.4rem;
+            height: 1.4rem;
+        }
+
+        .digital-assistant-alert {
+            padding: .75rem .85rem;
+        }
+
+        .digital-assistant-alert strong {
+            color: #174367;
+            font-size: .84rem;
+        }
+
+        .digital-assistant-alert.is-success {
+            border-color: #bfe7cf;
+            background: #f2fbf6;
+        }
+
+        .digital-assistant-alert.is-error {
+            border-color: #f0c7c7;
+            background: #fff6f6;
+        }
+
+        .digital-assistant-alert.is-empty {
+            border-color: #f0dca7;
+            background: #fffaf0;
+        }
+
+        .digital-assistant-result-list {
+            display: grid;
+            gap: .75rem;
+            margin-top: .75rem;
+        }
+
+        .digital-assistant-result-card {
+            padding: .9rem;
+            border: 1px solid #d7e6f2;
+            border-radius: .85rem;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(25, 78, 119, .06);
+        }
+
+        .digital-assistant-result-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: .7rem;
+        }
+
+        .digital-assistant-result-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            flex: 0 0 30px;
+            border-radius: .6rem;
+            color: #fff;
+            background: linear-gradient(135deg, #0868bd, #1a91df);
+            font-size: .78rem;
+            font-weight: 850;
+        }
+
+        .digital-assistant-result-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: .35rem;
+            color: #4b7b9c;
+            font-size: .68rem;
+            font-weight: 750;
+            text-transform: uppercase;
+            letter-spacing: .03em;
+        }
+
+        .digital-assistant-result-code {
+            padding: .15rem .35rem;
+            border-radius: 999px;
+            background: #edf5fb;
+        }
+
+        .digital-assistant-result-card h3 {
+            margin: .28rem 0 0;
+            color: #123f65;
+            font-size: 1rem;
+            font-weight: 830;
+            line-height: 1.35;
+        }
+
+        .digital-assistant-result-card > p {
+            margin: .65rem 0 0;
+            color: #63798c;
+            font-size: .8rem;
+            line-height: 1.55;
+        }
+
+        .digital-assistant-result-facts {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: .5rem;
+            margin-top: .75rem;
+        }
+
+        .digital-assistant-result-facts > span {
+            min-width: 0;
+            padding: .55rem .6rem;
+            border-radius: .65rem;
+            background: #f3f8fc;
+        }
+
+        .digital-assistant-result-facts small,
+        .digital-assistant-result-facts strong {
+            display: block;
+        }
+
+        .digital-assistant-result-facts small {
+            color: #7a8d9d;
+            font-size: .65rem;
+            font-weight: 700;
+        }
+
+        .digital-assistant-result-facts strong {
+            margin-top: .18rem;
+            overflow: hidden;
+            color: #224965;
+            font-size: .73rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .digital-assistant-result-link {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            margin-top: .75rem;
+            color: #0870c4;
+            font-size: .78rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .digital-assistant-result-link:hover {
+            color: #054f8d;
+        }
+
+        .digital-assistant-feedback {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .45rem;
+            margin-top: .8rem;
+            padding: .65rem .75rem;
+            border: 1px solid #d8e6f2;
+            border-radius: .7rem;
+            color: #526f84;
+            background: #fff;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .digital-assistant-feedback button {
+            padding: .3rem .55rem;
+            border: 1px solid #cbddea;
+            border-radius: .5rem;
+            color: #2e6488;
+            background: #f5f9fc;
+            font-family: inherit;
+            font-size: .7rem;
+            font-weight: 750;
+        }
+
+        .digital-assistant-disclaimer {
+            margin: .7rem 0 0;
+            color: #718393;
+            font-size: .7rem;
+            line-height: 1.5;
+        }
+
+        .digital-assistant-result-actions {
+            margin-top: .7rem;
+        }
+
+        .digital-assistant-result-actions a {
+            color: #0868bd;
+            font-size: .78rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .digital-assistant-modal-footer {
+            justify-content: space-between;
+            gap: .75rem;
+            padding: .75rem 1.1rem;
+            border-top: 1px solid #dce8f2;
+            background: #fff;
+        }
+
+        .digital-assistant-modal-footer p {
+            flex: 1 1 360px;
+            margin: 0;
+            color: #718393;
+            font-size: .7rem;
+            line-height: 1.45;
+        }
+
+        .digital-assistant-modal-footer a {
+            color: #0868bd;
+            font-size: .75rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .digital-assistant-page {
+            --assistant-primary: #0868bd;
+            padding-top: 1.25rem;
+            padding-bottom: 2.25rem;
+        }
+
+        .digital-assistant-page-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.25rem;
+            padding: 1.8rem 2rem;
+            border-radius: 1rem;
+            color: #fff;
+            background:
+                radial-gradient(circle at 92% 15%, rgba(255, 255, 255, .17), transparent 30%),
+                linear-gradient(135deg, #075397 0%, #0876cf 65%, #1b99df 100%);
+            box-shadow: 0 14px 34px rgba(7, 83, 151, .16);
+        }
+
+        .digital-assistant-page-kicker {
+            display: inline-block;
+            margin-bottom: .45rem;
+            color: #d8efff;
+            font-size: .72rem;
+            font-weight: 850;
+            letter-spacing: .08em;
+        }
+
+        .digital-assistant-page-hero h1 {
+            margin: 0;
+            font-size: clamp(1.7rem, 3vw, 2.6rem);
+            font-weight: 880;
+        }
+
+        .digital-assistant-page-hero p {
+            max-width: 780px;
+            margin: .7rem 0 0;
+            color: rgba(255, 255, 255, .88);
+            font-size: .94rem;
+            line-height: 1.65;
+        }
+
+        .digital-assistant-page-badge {
+            padding: .5rem .75rem;
+            border: 1px solid rgba(255, 255, 255, .32);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .13);
+            font-size: .75rem;
+            font-weight: 850;
+        }
+
+        .digital-assistant-page-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 310px;
+            gap: 1rem;
+            align-items: start;
+            margin-top: 1rem;
+        }
+
+        .digital-assistant-page-main,
+        .digital-assistant-page-sidebar {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .digital-assistant-page-search-card,
+        .digital-assistant-page-results,
+        .digital-assistant-page-sidebar section,
+        .digital-assistant-page-procedure-link {
+            border: 1px solid #d8e6f2;
+            border-radius: .9rem;
+            background: #fff;
+            box-shadow: 0 6px 20px rgba(25, 78, 119, .07);
+        }
+
+        .digital-assistant-page-search-card,
+        .digital-assistant-page-results,
+        .digital-assistant-page-sidebar section {
+            padding: 1rem;
+        }
+
+        .digital-assistant-page-results {
+            margin-top: 0;
+        }
+
+        .digital-assistant-page-sidebar h2 {
+            margin: 0 0 .7rem;
+            color: #174367;
+            font-size: 1rem;
+            font-weight: 830;
+        }
+
+        .digital-assistant-page-sidebar ul {
+            display: grid;
+            gap: .55rem;
+            margin: 0;
+            padding-left: 1.1rem;
+            color: #62798c;
+            font-size: .8rem;
+            line-height: 1.5;
+        }
+
+        .digital-assistant-page-sidebar p {
+            margin: 0;
+            color: #6f7f8d;
+            font-size: .8rem;
+            line-height: 1.55;
+        }
+
+        .digital-assistant-page-sidebar section.is-warning {
+            border-color: #eedba7;
+            background: #fffaf0;
+        }
+
+        .digital-assistant-page-procedure-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            padding: .85rem 1rem;
+            color: #0868bd;
+            font-size: .82rem;
+            font-weight: 820;
+            text-decoration: none;
+        }
+
+        @media (max-width: 991.98px) {
+            .digital-assistant-page-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .digital-assistant-page-sidebar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .digital-assistant-page-procedure-link {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .vb-digital-status.is-online {
+                display: none;
+            }
+
+            .digital-assistant-modal .modal-dialog {
+                margin: .5rem;
+            }
+
+            .digital-assistant-modal-brand p {
+                display: none;
+            }
+
+            .digital-assistant-input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .digital-assistant-input-row button {
+                width: 100%;
+            }
+
+            .digital-assistant-result-facts {
+                grid-template-columns: 1fr;
+            }
+
+            .digital-assistant-result-facts strong {
+                white-space: normal;
+            }
+
+            .digital-assistant-modal-footer {
+                display: block;
+            }
+
+            .digital-assistant-modal-footer a {
+                display: inline-block;
+                margin-top: .45rem;
+            }
+
+            .digital-assistant-page-hero {
+                align-items: flex-start;
+                padding: 1.35rem;
+            }
+
+            .digital-assistant-page-badge {
+                display: none;
+            }
+
+            .digital-assistant-page-sidebar {
+                grid-template-columns: 1fr;
+            }
+        }
+</style>
 </head>
 
 <body>

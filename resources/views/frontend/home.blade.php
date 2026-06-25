@@ -743,9 +743,9 @@
                             <p>Dành cho người dân</p>
                         </div>
 
-                        <span class="vb-digital-status is-upgrading">
+                        <span class="vb-digital-status is-online">
                             <span class="vb-digital-status-dot"></span>
-                            Đang hoàn thiện
+                            Đang hoạt động
                         </span>
                     </div>
 
@@ -777,12 +777,21 @@
                                 </div>
 
                                 <span class="vb-digital-ai-badge">
-                                    AI
+                                    BETA
                                 </span>
                             </div>
 
-                            {{-- Chưa dùng form vì chức năng chưa hoạt động --}}
-                            <div class="vb-digital-search">
+                            <form
+                                id="digitalAssistantHomeForm"
+                                class="vb-digital-search"
+                                action="{{ route('frontend.digital-assistant.search') }}"
+                                method="POST"
+                                data-assistant-form
+                                data-results-target="#digitalAssistantResults"
+                                data-open-modal="#digitalAssistantModal"
+                            >
+                                @csrf
+
                                 <label for="vbDigitalQuestion" class="visually-hidden">
                                     Nội dung cần hỗ trợ
                                 </label>
@@ -793,19 +802,48 @@
                                         <path d="m16.5 16.5 4 4" />
                                     </svg>
 
-                                    <input id="vbDigitalQuestion" type="text" disabled aria-disabled="true"
-                                        placeholder="Tính năng đang được hoàn thiện">
+                                    <input
+                                        id="vbDigitalQuestion"
+                                        type="text"
+                                        name="question"
+                                        maxlength="250"
+                                        required
+                                        data-assistant-sync-input
+                                        placeholder="Bạn cần tìm thủ tục gì?"
+                                    >
                                 </div>
 
-                                <button type="button" class="vb-digital-assistant-button" disabled aria-disabled="true"
-                                    title="Chức năng đang được nâng cấp">
+                                <button type="submit" class="vb-digital-assistant-button">
                                     <svg viewBox="0 0 24 24" aria-hidden="true">
                                         <path
                                             d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.7 9.7 0 0 1-4-.9L3 21l1.7-4.4A8.5 8.5 0 1 1 21 11.5Z" />
                                         <path d="M8 10h8M8 14h5" />
                                     </svg>
 
-                                    <span>Sắp mở</span>
+                                    <span data-assistant-submit-text>Hỏi ngay</span>
+                                    <span
+                                        class="spinner-border spinner-border-sm d-none"
+                                        data-assistant-spinner
+                                        aria-hidden="true"
+                                    ></span>
+                                </button>
+                            </form>
+
+                            <div class="vb-digital-suggestions">
+                                <span>Gợi ý:</span>
+                                <button
+                                    type="button"
+                                    data-assistant-suggestion="Tôi muốn đăng ký khai sinh cho con"
+                                    data-assistant-form-target="#digitalAssistantHomeForm"
+                                >
+                                    Khai sinh
+                                </button>
+                                <button
+                                    type="button"
+                                    data-assistant-suggestion="Tôi cần giấy xác nhận tình trạng hôn nhân"
+                                    data-assistant-form-target="#digitalAssistantHomeForm"
+                                >
+                                    Xác nhận độc thân
                                 </button>
                             </div>
                         </div>
@@ -932,6 +970,8 @@
                     </div>
                 </section>
 
+                @include('frontend.digital-assistant._modal')
+
             </div>
         </section>
 
@@ -1031,4 +1071,6 @@
             propagandaCarousel.cycle();
         });
     </script>
+
+    @include('frontend.digital-assistant._client')
 @endsection

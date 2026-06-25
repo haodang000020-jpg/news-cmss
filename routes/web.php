@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\SchoolLinkController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\AssistantQueryController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Admin\ProcedureGroupController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
+use App\Http\Controllers\Frontend\DigitalAssistantController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\RobotsController;
@@ -43,6 +45,14 @@ Route::get('/van-ban/{document}/download', [FrontendDocumentController::class, '
     ->name('frontend.documents.download');
 Route::get('/van-ban/{slug}', [FrontendDocumentController::class, 'show'])
     ->name('frontend.documents.show');
+Route::get('/tro-ly-so', [DigitalAssistantController::class, 'index'])
+    ->name('frontend.digital-assistant.index');
+Route::post('/tro-ly-so/tim-kiem', [DigitalAssistantController::class, 'search'])
+    ->middleware('throttle:20,1')
+    ->name('frontend.digital-assistant.search');
+Route::post('/tro-ly-so/phan-hoi', [DigitalAssistantController::class, 'feedback'])
+    ->middleware('throttle:30,1')
+    ->name('frontend.digital-assistant.feedback');
 Route::get('/thu-tuc-hanh-chinh', [FrontendProcedureController::class, 'index'])
     ->name('frontend.procedures.index');
 Route::get('/thu-tuc-hanh-chinh/bieu-mau/{requiredDocument}/tai', [FrontendProcedureController::class, 'downloadForm'])
@@ -102,6 +112,10 @@ Route::prefix('admin')
 
         Route::resource('procedures', ProcedureController::class)
             ->except(['show'])
+            ->middleware('permission:procedures.manage');
+
+        Route::get('assistant-queries', [AssistantQueryController::class, 'index'])
+            ->name('assistant-queries.index')
             ->middleware('permission:procedures.manage');
 
         Route::resource('pages', PageController::class)

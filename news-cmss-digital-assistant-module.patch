@@ -1,0 +1,2192 @@
+diff --git a/app/Http/Controllers/Admin/AssistantQueryController.php b/app/Http/Controllers/Admin/AssistantQueryController.php
+new file mode 100644
+index 0000000..0ad0479
+--- /dev/null
++++ b/app/Http/Controllers/Admin/AssistantQueryController.php
+@@ -0,0 +1,47 @@
++<?php
++
++namespace App\Http\Controllers\Admin;
++
++use App\Http\Controllers\Controller;
++use App\Models\AssistantQuery;
++use Illuminate\Http\Request;
++use Illuminate\View\View;
++
++class AssistantQueryController extends Controller
++{
++    public function index(Request $request): View
++    {
++        $filters = [
++            'search' => trim((string) $request->query('search', '')),
++            'status' => (string) $request->query('status', ''),
++            'feedback' => (string) $request->query('feedback', ''),
++        ];
++
++        $queries = AssistantQuery::query()
++            ->with('matchedProcedure:id,name,slug')
++            ->when($filters['search'] !== '', function ($query) use ($filters): void {
++                $query->where('question', 'like', '%'.$filters['search'].'%');
++            })
++            ->when($filters['status'] === 'resolved', fn ($query) => $query->where('is_resolved', true))
++            ->when($filters['status'] === 'unresolved', fn ($query) => $query->where('is_resolved', false))
++            ->when($filters['feedback'] === 'helpful', fn ($query) => $query->where('is_helpful', true))
++            ->when($filters['feedback'] === 'not_helpful', fn ($query) => $query->where('is_helpful', false))
++            ->when($filters['feedback'] === 'none', fn ($query) => $query->whereNull('is_helpful'))
++            ->latest()
++            ->paginate(25)
++            ->withQueryString();
++
++        $stats = [
++            'total' => AssistantQuery::query()->count(),
++            'resolved' => AssistantQuery::query()->where('is_resolved', true)->count(),
++            'unresolved' => AssistantQuery::query()->where('is_resolved', false)->count(),
++            'not_helpful' => AssistantQuery::query()->where('is_helpful', false)->count(),
++        ];
++
++        return view('admin.assistant-queries.index', [
++            'queries' => $queries,
++            'filters' => $filters,
++            'stats' => $stats,
++        ]);
++    }
++}
+diff --git a/app/Http/Controllers/Frontend/DigitalAssistantController.php b/app/Http/Controllers/Frontend/DigitalAssistantController.php
+new file mode 100644
+index 0000000..b26aa9e
+--- /dev/null
++++ b/app/Http/Controllers/Frontend/DigitalAssistantController.php
+@@ -0,0 +1,124 @@
++<?php
++
++namespace App\Http\Controllers\Frontend;
++
++use App\Http\Controllers\Controller;
++use App\Http\Requests\Frontend\DigitalAssistantSearchRequest;
++use App\Models\AssistantQuery;
++use App\Services\ProcedureSearchService;
++use Illuminate\Http\JsonResponse;
++use Illuminate\Http\Request;
++use Illuminate\Support\Str;
++use Illuminate\View\View;
++
++class DigitalAssistantController extends Controller
++{
++    public function index(Request $request): View
++    {
++        return view('frontend.digital-assistant.index', [
++            'initialQuestion' => trim((string) $request->query('q', '')),
++            'metaTitle' => 'Trợ lý số Vĩnh Bình',
++            'metaDescription' => 'Tra cứu nhanh thủ tục hành chính từ dữ liệu do cơ quan quản trị cập nhật.',
++        ]);
++    }
++
++    public function search(
++        DigitalAssistantSearchRequest $request,
++        ProcedureSearchService $searchService
++    ): JsonResponse {
++        $question = (string) $request->validated('question');
++
++        if ($this->containsSensitiveData($question)) {
++            return response()->json([
++                'message' => 'Vui lòng không nhập số CCCD, số tài khoản, mã OTP, mật khẩu hoặc thông tin cá nhân nhạy cảm.',
++                'results' => [],
++            ], 422);
++        }
++
++        $results = $searchService->search($question, 3);
++        $publicId = (string) Str::uuid();
++
++        AssistantQuery::query()->create([
++            'public_id' => $publicId,
++            'question' => $question,
++            'normalized_question' => $searchService->normalize($question),
++            'matched_procedure_id' => $results->first()?->getKey(),
++            'result_count' => $results->count(),
++            'ip_hash' => $this->hashIp($request->ip()),
++            'user_agent' => Str::limit((string) $request->userAgent(), 500, ''),
++            'is_resolved' => $results->isNotEmpty(),
++        ]);
++
++        $items = $results->map(function ($procedure): array {
++            return [
++                'name' => $procedure->name,
++                'code' => $procedure->code,
++                'group' => $procedure->group?->name,
++                'summary' => Str::limit(strip_tags((string) $procedure->summary), 170),
++                'processing_time' => $procedure->processing_time ?: 'Đang cập nhật',
++                'fee' => $procedure->fee ?: 'Đang cập nhật',
++                'required_documents_count' => (int) $procedure->required_documents_count,
++                'url' => route('frontend.procedures.show', $procedure->slug),
++            ];
++        })->values();
++
++        return response()->json([
++            'query_id' => $publicId,
++            'question' => $question,
++            'message' => $items->isNotEmpty()
++                ? 'Đã tìm thấy thủ tục phù hợp với nội dung bạn nhập.'
++                : 'Chưa tìm thấy thủ tục phù hợp. Bạn có thể thử nhập tên giấy tờ, lĩnh vực hoặc nhu cầu cụ thể hơn.',
++            'results' => $items,
++            'disclaimer' => 'Thông tin được lấy từ dữ liệu thủ tục do cơ quan quản trị cập nhật. Vui lòng xem trang chi tiết để xác nhận trước khi chuẩn bị hồ sơ.',
++        ]);
++    }
++
++    public function feedback(Request $request): JsonResponse
++    {
++        $validated = $request->validate([
++            'query_id' => ['required', 'uuid'],
++            'helpful' => ['required', 'boolean'],
++        ]);
++
++        $assistantQuery = AssistantQuery::query()
++            ->where('public_id', $validated['query_id'])
++            ->first();
++
++        if (! $assistantQuery) {
++            return response()->json([
++                'message' => 'Không tìm thấy lượt tra cứu cần đánh giá.',
++            ], 404);
++        }
++
++        $assistantQuery->update([
++            'is_helpful' => (bool) $validated['helpful'],
++            'feedback_at' => now(),
++        ]);
++
++        return response()->json([
++            'message' => 'Cảm ơn bạn đã gửi phản hồi.',
++        ]);
++    }
++
++    private function containsSensitiveData(string $question): bool
++    {
++        return preg_match('/\b\d{9,16}\b/u', $question) === 1
++            || preg_match(
++                '/\b(otp|password|mat khau|mật khẩu|so tai khoan|số tài khoản)\b/ui',
++                $question
++            ) === 1;
++    }
++
++    private function hashIp(?string $ip): ?string
++    {
++        if (! $ip) {
++            return null;
++        }
++
++        return hash_hmac(
++            'sha256',
++            $ip,
++            (string) config('app.key')
++        );
++    }
++}
+diff --git a/app/Http/Controllers/Frontend/SitemapController.php b/app/Http/Controllers/Frontend/SitemapController.php
+index c0f4071..6b2a10e 100644
+--- a/app/Http/Controllers/Frontend/SitemapController.php
++++ b/app/Http/Controllers/Frontend/SitemapController.php
+@@ -23,6 +23,10 @@ public function __invoke(): Response
+                 'loc' => route('frontend.procedures.index'),
+                 'lastmod' => now()->format('Y-m-d'),
+             ],
++            [
++                'loc' => route('frontend.digital-assistant.index'),
++                'lastmod' => now()->format('Y-m-d'),
++            ],
+         ];
+ 
+         Article::query()
+diff --git a/app/Http/Requests/Frontend/DigitalAssistantSearchRequest.php b/app/Http/Requests/Frontend/DigitalAssistantSearchRequest.php
+new file mode 100644
+index 0000000..c112a11
+--- /dev/null
++++ b/app/Http/Requests/Frontend/DigitalAssistantSearchRequest.php
+@@ -0,0 +1,41 @@
++<?php
++
++namespace App\Http\Requests\Frontend;
++
++use Illuminate\Foundation\Http\FormRequest;
++
++class DigitalAssistantSearchRequest extends FormRequest
++{
++    public function authorize(): bool
++    {
++        return true;
++    }
++
++    protected function prepareForValidation(): void
++    {
++        $this->merge([
++            'question' => trim((string) $this->input('question', '')),
++        ]);
++    }
++
++    public function rules(): array
++    {
++        return [
++            'question' => [
++                'required',
++                'string',
++                'min:2',
++                'max:250',
++            ],
++        ];
++    }
++
++    public function messages(): array
++    {
++        return [
++            'question.required' => 'Vui lòng nhập nội dung cần tra cứu.',
++            'question.min' => 'Nội dung tra cứu cần có ít nhất 2 ký tự.',
++            'question.max' => 'Nội dung tra cứu không được vượt quá 250 ký tự.',
++        ];
++    }
++}
+diff --git a/app/Models/AssistantQuery.php b/app/Models/AssistantQuery.php
+new file mode 100644
+index 0000000..0a7b01a
+--- /dev/null
++++ b/app/Models/AssistantQuery.php
+@@ -0,0 +1,37 @@
++<?php
++
++namespace App\Models;
++
++use Illuminate\Database\Eloquent\Model;
++use Illuminate\Database\Eloquent\Relations\BelongsTo;
++
++class AssistantQuery extends Model
++{
++    protected $fillable = [
++        'public_id',
++        'question',
++        'normalized_question',
++        'matched_procedure_id',
++        'result_count',
++        'ip_hash',
++        'user_agent',
++        'is_resolved',
++        'is_helpful',
++        'feedback_at',
++    ];
++
++    protected function casts(): array
++    {
++        return [
++            'result_count' => 'integer',
++            'is_resolved' => 'boolean',
++            'is_helpful' => 'boolean',
++            'feedback_at' => 'datetime',
++        ];
++    }
++
++    public function matchedProcedure(): BelongsTo
++    {
++        return $this->belongsTo(Procedure::class, 'matched_procedure_id');
++    }
++}
+diff --git a/app/Services/ProcedureSearchService.php b/app/Services/ProcedureSearchService.php
+new file mode 100644
+index 0000000..cfeb8bc
+--- /dev/null
++++ b/app/Services/ProcedureSearchService.php
+@@ -0,0 +1,206 @@
++<?php
++
++namespace App\Services;
++
++use App\Models\Procedure;
++use Illuminate\Support\Collection;
++use Illuminate\Support\Str;
++
++class ProcedureSearchService
++{
++    private const STOP_WORDS = [
++        'a', 'ai', 'anh', 'bao', 'ban', 'bi', 'biet', 'can', 'cua', 'cho',
++        'co', 'con', 'dang', 'de', 'den', 'duoc', 'gi', 'giup', 'ho', 'hoi',
++        'khong', 'lam', 'la', 'minh', 'muon', 'nay', 'nhu', 'o', 'phai',
++        'ra', 'sao', 'tai', 'the', 'thi', 'toi', 'tren', 'tu', 'va', 've',
++        'voi', 'xin', 'yeu',
++    ];
++
++    private const SYNONYM_PHRASES = [
++        'con moi sinh' => ['dang ky khai sinh', 'khai sinh tre em'],
++        'em be moi sinh' => ['dang ky khai sinh', 'khai sinh tre em'],
++        'giay khai sinh' => ['dang ky khai sinh'],
++        'giay doc than' => ['xac nhan tinh trang hon nhan'],
++        'xac nhan doc than' => ['xac nhan tinh trang hon nhan'],
++        'doc than' => ['tinh trang hon nhan'],
++        'dang ky cuoi' => ['dang ky ket hon'],
++        'ket hon' => ['dang ky ket hon', 'hon nhan'],
++        'tro cap nguoi gia' => ['tro cap nguoi cao tuoi', 'bao tro xa hoi'],
++        'nguoi cao tuoi' => ['bao tro xa hoi', 'tro cap xa hoi'],
++        'ho ngheo' => ['ho ngheo', 'bao tro xa hoi', 'an sinh xa hoi'],
++        'nguoi co cong' => ['chinh sach nguoi co cong'],
++        'khuyet tat' => ['nguoi khuyet tat', 'bao tro xa hoi'],
++        'tham gia van hoa' => ['hoat dong van hoa', 'the thao cong dong'],
++        'the thao' => ['hoat dong the thao', 'van hoa the thao'],
++    ];
++
++    public function search(string $question, int $limit = 3): Collection
++    {
++        $normalizedQuestion = $this->normalize($question);
++        $phrases = $this->expandedPhrases($normalizedQuestion);
++        $tokens = $this->tokens(implode(' ', $phrases));
++
++        return Procedure::query()
++            ->with('group:id,name,is_active')
++            ->withCount('requiredDocuments')
++            ->active()
++            ->whereHas('group', fn ($query) => $query->where('is_active', true))
++            ->get()
++            ->map(function (Procedure $procedure) use (
++                $normalizedQuestion,
++                $phrases,
++                $tokens
++            ): Procedure {
++                $procedure->setAttribute(
++                    'assistant_score',
++                    $this->score(
++                        $procedure,
++                        $normalizedQuestion,
++                        $phrases,
++                        $tokens
++                    )
++                );
++
++                return $procedure;
++            })
++            ->filter(
++                fn (Procedure $procedure): bool =>
++                    (float) $procedure->getAttribute('assistant_score') >= 10
++            )
++            ->sortBy([
++                ['assistant_score', 'desc'],
++                ['is_featured', 'desc'],
++                ['sort_order', 'asc'],
++                ['name', 'asc'],
++            ])
++            ->take(max(1, min($limit, 5)))
++            ->values();
++    }
++
++    public function normalize(string $text): string
++    {
++        $text = Str::ascii(Str::lower(trim($text)));
++        $text = preg_replace('/[^a-z0-9\s-]+/', ' ', $text) ?? '';
++        $text = preg_replace('/\s+/', ' ', $text) ?? '';
++
++        return trim($text);
++    }
++
++    private function expandedPhrases(string $normalizedQuestion): array
++    {
++        $phrases = [$normalizedQuestion];
++
++        foreach (self::SYNONYM_PHRASES as $needle => $synonyms) {
++            if (Str::contains($normalizedQuestion, $needle)) {
++                $phrases = array_merge($phrases, $synonyms);
++            }
++        }
++
++        return array_values(array_unique(array_filter($phrases)));
++    }
++
++    private function tokens(string $text): array
++    {
++        $tokens = preg_split('/\s+/', $this->normalize($text)) ?: [];
++
++        return array_values(array_unique(array_filter(
++            $tokens,
++            fn (string $token): bool =>
++                strlen($token) >= 2
++                && ! in_array($token, self::STOP_WORDS, true)
++        )));
++    }
++
++    private function score(
++        Procedure $procedure,
++        string $normalizedQuestion,
++        array $phrases,
++        array $tokens
++    ): float {
++        $name = $this->normalize((string) $procedure->name);
++        $code = $this->normalize((string) $procedure->code);
++        $keywords = $this->normalize((string) $procedure->keywords);
++        $summary = $this->normalize((string) $procedure->summary);
++        $applicants = $this->normalize((string) $procedure->applicants);
++        $agency = $this->normalize((string) $procedure->implementing_agency);
++        $group = $this->normalize((string) $procedure->group?->name);
++
++        $score = 0.0;
++
++        if ($normalizedQuestion !== '') {
++            if ($name === $normalizedQuestion) {
++                $score += 130;
++            } elseif (Str::contains($name, $normalizedQuestion)) {
++                $score += 80;
++            }
++
++            if ($code !== '' && $code === $normalizedQuestion) {
++                $score += 120;
++            }
++        }
++
++        foreach ($phrases as $phrase) {
++            $phrase = $this->normalize($phrase);
++
++            if ($phrase === '') {
++                continue;
++            }
++
++            if (Str::contains($name, $phrase)) {
++                $score += 55;
++            }
++
++            if (Str::contains($keywords, $phrase)) {
++                $score += 38;
++            }
++
++            if (Str::contains($summary, $phrase)) {
++                $score += 20;
++            }
++
++            if (Str::contains($group, $phrase)) {
++                $score += 18;
++            }
++        }
++
++        foreach ($tokens as $token) {
++            if (Str::contains($name, $token)) {
++                $score += 15;
++            }
++
++            if (Str::contains($keywords, $token)) {
++                $score += 11;
++            }
++
++            if (Str::contains($group, $token)) {
++                $score += 8;
++            }
++
++            if (Str::contains($summary, $token)) {
++                $score += 5;
++            }
++
++            if (Str::contains($applicants, $token)) {
++                $score += 4;
++            }
++
++            if (Str::contains($agency, $token)) {
++                $score += 3;
++            }
++        }
++
++        if ($normalizedQuestion !== '' && $name !== '') {
++            similar_text($normalizedQuestion, $name, $similarity);
++
++            if ($similarity >= 50) {
++                $score += ($similarity - 45) * 0.7;
++            }
++        }
++
++        if ($procedure->is_featured) {
++            $score += 2;
++        }
++
++        return round($score, 2);
++    }
++}
+diff --git a/database/migrations/2026_06_25_000005_create_assistant_queries_table.php b/database/migrations/2026_06_25_000005_create_assistant_queries_table.php
+new file mode 100644
+index 0000000..93b7aca
+--- /dev/null
++++ b/database/migrations/2026_06_25_000005_create_assistant_queries_table.php
+@@ -0,0 +1,34 @@
++<?php
++
++use Illuminate\Database\Migrations\Migration;
++use Illuminate\Database\Schema\Blueprint;
++use Illuminate\Support\Facades\Schema;
++
++return new class extends Migration
++{
++    public function up(): void
++    {
++        Schema::create('assistant_queries', function (Blueprint $table): void {
++            $table->id();
++            $table->uuid('public_id')->unique();
++            $table->string('question', 250);
++            $table->string('normalized_question', 250)->index();
++            $table->foreignId('matched_procedure_id')
++                ->nullable()
++                ->constrained('procedures')
++                ->nullOnDelete();
++            $table->unsignedSmallInteger('result_count')->default(0);
++            $table->char('ip_hash', 64)->nullable()->index();
++            $table->string('user_agent', 500)->nullable();
++            $table->boolean('is_resolved')->default(false)->index();
++            $table->boolean('is_helpful')->nullable()->index();
++            $table->timestamp('feedback_at')->nullable();
++            $table->timestamps();
++        });
++    }
++
++    public function down(): void
++    {
++        Schema::dropIfExists('assistant_queries');
++    }
++};
+diff --git a/resources/views/admin/assistant-queries/index.blade.php b/resources/views/admin/assistant-queries/index.blade.php
+new file mode 100644
+index 0000000..2f1b080
+--- /dev/null
++++ b/resources/views/admin/assistant-queries/index.blade.php
+@@ -0,0 +1,145 @@
++<x-app-layout>
++    <x-slot name="header">
++        <div>
++            <h2 class="text-xl font-semibold leading-tight text-gray-800">Câu hỏi Trợ lý số</h2>
++            <p class="mt-1 text-sm text-gray-500">
++                Theo dõi nhu cầu tra cứu và những câu hỏi hệ thống chưa tìm được kết quả phù hợp.
++            </p>
++        </div>
++    </x-slot>
++
++    <div class="py-8">
++        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
++            <div class="mb-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
++                <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-100">
++                    <div class="text-sm font-medium text-gray-500">Tổng lượt hỏi</div>
++                    <div class="mt-2 text-2xl font-bold text-gray-900">{{ number_format($stats['total']) }}</div>
++                </div>
++                <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-100">
++                    <div class="text-sm font-medium text-gray-500">Có kết quả</div>
++                    <div class="mt-2 text-2xl font-bold text-green-700">{{ number_format($stats['resolved']) }}</div>
++                </div>
++                <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-100">
++                    <div class="text-sm font-medium text-gray-500">Chưa tìm thấy</div>
++                    <div class="mt-2 text-2xl font-bold text-amber-700">{{ number_format($stats['unresolved']) }}</div>
++                </div>
++                <div class="rounded-lg bg-white p-4 shadow-sm ring-1 ring-gray-100">
++                    <div class="text-sm font-medium text-gray-500">Phản hồi chưa phù hợp</div>
++                    <div class="mt-2 text-2xl font-bold text-red-700">{{ number_format($stats['not_helpful']) }}</div>
++                </div>
++            </div>
++
++            <form
++                method="GET"
++                action="{{ route('admin.assistant-queries.index') }}"
++                class="mb-4 grid gap-3 rounded-lg bg-white p-4 shadow-sm md:grid-cols-4"
++            >
++                <input
++                    name="search"
++                    type="search"
++                    value="{{ $filters['search'] }}"
++                    placeholder="Tìm trong nội dung câu hỏi"
++                    class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
++                >
++
++                <select
++                    name="status"
++                    class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
++                >
++                    <option value="">Tất cả kết quả</option>
++                    <option value="resolved" @selected($filters['status'] === 'resolved')>Có kết quả</option>
++                    <option value="unresolved" @selected($filters['status'] === 'unresolved')>Chưa tìm thấy</option>
++                </select>
++
++                <select
++                    name="feedback"
++                    class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
++                >
++                    <option value="">Tất cả phản hồi</option>
++                    <option value="helpful" @selected($filters['feedback'] === 'helpful')>Phù hợp</option>
++                    <option value="not_helpful" @selected($filters['feedback'] === 'not_helpful')>Chưa phù hợp</option>
++                    <option value="none" @selected($filters['feedback'] === 'none')>Chưa đánh giá</option>
++                </select>
++
++                <div class="flex gap-2">
++                    <button
++                        type="submit"
++                        class="flex-1 rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800"
++                    >
++                        Lọc
++                    </button>
++                    <a
++                        href="{{ route('admin.assistant-queries.index') }}"
++                        class="rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
++                    >
++                        Xóa lọc
++                    </a>
++                </div>
++            </form>
++
++            <div class="overflow-hidden rounded-lg bg-white shadow-sm">
++                <div class="overflow-x-auto">
++                    <table class="min-w-full divide-y divide-gray-200">
++                        <thead class="bg-gray-50">
++                            <tr>
++                                <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Câu hỏi</th>
++                                <th class="px-5 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">Kết quả gần nhất</th>
++                                <th class="px-5 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Số kết quả</th>
++                                <th class="px-5 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">Phản hồi</th>
++                                <th class="px-5 py-3 text-right text-xs font-medium uppercase tracking-wider text-gray-500">Thời gian</th>
++                            </tr>
++                        </thead>
++                        <tbody class="divide-y divide-gray-200 bg-white">
++                            @forelse ($queries as $assistantQuery)
++                                <tr>
++                                    <td class="max-w-xl px-5 py-4 align-top">
++                                        <p class="font-semibold text-gray-900">{{ $assistantQuery->question }}</p>
++                                        <span class="mt-2 inline-flex rounded-full px-2 py-1 text-xs font-semibold {{ $assistantQuery->is_resolved ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700' }}">
++                                            {{ $assistantQuery->is_resolved ? 'Có kết quả' : 'Chưa tìm thấy' }}
++                                        </span>
++                                    </td>
++                                    <td class="px-5 py-4 align-top text-sm text-gray-600">
++                                        @if ($assistantQuery->matchedProcedure)
++                                            <a
++                                                href="{{ route('frontend.procedures.show', $assistantQuery->matchedProcedure->slug) }}"
++                                                target="_blank"
++                                                class="font-semibold text-blue-700 hover:underline"
++                                            >
++                                                {{ $assistantQuery->matchedProcedure->name }}
++                                            </a>
++                                        @else
++                                            <span class="text-gray-400">Không có</span>
++                                        @endif
++                                    </td>
++                                    <td class="px-5 py-4 text-center text-sm font-semibold text-gray-700">
++                                        {{ $assistantQuery->result_count }}
++                                    </td>
++                                    <td class="px-5 py-4 text-center text-sm">
++                                        @if ($assistantQuery->is_helpful === true)
++                                            <span class="rounded-full bg-green-100 px-2 py-1 font-semibold text-green-700">Phù hợp</span>
++                                        @elseif ($assistantQuery->is_helpful === false)
++                                            <span class="rounded-full bg-red-100 px-2 py-1 font-semibold text-red-700">Chưa phù hợp</span>
++                                        @else
++                                            <span class="text-gray-400">Chưa đánh giá</span>
++                                        @endif
++                                    </td>
++                                    <td class="whitespace-nowrap px-5 py-4 text-right text-sm text-gray-500">
++                                        {{ $assistantQuery->created_at?->format('d/m/Y H:i') }}
++                                    </td>
++                                </tr>
++                            @empty
++                                <tr>
++                                    <td colspan="5" class="px-6 py-10 text-center text-sm text-gray-500">
++                                        Chưa có câu hỏi nào được ghi nhận.
++                                    </td>
++                                </tr>
++                            @endforelse
++                        </tbody>
++                    </table>
++                </div>
++            </div>
++
++            <div class="mt-5">{{ $queries->links() }}</div>
++        </div>
++    </div>
++</x-app-layout>
+diff --git a/resources/views/frontend/digital-assistant/_client.blade.php b/resources/views/frontend/digital-assistant/_client.blade.php
+new file mode 100644
+index 0000000..3df8e8e
+--- /dev/null
++++ b/resources/views/frontend/digital-assistant/_client.blade.php
+@@ -0,0 +1,264 @@
++<script>
++    document.addEventListener('DOMContentLoaded', function () {
++        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
++
++        const escapeHtml = function (value) {
++            return String(value ?? '')
++                .replaceAll('&', '&amp;')
++                .replaceAll('<', '&lt;')
++                .replaceAll('>', '&gt;')
++                .replaceAll('"', '&quot;')
++                .replaceAll("'", '&#039;');
++        };
++
++        const setLoading = function (form, loading) {
++            const button = form.querySelector('button[type="submit"]');
++            const spinner = form.querySelector('[data-assistant-spinner]');
++            const text = form.querySelector('[data-assistant-submit-text]');
++
++            if (button) {
++                button.disabled = loading;
++            }
++
++            if (spinner) {
++                spinner.classList.toggle('d-none', !loading);
++            }
++
++            if (text) {
++                if (! text.dataset.defaultText) {
++                    text.dataset.defaultText = text.textContent.trim();
++                }
++
++                text.textContent = loading
++                    ? 'Đang tìm...'
++                    : text.dataset.defaultText;
++            }
++        };
++
++        const renderError = function (target, message) {
++            target.innerHTML = `
++                <div class="digital-assistant-alert is-error" role="alert">
++                    <strong>Chưa thể tra cứu</strong>
++                    <p>${escapeHtml(message)}</p>
++                </div>
++            `;
++        };
++
++        const renderResults = function (target, payload) {
++            const results = Array.isArray(payload.results) ? payload.results : [];
++            const message = escapeHtml(payload.message || 'Đã hoàn tất tra cứu.');
++            const disclaimer = escapeHtml(payload.disclaimer || '');
++
++            if (results.length === 0) {
++                target.innerHTML = `
++                    <div class="digital-assistant-alert is-empty">
++                        <strong>Chưa tìm thấy kết quả phù hợp</strong>
++                        <p>${message}</p>
++                    </div>
++                    <div class="digital-assistant-result-actions">
++                        <a href="{{ route('frontend.procedures.index') }}">Tự tra cứu danh sách thủ tục</a>
++                    </div>
++                `;
++                return;
++            }
++
++            const cards = results.map(function (item, index) {
++                const code = item.code
++                    ? `<span class="digital-assistant-result-code">${escapeHtml(item.code)}</span>`
++                    : '';
++                const group = item.group
++                    ? `<span>${escapeHtml(item.group)}</span>`
++                    : '';
++                const summary = item.summary
++                    ? `<p>${escapeHtml(item.summary)}</p>`
++                    : '';
++
++                return `
++                    <article class="digital-assistant-result-card">
++                        <div class="digital-assistant-result-heading">
++                            <span class="digital-assistant-result-number">${index + 1}</span>
++                            <div>
++                                <div class="digital-assistant-result-meta">
++                                    ${group}
++                                    ${code}
++                                </div>
++                                <h3>${escapeHtml(item.name)}</h3>
++                            </div>
++                        </div>
++
++                        ${summary}
++
++                        <div class="digital-assistant-result-facts">
++                            <span>
++                                <small>Hồ sơ</small>
++                                <strong>${Number(item.required_documents_count || 0)} loại giấy tờ</strong>
++                            </span>
++                            <span>
++                                <small>Thời hạn</small>
++                                <strong>${escapeHtml(item.processing_time)}</strong>
++                            </span>
++                            <span>
++                                <small>Lệ phí</small>
++                                <strong>${escapeHtml(item.fee)}</strong>
++                            </span>
++                        </div>
++
++                        <a
++                            class="digital-assistant-result-link"
++                            href="${escapeHtml(item.url)}"
++                        >
++                            Xem chi tiết thủ tục
++                            <span aria-hidden="true">→</span>
++                        </a>
++                    </article>
++                `;
++            }).join('');
++
++            const feedback = payload.query_id
++                ? `
++                    <div class="digital-assistant-feedback" data-query-id="${escapeHtml(payload.query_id)}">
++                        <span>Kết quả này có phù hợp không?</span>
++                        <button type="button" data-assistant-feedback="1">Phù hợp</button>
++                        <button type="button" data-assistant-feedback="0">Chưa phù hợp</button>
++                    </div>
++                `
++                : '';
++
++            target.innerHTML = `
++                <div class="digital-assistant-alert is-success">
++                    <strong>${message}</strong>
++                </div>
++                <div class="digital-assistant-result-list">${cards}</div>
++                ${feedback}
++                <p class="digital-assistant-disclaimer">${disclaimer}</p>
++            `;
++        };
++
++        const search = async function (form) {
++            const input = form.querySelector('input[name="question"]');
++            const question = input?.value.trim() || '';
++            const target = document.querySelector(form.dataset.resultsTarget || '');
++
++            if (! input || ! target || question.length < 2) {
++                if (target) {
++                    renderError(target, 'Vui lòng nhập ít nhất 2 ký tự.');
++                }
++                return;
++            }
++
++            document.querySelectorAll('[data-assistant-sync-input]').forEach(function (syncInput) {
++                syncInput.value = question;
++            });
++
++            const modalSelector = form.dataset.openModal;
++            if (modalSelector && window.bootstrap) {
++                const modalElement = document.querySelector(modalSelector);
++                if (modalElement) {
++                    bootstrap.Modal.getOrCreateInstance(modalElement).show();
++                }
++            }
++
++            target.innerHTML = `
++                <div class="digital-assistant-loading" role="status">
++                    <span class="spinner-border" aria-hidden="true"></span>
++                    <strong>Đang tìm thủ tục phù hợp...</strong>
++                </div>
++            `;
++
++            setLoading(form, true);
++
++            try {
++                const response = await fetch(form.action, {
++                    method: 'POST',
++                    headers: {
++                        'Accept': 'application/json',
++                        'Content-Type': 'application/json',
++                        'X-CSRF-TOKEN': csrfToken,
++                    },
++                    body: JSON.stringify({ question: question }),
++                });
++
++                const payload = await response.json();
++
++                if (! response.ok) {
++                    const validationMessage = payload.errors?.question?.[0];
++                    throw new Error(validationMessage || payload.message || 'Không thể thực hiện tra cứu.');
++                }
++
++                renderResults(target, payload);
++            } catch (error) {
++                renderError(target, error.message || 'Hệ thống đang bận. Vui lòng thử lại sau.');
++            } finally {
++                setLoading(form, false);
++            }
++        };
++
++        document.querySelectorAll('[data-assistant-form]').forEach(function (form) {
++            form.addEventListener('submit', function (event) {
++                event.preventDefault();
++                search(form);
++            });
++
++            if (form.dataset.autoSubmit === 'true') {
++                const input = form.querySelector('input[name="question"]');
++                if (input && input.value.trim().length >= 2) {
++                    search(form);
++                }
++            }
++        });
++
++        document.querySelectorAll('[data-assistant-suggestion]').forEach(function (button) {
++            button.addEventListener('click', function () {
++                const form = document.querySelector(button.dataset.assistantFormTarget || '');
++                const input = form?.querySelector('input[name="question"]');
++
++                if (! form || ! input) {
++                    return;
++                }
++
++                input.value = button.dataset.assistantSuggestion || '';
++                form.requestSubmit();
++            });
++        });
++
++        document.addEventListener('click', async function (event) {
++            const button = event.target.closest('[data-assistant-feedback]');
++            if (! button) {
++                return;
++            }
++
++            const feedbackBox = button.closest('.digital-assistant-feedback');
++            const resultsBox = button.closest('.digital-assistant-results');
++            const queryId = feedbackBox?.dataset.queryId;
++            const feedbackUrl = resultsBox?.dataset.feedbackUrl;
++
++            if (! queryId || ! feedbackUrl) {
++                return;
++            }
++
++            feedbackBox.querySelectorAll('button').forEach(function (item) {
++                item.disabled = true;
++            });
++
++            try {
++                const response = await fetch(feedbackUrl, {
++                    method: 'POST',
++                    headers: {
++                        'Accept': 'application/json',
++                        'Content-Type': 'application/json',
++                        'X-CSRF-TOKEN': csrfToken,
++                    },
++                    body: JSON.stringify({
++                        query_id: queryId,
++                        helpful: button.dataset.assistantFeedback === '1',
++                    }),
++                });
++
++                const payload = await response.json();
++                feedbackBox.innerHTML = `<span>${escapeHtml(payload.message || 'Cảm ơn bạn đã phản hồi.')}</span>`;
++            } catch (error) {
++                feedbackBox.innerHTML = '<span>Chưa thể ghi nhận phản hồi. Vui lòng thử lại sau.</span>';
++            }
++        });
++    });
++</script>
+diff --git a/resources/views/frontend/digital-assistant/_modal.blade.php b/resources/views/frontend/digital-assistant/_modal.blade.php
+new file mode 100644
+index 0000000..e3a83e3
+--- /dev/null
++++ b/resources/views/frontend/digital-assistant/_modal.blade.php
+@@ -0,0 +1,124 @@
++<div
++    class="modal fade digital-assistant-modal"
++    id="digitalAssistantModal"
++    tabindex="-1"
++    aria-labelledby="digitalAssistantModalTitle"
++    aria-hidden="true"
++>
++    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
++        <div class="modal-content">
++            <div class="modal-header digital-assistant-modal-header">
++                <div class="digital-assistant-modal-brand">
++                    <span class="digital-assistant-modal-robot" aria-hidden="true">
++                        <svg viewBox="0 0 24 24">
++                            <rect x="4" y="6" width="16" height="13" rx="5" />
++                            <path d="M12 3v3" />
++                            <circle cx="9" cy="12" r="1.2" />
++                            <circle cx="15" cy="12" r="1.2" />
++                            <path d="M9 16c.9.6 1.9.9 3 .9s2.1-.3 3-.9" />
++                        </svg>
++                    </span>
++
++                    <div>
++                        <h2 id="digitalAssistantModalTitle">Trợ lý số Vĩnh Bình</h2>
++                        <p>Tra cứu thủ tục từ dữ liệu đã được cơ quan cập nhật</p>
++                    </div>
++                </div>
++
++                <button
++                    type="button"
++                    class="btn-close btn-close-white"
++                    data-bs-dismiss="modal"
++                    aria-label="Đóng"
++                ></button>
++            </div>
++
++            <div class="modal-body digital-assistant-modal-body">
++                <form
++                    id="digitalAssistantModalForm"
++                    class="digital-assistant-form"
++                    action="{{ route('frontend.digital-assistant.search') }}"
++                    method="POST"
++                    data-assistant-form
++                    data-results-target="#digitalAssistantResults"
++                >
++                    @csrf
++
++                    <label for="digitalAssistantModalQuestion">
++                        Bạn cần tìm thủ tục gì?
++                    </label>
++
++                    <div class="digital-assistant-input-row">
++                        <input
++                            id="digitalAssistantModalQuestion"
++                            type="text"
++                            name="question"
++                            maxlength="250"
++                            required
++                            data-assistant-sync-input
++                            placeholder="Ví dụ: Tôi muốn làm giấy khai sinh cho con..."
++                        >
++
++                        <button type="submit">
++                            <span data-assistant-submit-text>Tìm kiếm</span>
++                            <span
++                                class="spinner-border spinner-border-sm d-none"
++                                data-assistant-spinner
++                                aria-hidden="true"
++                            ></span>
++                        </button>
++                    </div>
++                </form>
++
++                <div class="digital-assistant-suggestion-list" aria-label="Câu hỏi gợi ý">
++                    <button
++                        type="button"
++                        data-assistant-suggestion="Tôi muốn đăng ký khai sinh cho con"
++                        data-assistant-form-target="#digitalAssistantModalForm"
++                    >
++                        Đăng ký khai sinh
++                    </button>
++
++                    <button
++                        type="button"
++                        data-assistant-suggestion="Tôi cần giấy xác nhận tình trạng hôn nhân"
++                        data-assistant-form-target="#digitalAssistantModalForm"
++                    >
++                        Xác nhận độc thân
++                    </button>
++
++                    <button
++                        type="button"
++                        data-assistant-suggestion="Thủ tục bảo trợ xã hội cần giấy tờ gì"
++                        data-assistant-form-target="#digitalAssistantModalForm"
++                    >
++                        Bảo trợ xã hội
++                    </button>
++                </div>
++
++                <div
++                    id="digitalAssistantResults"
++                    class="digital-assistant-results"
++                    data-feedback-url="{{ route('frontend.digital-assistant.feedback') }}"
++                    aria-live="polite"
++                >
++                    <div class="digital-assistant-empty-state">
++                        <span aria-hidden="true">⌕</span>
++                        <strong>Nhập nhu cầu của bạn để bắt đầu tra cứu</strong>
++                        <p>Không nhập số CCCD, số tài khoản, mã OTP hoặc mật khẩu.</p>
++                    </div>
++                </div>
++            </div>
++
++            <div class="modal-footer digital-assistant-modal-footer">
++                <p>
++                    Kết quả chỉ hỗ trợ tra cứu. Vui lòng xem chi tiết thủ tục để xác nhận thông tin.
++                </p>
++
++                <a href="{{ route('frontend.digital-assistant.index') }}">
++                    Mở trang trợ lý đầy đủ
++                </a>
++            </div>
++        </div>
++    </div>
++</div>
+diff --git a/resources/views/frontend/digital-assistant/index.blade.php b/resources/views/frontend/digital-assistant/index.blade.php
+new file mode 100644
+index 0000000..f3f0374
+--- /dev/null
++++ b/resources/views/frontend/digital-assistant/index.blade.php
+@@ -0,0 +1,131 @@
++@extends('frontend.layouts.app')
++
++@section('content')
++    <div class="container digital-assistant-page">
++        <section class="digital-assistant-page-hero">
++            <div>
++                <span class="digital-assistant-page-kicker">TIỆN ÍCH SỐ CHO NGƯỜI DÂN</span>
++                <h1>Trợ lý số Vĩnh Bình</h1>
++                <p>
++                    Nhập nhu cầu bằng ngôn ngữ tự nhiên để tìm thủ tục, thành phần hồ sơ,
++                    thời hạn xử lý và lệ phí từ dữ liệu đã được cơ quan quản trị cập nhật.
++                </p>
++            </div>
++
++            <span class="digital-assistant-page-badge">BETA</span>
++        </section>
++
++        <div class="digital-assistant-page-layout">
++            <main class="digital-assistant-page-main">
++                <section class="digital-assistant-page-search-card">
++                    <form
++                        id="digitalAssistantPageForm"
++                        class="digital-assistant-form"
++                        action="{{ route('frontend.digital-assistant.search') }}"
++                        method="POST"
++                        data-assistant-form
++                        data-results-target="#digitalAssistantPageResults"
++                        data-auto-submit="{{ $initialQuestion !== '' ? 'true' : 'false' }}"
++                    >
++                        @csrf
++
++                        <label for="digitalAssistantPageQuestion">
++                            Bạn cần hỗ trợ thủ tục gì?
++                        </label>
++
++                        <div class="digital-assistant-input-row">
++                            <input
++                                id="digitalAssistantPageQuestion"
++                                type="text"
++                                name="question"
++                                value="{{ $initialQuestion }}"
++                                maxlength="250"
++                                required
++                                data-assistant-sync-input
++                                placeholder="Ví dụ: Tôi có con mới sinh, cần làm giấy tờ gì?"
++                            >
++
++                            <button type="submit">
++                                <span data-assistant-submit-text>Tìm kiếm</span>
++                                <span
++                                    class="spinner-border spinner-border-sm d-none"
++                                    data-assistant-spinner
++                                    aria-hidden="true"
++                                ></span>
++                            </button>
++                        </div>
++                    </form>
++
++                    <div class="digital-assistant-suggestion-list" aria-label="Câu hỏi gợi ý">
++                        <button
++                            type="button"
++                            data-assistant-suggestion="Tôi muốn đăng ký khai sinh cho con"
++                            data-assistant-form-target="#digitalAssistantPageForm"
++                        >
++                            Đăng ký khai sinh
++                        </button>
++
++                        <button
++                            type="button"
++                            data-assistant-suggestion="Tôi cần giấy xác nhận tình trạng hôn nhân"
++                            data-assistant-form-target="#digitalAssistantPageForm"
++                        >
++                            Xác nhận tình trạng hôn nhân
++                        </button>
++
++                        <button
++                            type="button"
++                            data-assistant-suggestion="Thủ tục văn hóa thể thao cộng đồng"
++                            data-assistant-form-target="#digitalAssistantPageForm"
++                        >
++                            Văn hóa - thể thao
++                        </button>
++                    </div>
++                </section>
++
++                <section
++                    id="digitalAssistantPageResults"
++                    class="digital-assistant-results digital-assistant-page-results"
++                    data-feedback-url="{{ route('frontend.digital-assistant.feedback') }}"
++                    aria-live="polite"
++                >
++                    <div class="digital-assistant-empty-state">
++                        <span aria-hidden="true">⌕</span>
++                        <strong>Chưa có nội dung tra cứu</strong>
++                        <p>Hãy nhập tên giấy tờ, thủ tục hoặc tình huống bạn đang cần giải quyết.</p>
++                    </div>
++                </section>
++            </main>
++
++            <aside class="digital-assistant-page-sidebar">
++                <section>
++                    <h2>Trợ lý có thể hỗ trợ</h2>
++                    <ul>
++                        <li>Tìm thủ tục gần đúng theo nhu cầu.</li>
++                        <li>Hiển thị số loại giấy tờ cần chuẩn bị.</li>
++                        <li>Cho biết thời hạn và lệ phí đã được cập nhật.</li>
++                        <li>Dẫn đến trang chi tiết thủ tục chính thức của website.</li>
++                    </ul>
++                </section>
++
++                <section class="is-warning">
++                    <h2>Bảo vệ thông tin cá nhân</h2>
++                    <p>
++                        Không nhập số CCCD, số tài khoản, mã OTP, mật khẩu,
++                        hồ sơ sức khỏe hoặc dữ liệu cá nhân nhạy cảm.
++                    </p>
++                </section>
++
++                <a
++                    class="digital-assistant-page-procedure-link"
++                    href="{{ route('frontend.procedures.index') }}"
++                >
++                    Xem toàn bộ thủ tục hành chính
++                    <span aria-hidden="true">→</span>
++                </a>
++            </aside>
++        </div>
++    </div>
++
++    @include('frontend.digital-assistant._client')
++@endsection
+diff --git a/resources/views/frontend/home.blade.php b/resources/views/frontend/home.blade.php
+index 331a06d..4972351 100644
+--- a/resources/views/frontend/home.blade.php
++++ b/resources/views/frontend/home.blade.php
+@@ -743,9 +743,9 @@ class="{{ $loop->first ? 'active' : '' }}"
+                             <p>Dành cho người dân</p>
+                         </div>
+ 
+-                        <span class="vb-digital-status is-upgrading">
++                        <span class="vb-digital-status is-online">
+                             <span class="vb-digital-status-dot"></span>
+-                            Đang hoàn thiện
++                            Đang hoạt động
+                         </span>
+                     </div>
+ 
+@@ -777,12 +777,21 @@ class="{{ $loop->first ? 'active' : '' }}"
+                                 </div>
+ 
+                                 <span class="vb-digital-ai-badge">
+-                                    AI
++                                    BETA
+                                 </span>
+                             </div>
+ 
+-                            {{-- Chưa dùng form vì chức năng chưa hoạt động --}}
+-                            <div class="vb-digital-search">
++                            <form
++                                id="digitalAssistantHomeForm"
++                                class="vb-digital-search"
++                                action="{{ route('frontend.digital-assistant.search') }}"
++                                method="POST"
++                                data-assistant-form
++                                data-results-target="#digitalAssistantResults"
++                                data-open-modal="#digitalAssistantModal"
++                            >
++                                @csrf
++
+                                 <label for="vbDigitalQuestion" class="visually-hidden">
+                                     Nội dung cần hỗ trợ
+                                 </label>
+@@ -793,19 +802,48 @@ class="{{ $loop->first ? 'active' : '' }}"
+                                         <path d="m16.5 16.5 4 4" />
+                                     </svg>
+ 
+-                                    <input id="vbDigitalQuestion" type="text" disabled aria-disabled="true"
+-                                        placeholder="Tính năng đang được hoàn thiện">
++                                    <input
++                                        id="vbDigitalQuestion"
++                                        type="text"
++                                        name="question"
++                                        maxlength="250"
++                                        required
++                                        data-assistant-sync-input
++                                        placeholder="Bạn cần tìm thủ tục gì?"
++                                    >
+                                 </div>
+ 
+-                                <button type="button" class="vb-digital-assistant-button" disabled aria-disabled="true"
+-                                    title="Chức năng đang được nâng cấp">
++                                <button type="submit" class="vb-digital-assistant-button">
+                                     <svg viewBox="0 0 24 24" aria-hidden="true">
+                                         <path
+                                             d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.7 9.7 0 0 1-4-.9L3 21l1.7-4.4A8.5 8.5 0 1 1 21 11.5Z" />
+                                         <path d="M8 10h8M8 14h5" />
+                                     </svg>
+ 
+-                                    <span>Sắp mở</span>
++                                    <span data-assistant-submit-text>Hỏi ngay</span>
++                                    <span
++                                        class="spinner-border spinner-border-sm d-none"
++                                        data-assistant-spinner
++                                        aria-hidden="true"
++                                    ></span>
++                                </button>
++                            </form>
++
++                            <div class="vb-digital-suggestions">
++                                <span>Gợi ý:</span>
++                                <button
++                                    type="button"
++                                    data-assistant-suggestion="Tôi muốn đăng ký khai sinh cho con"
++                                    data-assistant-form-target="#digitalAssistantHomeForm"
++                                >
++                                    Khai sinh
++                                </button>
++                                <button
++                                    type="button"
++                                    data-assistant-suggestion="Tôi cần giấy xác nhận tình trạng hôn nhân"
++                                    data-assistant-form-target="#digitalAssistantHomeForm"
++                                >
++                                    Xác nhận độc thân
+                                 </button>
+                             </div>
+                         </div>
+@@ -932,6 +970,8 @@ class="{{ $loop->first ? 'active' : '' }}"
+                     </div>
+                 </section>
+ 
++                @include('frontend.digital-assistant._modal')
++
+             </div>
+         </section>
+ 
+@@ -1031,4 +1071,6 @@ function updateHotlineClock() {
+             propagandaCarousel.cycle();
+         });
+     </script>
++
++    @include('frontend.digital-assistant._client')
+ @endsection
+diff --git a/resources/views/frontend/layouts/app.blade.php b/resources/views/frontend/layouts/app.blade.php
+index 1e29e60..b88e564 100644
+--- a/resources/views/frontend/layouts/app.blade.php
++++ b/resources/views/frontend/layouts/app.blade.php
+@@ -4,6 +4,7 @@
+ <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
++    <meta name="csrf-token" content="{{ csrf_token() }}">
+     <meta name="description" content="{{ $metaDescription ?? 'Cổng thông tin điện tử Phòng Văn Hóa - Xã Hội' }}">
+     <title>{{ ($metaTitle ?? 'Trang chủ') . ' - Phòng Văn Hóa - Xã Hội' }}</title>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+@@ -4955,7 +4956,7 @@
+             }
+         }
+ 
+-        
++
+ 
+         /* =====================================================
+            TRANG TRA CỨU THỦ TỤC HÀNH CHÍNH
+@@ -5910,7 +5911,663 @@
+             }
+         }
+ 
+-    </style>
++
++        /* =====================================================
++           TRỢ LÝ SỐ VĨNH BÌNH - GIAI ĐOẠN 1
++        ===================================================== */
++        .vb-digital-status.is-online {
++            display: inline-flex;
++            align-items: center;
++            gap: 5px;
++            padding: 5px 8px;
++            border: 1px solid rgba(169, 255, 205, .58);
++            border-radius: 999px;
++            color: #effff5;
++            background: rgba(23, 174, 88, .2);
++            font-size: 9px;
++            font-weight: 800;
++            white-space: nowrap;
++        }
++
++        .vb-digital-status.is-online .vb-digital-status-dot {
++            width: 7px;
++            height: 7px;
++            background: #70f0a5;
++            box-shadow: 0 0 0 4px rgba(112, 240, 165, .16);
++        }
++
++        .vb-digital-search-field input:not(:disabled) {
++            color: #173a56;
++            cursor: text;
++        }
++
++        .vb-digital-suggestions button {
++            padding: 3px 7px;
++            border: 1px solid #d8e9f7;
++            border-radius: 999px;
++            color: #41708f;
++            background: #f2f8fd;
++            font-family: inherit;
++            font-size: 9px;
++            font-weight: 700;
++            line-height: 1.2;
++            cursor: pointer;
++            transition: border-color .2s ease, background-color .2s ease, color .2s ease;
++        }
++
++        .vb-digital-suggestions button:hover,
++        .vb-digital-suggestions button:focus {
++            border-color: #9ecdf0;
++            color: #075da8;
++            background: #e7f4fd;
++        }
++
++        .digital-assistant-modal .modal-dialog {
++            max-width: 780px;
++        }
++
++        .digital-assistant-modal .modal-content {
++            overflow: hidden;
++            border: 0;
++            border-radius: 1rem;
++            box-shadow: 0 24px 70px rgba(3, 46, 84, .26);
++        }
++
++        .digital-assistant-modal-header {
++            align-items: center;
++            padding: 1rem 1.15rem;
++            border: 0;
++            color: #fff;
++            background:
++                radial-gradient(circle at 92% 15%, rgba(255, 255, 255, .18), transparent 30%),
++                linear-gradient(135deg, #075397 0%, #0876cf 68%, #1b99df 100%);
++        }
++
++        .digital-assistant-modal-brand {
++            display: flex;
++            align-items: center;
++            gap: .8rem;
++            min-width: 0;
++        }
++
++        .digital-assistant-modal-robot {
++            display: inline-flex;
++            align-items: center;
++            justify-content: center;
++            width: 46px;
++            height: 46px;
++            flex: 0 0 46px;
++            border: 1px solid rgba(255, 255, 255, .28);
++            border-radius: .85rem;
++            background: rgba(255, 255, 255, .14);
++        }
++
++        .digital-assistant-modal-robot svg {
++            width: 28px;
++            height: 28px;
++            fill: none;
++            stroke: currentColor;
++            stroke-width: 1.8;
++            stroke-linecap: round;
++            stroke-linejoin: round;
++        }
++
++        .digital-assistant-modal-brand h2 {
++            margin: 0;
++            font-size: 1.15rem;
++            font-weight: 850;
++        }
++
++        .digital-assistant-modal-brand p {
++            margin: .2rem 0 0;
++            color: rgba(255, 255, 255, .84);
++            font-size: .78rem;
++        }
++
++        .digital-assistant-modal-body {
++            padding: 1rem 1.1rem 1.15rem;
++            background: #f5f9fd;
++        }
++
++        .digital-assistant-form label {
++            display: block;
++            margin-bottom: .45rem;
++            color: #174367;
++            font-size: .84rem;
++            font-weight: 800;
++        }
++
++        .digital-assistant-input-row {
++            display: grid;
++            grid-template-columns: minmax(0, 1fr) auto;
++            gap: .55rem;
++        }
++
++        .digital-assistant-input-row input {
++            min-width: 0;
++            height: 46px;
++            padding: 0 .9rem;
++            border: 1px solid #c9ddeb;
++            border-radius: .7rem;
++            outline: 0;
++            color: #173a56;
++            background: #fff;
++            font-family: inherit;
++            font-size: .92rem;
++            transition: border-color .2s ease, box-shadow .2s ease;
++        }
++
++        .digital-assistant-input-row input:focus {
++            border-color: #2584cf;
++            box-shadow: 0 0 0 4px rgba(8, 104, 189, .1);
++        }
++
++        .digital-assistant-input-row button {
++            min-width: 118px;
++            height: 46px;
++            display: inline-flex;
++            align-items: center;
++            justify-content: center;
++            gap: .45rem;
++            padding: 0 1rem;
++            border: 0;
++            border-radius: .7rem;
++            color: #fff;
++            background: linear-gradient(135deg, #075da8, #1686dd);
++            font-family: inherit;
++            font-size: .86rem;
++            font-weight: 800;
++            box-shadow: 0 7px 16px rgba(8, 104, 189, .2);
++        }
++
++        .digital-assistant-input-row button:disabled {
++            cursor: wait;
++            opacity: .75;
++        }
++
++        .digital-assistant-suggestion-list {
++            display: flex;
++            flex-wrap: wrap;
++            gap: .45rem;
++            margin-top: .7rem;
++        }
++
++        .digital-assistant-suggestion-list button {
++            padding: .4rem .7rem;
++            border: 1px solid #d1e4f3;
++            border-radius: 999px;
++            color: #376986;
++            background: #fff;
++            font-family: inherit;
++            font-size: .75rem;
++            font-weight: 700;
++        }
++
++        .digital-assistant-suggestion-list button:hover {
++            border-color: #8fc5ea;
++            color: #075da8;
++            background: #eaf6ff;
++        }
++
++        .digital-assistant-results {
++            margin-top: 1rem;
++        }
++
++        .digital-assistant-empty-state,
++        .digital-assistant-loading,
++        .digital-assistant-alert {
++            border: 1px solid #d8e6f2;
++            border-radius: .8rem;
++            background: #fff;
++        }
++
++        .digital-assistant-empty-state {
++            padding: 1.35rem;
++            text-align: center;
++        }
++
++        .digital-assistant-empty-state > span {
++            display: inline-flex;
++            align-items: center;
++            justify-content: center;
++            width: 44px;
++            height: 44px;
++            margin-bottom: .6rem;
++            border-radius: 50%;
++            color: #0a6dbd;
++            background: #e8f4fd;
++            font-size: 1.4rem;
++        }
++
++        .digital-assistant-empty-state strong {
++            display: block;
++            color: #174367;
++            font-size: .92rem;
++        }
++
++        .digital-assistant-empty-state p,
++        .digital-assistant-alert p {
++            margin: .35rem 0 0;
++            color: #6b7f91;
++            font-size: .8rem;
++            line-height: 1.5;
++        }
++
++        .digital-assistant-loading {
++            display: flex;
++            align-items: center;
++            justify-content: center;
++            gap: .7rem;
++            min-height: 110px;
++            color: #0a64ad;
++            font-size: .86rem;
++        }
++
++        .digital-assistant-loading .spinner-border {
++            width: 1.4rem;
++            height: 1.4rem;
++        }
++
++        .digital-assistant-alert {
++            padding: .75rem .85rem;
++        }
++
++        .digital-assistant-alert strong {
++            color: #174367;
++            font-size: .84rem;
++        }
++
++        .digital-assistant-alert.is-success {
++            border-color: #bfe7cf;
++            background: #f2fbf6;
++        }
++
++        .digital-assistant-alert.is-error {
++            border-color: #f0c7c7;
++            background: #fff6f6;
++        }
++
++        .digital-assistant-alert.is-empty {
++            border-color: #f0dca7;
++            background: #fffaf0;
++        }
++
++        .digital-assistant-result-list {
++            display: grid;
++            gap: .75rem;
++            margin-top: .75rem;
++        }
++
++        .digital-assistant-result-card {
++            padding: .9rem;
++            border: 1px solid #d7e6f2;
++            border-radius: .85rem;
++            background: #fff;
++            box-shadow: 0 5px 15px rgba(25, 78, 119, .06);
++        }
++
++        .digital-assistant-result-heading {
++            display: flex;
++            align-items: flex-start;
++            gap: .7rem;
++        }
++
++        .digital-assistant-result-number {
++            display: inline-flex;
++            align-items: center;
++            justify-content: center;
++            width: 30px;
++            height: 30px;
++            flex: 0 0 30px;
++            border-radius: .6rem;
++            color: #fff;
++            background: linear-gradient(135deg, #0868bd, #1a91df);
++            font-size: .78rem;
++            font-weight: 850;
++        }
++
++        .digital-assistant-result-meta {
++            display: flex;
++            flex-wrap: wrap;
++            align-items: center;
++            gap: .35rem;
++            color: #4b7b9c;
++            font-size: .68rem;
++            font-weight: 750;
++            text-transform: uppercase;
++            letter-spacing: .03em;
++        }
++
++        .digital-assistant-result-code {
++            padding: .15rem .35rem;
++            border-radius: 999px;
++            background: #edf5fb;
++        }
++
++        .digital-assistant-result-card h3 {
++            margin: .28rem 0 0;
++            color: #123f65;
++            font-size: 1rem;
++            font-weight: 830;
++            line-height: 1.35;
++        }
++
++        .digital-assistant-result-card > p {
++            margin: .65rem 0 0;
++            color: #63798c;
++            font-size: .8rem;
++            line-height: 1.55;
++        }
++
++        .digital-assistant-result-facts {
++            display: grid;
++            grid-template-columns: repeat(3, minmax(0, 1fr));
++            gap: .5rem;
++            margin-top: .75rem;
++        }
++
++        .digital-assistant-result-facts > span {
++            min-width: 0;
++            padding: .55rem .6rem;
++            border-radius: .65rem;
++            background: #f3f8fc;
++        }
++
++        .digital-assistant-result-facts small,
++        .digital-assistant-result-facts strong {
++            display: block;
++        }
++
++        .digital-assistant-result-facts small {
++            color: #7a8d9d;
++            font-size: .65rem;
++            font-weight: 700;
++        }
++
++        .digital-assistant-result-facts strong {
++            margin-top: .18rem;
++            overflow: hidden;
++            color: #224965;
++            font-size: .73rem;
++            text-overflow: ellipsis;
++            white-space: nowrap;
++        }
++
++        .digital-assistant-result-link {
++            display: inline-flex;
++            align-items: center;
++            gap: .4rem;
++            margin-top: .75rem;
++            color: #0870c4;
++            font-size: .78rem;
++            font-weight: 800;
++            text-decoration: none;
++        }
++
++        .digital-assistant-result-link:hover {
++            color: #054f8d;
++        }
++
++        .digital-assistant-feedback {
++            display: flex;
++            align-items: center;
++            flex-wrap: wrap;
++            gap: .45rem;
++            margin-top: .8rem;
++            padding: .65rem .75rem;
++            border: 1px solid #d8e6f2;
++            border-radius: .7rem;
++            color: #526f84;
++            background: #fff;
++            font-size: .75rem;
++            font-weight: 700;
++        }
++
++        .digital-assistant-feedback button {
++            padding: .3rem .55rem;
++            border: 1px solid #cbddea;
++            border-radius: .5rem;
++            color: #2e6488;
++            background: #f5f9fc;
++            font-family: inherit;
++            font-size: .7rem;
++            font-weight: 750;
++        }
++
++        .digital-assistant-disclaimer {
++            margin: .7rem 0 0;
++            color: #718393;
++            font-size: .7rem;
++            line-height: 1.5;
++        }
++
++        .digital-assistant-result-actions {
++            margin-top: .7rem;
++        }
++
++        .digital-assistant-result-actions a {
++            color: #0868bd;
++            font-size: .78rem;
++            font-weight: 800;
++            text-decoration: none;
++        }
++
++        .digital-assistant-modal-footer {
++            justify-content: space-between;
++            gap: .75rem;
++            padding: .75rem 1.1rem;
++            border-top: 1px solid #dce8f2;
++            background: #fff;
++        }
++
++        .digital-assistant-modal-footer p {
++            flex: 1 1 360px;
++            margin: 0;
++            color: #718393;
++            font-size: .7rem;
++            line-height: 1.45;
++        }
++
++        .digital-assistant-modal-footer a {
++            color: #0868bd;
++            font-size: .75rem;
++            font-weight: 800;
++            text-decoration: none;
++        }
++
++        .digital-assistant-page {
++            --assistant-primary: #0868bd;
++            padding-top: 1.25rem;
++            padding-bottom: 2.25rem;
++        }
++
++        .digital-assistant-page-hero {
++            display: flex;
++            align-items: center;
++            justify-content: space-between;
++            gap: 1.25rem;
++            padding: 1.8rem 2rem;
++            border-radius: 1rem;
++            color: #fff;
++            background:
++                radial-gradient(circle at 92% 15%, rgba(255, 255, 255, .17), transparent 30%),
++                linear-gradient(135deg, #075397 0%, #0876cf 65%, #1b99df 100%);
++            box-shadow: 0 14px 34px rgba(7, 83, 151, .16);
++        }
++
++        .digital-assistant-page-kicker {
++            display: inline-block;
++            margin-bottom: .45rem;
++            color: #d8efff;
++            font-size: .72rem;
++            font-weight: 850;
++            letter-spacing: .08em;
++        }
++
++        .digital-assistant-page-hero h1 {
++            margin: 0;
++            font-size: clamp(1.7rem, 3vw, 2.6rem);
++            font-weight: 880;
++        }
++
++        .digital-assistant-page-hero p {
++            max-width: 780px;
++            margin: .7rem 0 0;
++            color: rgba(255, 255, 255, .88);
++            font-size: .94rem;
++            line-height: 1.65;
++        }
++
++        .digital-assistant-page-badge {
++            padding: .5rem .75rem;
++            border: 1px solid rgba(255, 255, 255, .32);
++            border-radius: 999px;
++            background: rgba(255, 255, 255, .13);
++            font-size: .75rem;
++            font-weight: 850;
++        }
++
++        .digital-assistant-page-layout {
++            display: grid;
++            grid-template-columns: minmax(0, 1fr) 310px;
++            gap: 1rem;
++            align-items: start;
++            margin-top: 1rem;
++        }
++
++        .digital-assistant-page-main,
++        .digital-assistant-page-sidebar {
++            display: grid;
++            gap: 1rem;
++        }
++
++        .digital-assistant-page-search-card,
++        .digital-assistant-page-results,
++        .digital-assistant-page-sidebar section,
++        .digital-assistant-page-procedure-link {
++            border: 1px solid #d8e6f2;
++            border-radius: .9rem;
++            background: #fff;
++            box-shadow: 0 6px 20px rgba(25, 78, 119, .07);
++        }
++
++        .digital-assistant-page-search-card,
++        .digital-assistant-page-results,
++        .digital-assistant-page-sidebar section {
++            padding: 1rem;
++        }
++
++        .digital-assistant-page-results {
++            margin-top: 0;
++        }
++
++        .digital-assistant-page-sidebar h2 {
++            margin: 0 0 .7rem;
++            color: #174367;
++            font-size: 1rem;
++            font-weight: 830;
++        }
++
++        .digital-assistant-page-sidebar ul {
++            display: grid;
++            gap: .55rem;
++            margin: 0;
++            padding-left: 1.1rem;
++            color: #62798c;
++            font-size: .8rem;
++            line-height: 1.5;
++        }
++
++        .digital-assistant-page-sidebar p {
++            margin: 0;
++            color: #6f7f8d;
++            font-size: .8rem;
++            line-height: 1.55;
++        }
++
++        .digital-assistant-page-sidebar section.is-warning {
++            border-color: #eedba7;
++            background: #fffaf0;
++        }
++
++        .digital-assistant-page-procedure-link {
++            display: flex;
++            align-items: center;
++            justify-content: space-between;
++            gap: .75rem;
++            padding: .85rem 1rem;
++            color: #0868bd;
++            font-size: .82rem;
++            font-weight: 820;
++            text-decoration: none;
++        }
++
++        @media (max-width: 991.98px) {
++            .digital-assistant-page-layout {
++                grid-template-columns: 1fr;
++            }
++
++            .digital-assistant-page-sidebar {
++                grid-template-columns: repeat(2, minmax(0, 1fr));
++            }
++
++            .digital-assistant-page-procedure-link {
++                grid-column: 1 / -1;
++            }
++        }
++
++        @media (max-width: 575.98px) {
++            .vb-digital-status.is-online {
++                display: none;
++            }
++
++            .digital-assistant-modal .modal-dialog {
++                margin: .5rem;
++            }
++
++            .digital-assistant-modal-brand p {
++                display: none;
++            }
++
++            .digital-assistant-input-row {
++                grid-template-columns: 1fr;
++            }
++
++            .digital-assistant-input-row button {
++                width: 100%;
++            }
++
++            .digital-assistant-result-facts {
++                grid-template-columns: 1fr;
++            }
++
++            .digital-assistant-result-facts strong {
++                white-space: normal;
++            }
++
++            .digital-assistant-modal-footer {
++                display: block;
++            }
++
++            .digital-assistant-modal-footer a {
++                display: inline-block;
++                margin-top: .45rem;
++            }
++
++            .digital-assistant-page-hero {
++                align-items: flex-start;
++                padding: 1.35rem;
++            }
++
++            .digital-assistant-page-badge {
++                display: none;
++            }
++
++            .digital-assistant-page-sidebar {
++                grid-template-columns: 1fr;
++            }
++        }
++</style>
+ </head>
+ 
+ <body>
+diff --git a/resources/views/layouts/navigation.blade.php b/resources/views/layouts/navigation.blade.php
+index 42573fe..d58b2e0 100644
+--- a/resources/views/layouts/navigation.blade.php
++++ b/resources/views/layouts/navigation.blade.php
+@@ -55,6 +55,12 @@
+                 'active' => 'admin.procedure-groups.*',
+                 'permission' => 'procedures.manage',
+             ],
++            [
++                'label' => 'Câu hỏi Trợ lý số',
++                'route' => 'admin.assistant-queries.index',
++                'active' => 'admin.assistant-queries.*',
++                'permission' => 'procedures.manage',
++            ],
+             [
+                 'label' => 'Trang tĩnh',
+                 'route' => 'admin.pages.index',
+@@ -165,6 +171,9 @@
+                             <x-nav-link :href="route('admin.procedure-groups.index')" :active="request()->routeIs('admin.procedure-groups.*')">
+                                 Lĩnh vực thủ tục
+                             </x-nav-link>
++                            <x-nav-link :href="route('admin.assistant-queries.index')" :active="request()->routeIs('admin.assistant-queries.*')">
++                                Câu hỏi Trợ lý số
++                            </x-nav-link>
+                         @endif
+ 
+                         @if (Auth::user()?->hasPermissionTo('pages.manage'))
+@@ -276,6 +285,9 @@
+                     <x-responsive-nav-link :href="route('admin.procedure-groups.index')" :active="request()->routeIs('admin.procedure-groups.*')">
+                         Lĩnh vực thủ tục
+                     </x-responsive-nav-link>
++                    <x-responsive-nav-link :href="route('admin.assistant-queries.index')" :active="request()->routeIs('admin.assistant-queries.*')">
++                        Câu hỏi Trợ lý số
++                    </x-responsive-nav-link>
+                 @endif
+ 
+                 @if (Auth::user()?->hasPermissionTo('pages.manage'))
+diff --git a/routes/web.php b/routes/web.php
+index cb3de2e..832d690 100644
+--- a/routes/web.php
++++ b/routes/web.php
+@@ -2,6 +2,7 @@
+ 
+ use App\Http\Controllers\Admin\SchoolLinkController;
+ use App\Http\Controllers\Admin\ArticleController;
++use App\Http\Controllers\Admin\AssistantQueryController;
+ use App\Http\Controllers\Admin\BannerController;
+ use App\Http\Controllers\Admin\CategoryController;
+ use App\Http\Controllers\Admin\DashboardController;
+@@ -19,6 +20,7 @@
+ use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
+ use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
+ use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
++use App\Http\Controllers\Frontend\DigitalAssistantController;
+ use App\Http\Controllers\Frontend\HomeController;
+ use App\Http\Controllers\Frontend\PageController as FrontendPageController;
+ use App\Http\Controllers\Frontend\RobotsController;
+@@ -43,6 +45,14 @@
+     ->name('frontend.documents.download');
+ Route::get('/van-ban/{slug}', [FrontendDocumentController::class, 'show'])
+     ->name('frontend.documents.show');
++Route::get('/tro-ly-so', [DigitalAssistantController::class, 'index'])
++    ->name('frontend.digital-assistant.index');
++Route::post('/tro-ly-so/tim-kiem', [DigitalAssistantController::class, 'search'])
++    ->middleware('throttle:20,1')
++    ->name('frontend.digital-assistant.search');
++Route::post('/tro-ly-so/phan-hoi', [DigitalAssistantController::class, 'feedback'])
++    ->middleware('throttle:30,1')
++    ->name('frontend.digital-assistant.feedback');
+ Route::get('/thu-tuc-hanh-chinh', [FrontendProcedureController::class, 'index'])
+     ->name('frontend.procedures.index');
+ Route::get('/thu-tuc-hanh-chinh/bieu-mau/{requiredDocument}/tai', [FrontendProcedureController::class, 'downloadForm'])
+@@ -104,6 +114,10 @@
+             ->except(['show'])
+             ->middleware('permission:procedures.manage');
+ 
++        Route::get('assistant-queries', [AssistantQueryController::class, 'index'])
++            ->name('assistant-queries.index')
++            ->middleware('permission:procedures.manage');
++
+         Route::resource('pages', PageController::class)
+             ->except(['show'])
+             ->middleware('permission:pages.manage');
+diff --git a/tests/Feature/DigitalAssistantTest.php b/tests/Feature/DigitalAssistantTest.php
+new file mode 100644
+index 0000000..ddc5190
+--- /dev/null
++++ b/tests/Feature/DigitalAssistantTest.php
+@@ -0,0 +1,78 @@
++<?php
++
++namespace Tests\Feature;
++
++use App\Models\AssistantQuery;
++use App\Models\Procedure;
++use App\Models\ProcedureGroup;
++use Illuminate\Foundation\Testing\RefreshDatabase;
++use Tests\TestCase;
++
++class DigitalAssistantTest extends TestCase
++{
++    use RefreshDatabase;
++
++    public function test_assistant_page_is_available(): void
++    {
++        $this->get(route('frontend.digital-assistant.index'))
++            ->assertOk()
++            ->assertSee('Trợ lý số Vĩnh Bình');
++    }
++
++    public function test_assistant_returns_matching_procedure_and_logs_query(): void
++    {
++        $group = ProcedureGroup::query()->create([
++            'name' => 'Hộ tịch',
++            'slug' => 'ho-tich',
++            'sort_order' => 1,
++            'is_active' => true,
++        ]);
++
++        $procedure = Procedure::query()->create([
++            'procedure_group_id' => $group->id,
++            'name' => 'Đăng ký khai sinh cho trẻ em',
++            'slug' => 'dang-ky-khai-sinh-cho-tre-em',
++            'code' => 'HT-001',
++            'summary' => 'Hướng dẫn đăng ký khai sinh.',
++            'keywords' => 'khai sinh, trẻ em, con mới sinh',
++            'processing_time' => 'Trong ngày làm việc',
++            'fee' => 'Không',
++            'sort_order' => 1,
++            'is_featured' => true,
++            'is_active' => true,
++        ]);
++
++        $response = $this->postJson(
++            route('frontend.digital-assistant.search'),
++            ['question' => 'Tôi có con mới sinh cần làm giấy tờ gì?']
++        );
++
++        $response
++            ->assertOk()
++            ->assertJsonPath('results.0.name', $procedure->name)
++            ->assertJsonCount(1, 'results');
++
++        $this->assertDatabaseHas('assistant_queries', [
++            'question' => 'Tôi có con mới sinh cần làm giấy tờ gì?',
++            'matched_procedure_id' => $procedure->id,
++            'result_count' => 1,
++            'is_resolved' => true,
++        ]);
++
++        $this->assertSame(1, AssistantQuery::query()->count());
++    }
++
++    public function test_assistant_rejects_sensitive_numeric_data(): void
++    {
++        $this->postJson(
++            route('frontend.digital-assistant.search'),
++            ['question' => 'Số CCCD của tôi là 012345678901']
++        )
++            ->assertStatus(422)
++            ->assertJsonFragment([
++                'message' => 'Vui lòng không nhập số CCCD, số tài khoản, mã OTP, mật khẩu hoặc thông tin cá nhân nhạy cảm.',
++            ]);
++
++        $this->assertDatabaseCount('assistant_queries', 0);
++    }
++}

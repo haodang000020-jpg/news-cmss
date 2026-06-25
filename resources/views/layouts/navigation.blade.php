@@ -56,6 +56,12 @@
                 'permission' => 'procedures.manage',
             ],
             [
+                'label' => 'Câu hỏi Trợ lý số',
+                'route' => 'admin.assistant-queries.index',
+                'active' => 'admin.assistant-queries.*',
+                'permission' => 'procedures.manage',
+            ],
+            [
                 'label' => 'Trang tĩnh',
                 'route' => 'admin.pages.index',
                 'active' => 'admin.pages.*',
@@ -164,6 +170,9 @@
                             </x-nav-link>
                             <x-nav-link :href="route('admin.procedure-groups.index')" :active="request()->routeIs('admin.procedure-groups.*')">
                                 Lĩnh vực thủ tục
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.assistant-queries.index')" :active="request()->routeIs('admin.assistant-queries.*')">
+                                Câu hỏi Trợ lý số
                             </x-nav-link>
                         @endif
 
@@ -275,6 +284,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.procedure-groups.index')" :active="request()->routeIs('admin.procedure-groups.*')">
                         Lĩnh vực thủ tục
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.assistant-queries.index')" :active="request()->routeIs('admin.assistant-queries.*')">
+                        Câu hỏi Trợ lý số
                     </x-responsive-nav-link>
                 @endif
 
