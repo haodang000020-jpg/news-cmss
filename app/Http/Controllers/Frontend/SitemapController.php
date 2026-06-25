@@ -27,6 +27,14 @@ class SitemapController extends Controller
                 'loc' => route('frontend.digital-assistant.index'),
                 'lastmod' => now()->format('Y-m-d'),
             ],
+            [
+                'loc' => route('frontend.feedbacks.create'),
+                'lastmod' => now()->format('Y-m-d'),
+            ],
+            [
+                'loc' => route('frontend.feedbacks.lookup.form'),
+                'lastmod' => now()->format('Y-m-d'),
+            ],
         ];
 
         Article::query()

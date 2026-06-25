@@ -58,6 +58,7 @@ npm run build
 php artisan key:generate
 php artisan migrate --force
 php artisan db:seed --class=RolePermissionSeeder --force
+php artisan db:seed --class=FeedbackCategorySeeder --force
 php artisan storage:link
 php artisan optimize:clear
 php artisan config:cache
@@ -75,6 +76,8 @@ php artisan view:cache
 - [ ] Upload ảnh bài viết hoạt động.
 - [ ] Upload banner hoạt động.
 - [ ] Upload file văn bản hoạt động.
+- [ ] Gửi và tra cứu Phản ánh - kiến nghị hoạt động.
+- [ ] Tệp phản ánh được lưu trong `storage/app/private`.
 - [ ] `public/storage` hoạt động.
 - [ ] User thường bị chặn khỏi admin.
 

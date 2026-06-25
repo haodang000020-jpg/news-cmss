@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\AssistantQueryController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CitizenFeedbackController;
+use App\Http\Controllers\Admin\FeedbackCategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DocumentCategoryController;
 use App\Http\Controllers\Admin\DocumentController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\Admin\OrganizationMemberController;
 use App\Http\Controllers\Admin\ProcedureController;
 use App\Http\Controllers\Admin\ProcedureGroupController;
 use App\Http\Controllers\Frontend\ArticleController as FrontendArticleController;
+use App\Http\Controllers\Frontend\CitizenFeedbackController as FrontendCitizenFeedbackController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\DocumentController as FrontendDocumentController;
 use App\Http\Controllers\Frontend\DigitalAssistantController;
@@ -45,6 +48,23 @@ Route::get('/van-ban/{document}/download', [FrontendDocumentController::class, '
     ->name('frontend.documents.download');
 Route::get('/van-ban/{slug}', [FrontendDocumentController::class, 'show'])
     ->name('frontend.documents.show');
+Route::get('/phan-anh-kien-nghi', [FrontendCitizenFeedbackController::class, 'create'])
+    ->name('frontend.feedbacks.create');
+Route::post('/phan-anh-kien-nghi', [FrontendCitizenFeedbackController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('frontend.feedbacks.store');
+Route::get('/phan-anh-kien-nghi/tra-cuu', [FrontendCitizenFeedbackController::class, 'lookupForm'])
+    ->name('frontend.feedbacks.lookup.form');
+Route::post('/phan-anh-kien-nghi/tra-cuu', [FrontendCitizenFeedbackController::class, 'lookup'])
+    ->middleware('throttle:20,1')
+    ->name('frontend.feedbacks.lookup');
+Route::get('/phan-anh-kien-nghi/{publicId}/tep-dinh-kem/{attachment}', [FrontendCitizenFeedbackController::class, 'downloadAttachment'])
+    ->name('frontend.feedbacks.attachments.download');
+Route::post('/phan-anh-kien-nghi/{publicId}/danh-gia', [FrontendCitizenFeedbackController::class, 'rate'])
+    ->middleware('throttle:10,1')
+    ->name('frontend.feedbacks.rate');
+Route::get('/phan-anh-kien-nghi/{publicId}', [FrontendCitizenFeedbackController::class, 'show'])
+    ->name('frontend.feedbacks.show');
 Route::get('/tro-ly-so', [DigitalAssistantController::class, 'index'])
     ->name('frontend.digital-assistant.index');
 Route::post('/tro-ly-so/tim-kiem', [DigitalAssistantController::class, 'search'])
@@ -117,6 +137,27 @@ Route::prefix('admin')
         Route::get('assistant-queries', [AssistantQueryController::class, 'index'])
             ->name('assistant-queries.index')
             ->middleware('permission:procedures.manage');
+
+
+        Route::resource('feedback-categories', FeedbackCategoryController::class)
+            ->except(['show'])
+            ->middleware('permission:feedbacks.manage');
+
+        Route::get('citizen-feedbacks', [CitizenFeedbackController::class, 'index'])
+            ->name('citizen-feedbacks.index')
+            ->middleware('permission:feedbacks.manage');
+        Route::get('citizen-feedbacks/{citizenFeedback}', [CitizenFeedbackController::class, 'show'])
+            ->name('citizen-feedbacks.show')
+            ->middleware('permission:feedbacks.manage');
+        Route::patch('citizen-feedbacks/{citizenFeedback}', [CitizenFeedbackController::class, 'update'])
+            ->name('citizen-feedbacks.update')
+            ->middleware('permission:feedbacks.manage');
+        Route::get(
+            'citizen-feedbacks/{citizenFeedback}/attachments/{attachment}',
+            [CitizenFeedbackController::class, 'downloadAttachment']
+        )
+            ->name('citizen-feedbacks.attachments.download')
+            ->middleware('permission:feedbacks.manage');
 
         Route::resource('pages', PageController::class)
             ->except(['show'])

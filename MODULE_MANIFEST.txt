@@ -1,0 +1,15 @@
+Module: Phản ánh - kiến nghị trực tuyến
+Baseline: Dự án đã có module Tra cứu thủ tục và Trợ lý số Vĩnh Bình giai đoạn 1
+
+Frontend:
+- /phan-anh-kien-nghi
+- /phan-anh-kien-nghi/tra-cuu
+
+Admin:
+- /admin/citizen-feedbacks
+- /admin/feedback-categories
+
+Permission:
+- feedbacks.manage
+
+Xem MODULE_PHAN_ANH_KIEN_NGHI_INSTALL.md để cài đặt và kiểm thử.

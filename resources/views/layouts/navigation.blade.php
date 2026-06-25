@@ -62,6 +62,18 @@
                 'permission' => 'procedures.manage',
             ],
             [
+                'label' => 'Phản ánh - kiến nghị',
+                'route' => 'admin.citizen-feedbacks.index',
+                'active' => 'admin.citizen-feedbacks.*',
+                'permission' => 'feedbacks.manage',
+            ],
+            [
+                'label' => 'Lĩnh vực phản ánh',
+                'route' => 'admin.feedback-categories.index',
+                'active' => 'admin.feedback-categories.*',
+                'permission' => 'feedbacks.manage',
+            ],
+            [
                 'label' => 'Trang tĩnh',
                 'route' => 'admin.pages.index',
                 'active' => 'admin.pages.*',
@@ -176,6 +188,15 @@
                             </x-nav-link>
                         @endif
 
+                        @if (Auth::user()?->hasPermissionTo('feedbacks.manage'))
+                            <x-nav-link :href="route('admin.citizen-feedbacks.index')" :active="request()->routeIs('admin.citizen-feedbacks.*')">
+                                Phản ánh - kiến nghị
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.feedback-categories.index')" :active="request()->routeIs('admin.feedback-categories.*')">
+                                Lĩnh vực phản ánh
+                            </x-nav-link>
+                        @endif
+
                         @if (Auth::user()?->hasPermissionTo('pages.manage'))
                             <x-nav-link :href="route('admin.pages.index')" :active="request()->routeIs('admin.pages.*')">
                                 Trang tĩnh
@@ -287,6 +308,15 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.assistant-queries.index')" :active="request()->routeIs('admin.assistant-queries.*')">
                         Câu hỏi Trợ lý số
+                    </x-responsive-nav-link>
+                @endif
+
+                @if (Auth::user()?->hasPermissionTo('feedbacks.manage'))
+                    <x-responsive-nav-link :href="route('admin.citizen-feedbacks.index')" :active="request()->routeIs('admin.citizen-feedbacks.*')">
+                        Phản ánh - kiến nghị
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.feedback-categories.index')" :active="request()->routeIs('admin.feedback-categories.*')">
+                        Lĩnh vực phản ánh
                     </x-responsive-nav-link>
                 @endif
 

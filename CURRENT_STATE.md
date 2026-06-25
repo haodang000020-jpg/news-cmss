@@ -29,6 +29,10 @@ Công nghệ:
 * Production Readiness Audit
 * DEPLOYMENT_CHECKLIST.md
 
+* Module Tra cứu thủ tục hành chính.
+* Trợ lý số Vĩnh Bình giai đoạn 1.
+* Module Phản ánh - kiến nghị trực tuyến: gửi hồ sơ, tệp đính kèm riêng tư, mã tra cứu, quản trị xử lý và đánh giá hài lòng.
+
 đã hoàn thành
 Admin quản lý Lịch làm việc
 Frontend trang chủ hiển thị Lịch làm việc dưới khối Văn bản mới ban hành
