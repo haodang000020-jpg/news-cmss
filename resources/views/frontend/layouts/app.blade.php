@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="{{ $metaDescription ?? 'Cổng thông tin điện tử Phòng Văn Hóa - Xã Hội' }}">
-    @if (! empty($metaRobots))
+    @if (!empty($metaRobots))
         <meta name="robots" content="{{ $metaRobots }}">
     @endif
     <title>{{ ($metaTitle ?? 'Trang chủ') . ' - Phòng Văn Hóa - Xã Hội' }}</title>
@@ -4875,23 +4875,26 @@ Bootstrap Carousel:
         }
 
         .vb-digital-item.is-upgrading::before {
-            content: "SẮP MỞ";
+            content: attr(data-status);
 
             position: absolute;
-            top: 5px;
-            right: 6px;
+            top: 4px;
+            right: 5px;
 
             padding: 2px 5px;
 
-            border: 1px solid #f0cf82;
+            border: 1px solid #e9bd55;
             border-radius: 999px;
 
-            background: #fff6df;
+            background: #fff7df;
 
-            color: #9a6a00;
-            font-size: 7.5px;
-            font-weight: 850;
+            color: #966400;
+            font-size: 6.5px;
+            font-weight: 800;
+            line-height: 1.2;
             letter-spacing: 0.1px;
+
+            white-space: nowrap;
         }
 
         .vb-digital-item.is-upgrading:hover {
@@ -5382,7 +5385,7 @@ Bootstrap Carousel:
             background: #f9fcff;
         }
 
-        .procedure-empty-state > span {
+        .procedure-empty-state>span {
             color: #7da4c3;
             font-size: 2.2rem;
         }
@@ -5443,7 +5446,7 @@ Bootstrap Carousel:
             line-height: 1.25;
         }
 
-        .procedure-detail-heading > p {
+        .procedure-detail-heading>p {
             margin: .65rem 0 0;
             color: var(--procedure-muted);
             font-size: .92rem;
@@ -5527,7 +5530,7 @@ Bootstrap Carousel:
             border-bottom: 1px solid #e4edf4;
         }
 
-        .procedure-content-title > span {
+        .procedure-content-title>span {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -5583,7 +5586,7 @@ Bootstrap Carousel:
             margin-top: .8rem;
         }
 
-        .procedure-info-long-grid > div {
+        .procedure-info-long-grid>div {
             padding: .9rem;
             border-left: 3px solid #2a91d4;
             border-radius: .35rem .7rem .7rem .35rem;
@@ -5639,7 +5642,7 @@ Bootstrap Carousel:
         }
 
         .procedure-document-content,
-        .procedure-timeline-item > div {
+        .procedure-timeline-item>div {
             flex: 1 1 auto;
             min-width: 0;
         }
@@ -5886,6 +5889,7 @@ Bootstrap Carousel:
         }
 
         @media print {
+
             .portal-topbar,
             .portal-header,
             .site-header-banner,
@@ -6129,7 +6133,7 @@ Bootstrap Carousel:
             text-align: center;
         }
 
-        .digital-assistant-empty-state > span {
+        .digital-assistant-empty-state>span {
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -6255,7 +6259,7 @@ Bootstrap Carousel:
             line-height: 1.35;
         }
 
-        .digital-assistant-result-card > p {
+        .digital-assistant-result-card>p {
             margin: .65rem 0 0;
             color: #63798c;
             font-size: .8rem;
@@ -6269,7 +6273,7 @@ Bootstrap Carousel:
             margin-top: .75rem;
         }
 
-        .digital-assistant-result-facts > span {
+        .digital-assistant-result-facts>span {
             min-width: 0;
             padding: .55rem .6rem;
             border-radius: .65rem;
@@ -6570,7 +6574,175 @@ Bootstrap Carousel:
                 grid-template-columns: 1fr;
             }
         }
-</style>
+
+
+        /* =====================================================
+   TRẠNG THÁI ĐANG CẬP NHẬT
+   Vẫn cho phép người dân sử dụng chức năng
+===================================================== */
+
+        /* Trạng thái trên header */
+        .vb-digital-status.is-updating {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+
+            padding: 5px 8px;
+
+            border: 1px solid rgba(255, 224, 125, 0.75);
+            border-radius: 999px;
+
+            background: rgba(255, 193, 37, 0.22);
+
+            color: #fff8dc;
+            font-size: 9px;
+            font-weight: 800;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .vb-digital-status.is-updating .vb-digital-status-dot {
+            width: 6px;
+            height: 6px;
+            flex: 0 0 6px;
+
+            border-radius: 50%;
+            background: #ffd86b;
+
+            box-shadow:
+                0 0 0 3px rgba(255, 216, 107, 0.18);
+
+            animation: vbUpdatingPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes vbUpdatingPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.55;
+                transform: scale(0.82);
+            }
+        }
+
+        /* Trợ lý số */
+        .vb-digital-assistant.is-updating {
+            position: relative;
+            padding-top: 13px;
+        }
+
+        .vb-digital-feature-status {
+            position: absolute;
+            top: 7px;
+            right: 8px;
+            z-index: 2;
+
+            padding: 3px 6px;
+
+            border: 1px solid #f0c86d;
+            border-radius: 999px;
+
+            background: #fff7df;
+
+            color: #916100;
+            font-size: 7px;
+            font-weight: 850;
+            line-height: 1.2;
+            letter-spacing: 0.15px;
+            white-space: nowrap;
+        }
+
+        /* Chừa chỗ để nhãn không đè lên tên trợ lý */
+        .vb-digital-assistant.is-updating .vb-digital-assistant-text {
+            padding-right: 78px;
+        }
+
+        /* Nhãn trên hai ô tiện ích */
+        .vb-digital-item.is-updating {
+            position: relative;
+            cursor: pointer;
+
+            /* Không làm mờ chức năng */
+            opacity: 1;
+            filter: none;
+        }
+
+        .vb-digital-item.is-updating::before {
+            content: attr(data-status);
+
+            position: absolute;
+            top: 4px;
+            right: 5px;
+            z-index: 2;
+
+            padding: 2px 5px;
+
+            border: 1px solid #edc45f;
+            border-radius: 999px;
+
+            background: #fff7df;
+
+            color: #956400;
+            font-size: 6.2px;
+            font-weight: 850;
+            line-height: 1.15;
+            letter-spacing: 0.1px;
+            white-space: nowrap;
+
+            /* Nhãn không chặn thao tác bấm */
+            pointer-events: none;
+        }
+
+        /* Chừa khoảng trống cho nhãn */
+        .vb-digital-item.is-updating .vb-digital-item-content {
+            padding-top: 7px;
+        }
+
+        /* Vẫn giữ hover như chức năng bình thường */
+        .vb-digital-item.is-updating:hover {
+            border-color: #93caf0;
+
+            background:
+                linear-gradient(145deg,
+                    #ffffff,
+                    #edf8ff);
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 17px rgba(13, 86, 145, 0.12);
+        }
+
+        .vb-digital-item.is-updating:hover::after {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        /* Không áp dụng kiểu khóa của is-upgrading */
+        .vb-digital-item.is-updating .vb-digital-arrow {
+            display: inline;
+        }
+
+        @media (max-width: 575.98px) {
+            .vb-digital-feature-status {
+                font-size: 6.5px;
+            }
+
+            .vb-digital-item.is-updating::before {
+                font-size: 6px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .vb-digital-status-dot {
+                animation: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>

@@ -680,119 +680,69 @@
                         {{-- ================= NỘI DUNG ================= --}}
                         <div class="vb-digital-body">
                             {{-- Trợ lý số --}}
-                            <div class="vb-digital-assistant">
+                            <div class="vb-digital-assistant is-upgrading" disabled aria-disabled="true"
+                                onclick="return false;"> <span class="vb-digital-feature-status"> ĐANG
+                                    CẬP NHẬT </span>
                                 <div class="vb-digital-assistant-heading">
-                                    <div class="vb-digital-robot">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <div class="vb-digital-robot"> <svg viewBox="0 0 24 24" aria-hidden="true">
                                             <rect x="4" y="6" width="16" height="13" rx="5" />
                                             <path d="M12 3v3" />
                                             <circle cx="9" cy="12" r="1.2" />
                                             <circle cx="15" cy="12" r="1.2" />
                                             <path d="M9 16c.9.6 1.9.9 3 .9s2.1-.3 3-.9" />
                                             <path d="M4 11H2.5M21.5 11H20" />
-                                        </svg>
-                                    </div>
-
+                                        </svg> </div>
                                     <div class="vb-digital-assistant-text">
                                         <h3>Trợ lý số Vĩnh Bình</h3>
-
-                                        <p>
-                                            Hỏi thủ tục, hồ sơ, thời hạn xử lý...
-                                        </p>
+                                        <p> Hỏi thủ tục, hồ sơ, thời hạn xử lý... </p>
                                     </div>
-
-                                    <span class="vb-digital-ai-badge">
-                                        BETA
-                                    </span>
                                 </div>
-
-                                <form id="digitalAssistantHomeForm" class="vb-digital-search"
-                                    action="{{ route('frontend.digital-assistant.search') }}" method="POST"
-                                    data-assistant-form data-results-target="#digitalAssistantResults"
-                                    data-open-modal="#digitalAssistantModal">
-                                    @csrf
-
-                                    <label for="vbDigitalQuestion" class="visually-hidden">
-                                        Nội dung cần hỗ trợ
-                                    </label>
-
-                                    <div class="vb-digital-search-field">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <form class="vb-digital-search" action="{{ url('/tro-ly-so') }}" method="GET"> <label
+                                        for="vbDigitalQuestion" class="visually-hidden"> Nhập câu hỏi cần hỗ trợ </label>
+                                    <div class="vb-digital-search-field"> <svg viewBox="0 0 24 24" aria-hidden="true">
                                             <circle cx="11" cy="11" r="7" />
                                             <path d="m16.5 16.5 4 4" />
-                                        </svg>
-
-                                        <input id="vbDigitalQuestion" type="text" name="question" maxlength="250"
-                                            required data-assistant-sync-input placeholder="Bạn cần tìm thủ tục gì?">
-                                    </div>
-
-                                    <button type="submit" class="vb-digital-assistant-button">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        </svg> <input id="vbDigitalQuestion" type="text" name="q"
+                                            maxlength="250" autocomplete="off" placeholder="Bạn cần tìm thủ tục gì?">
+                                    </div> <button type="submit" class="vb-digital-assistant-button"> <svg
+                                            viewBox="0 0 24 24" aria-hidden="true">
                                             <path
                                                 d="M21 11.5a8.4 8.4 0 0 1-9 8.5 9.7 9.7 0 0 1-4-.9L3 21l1.7-4.4A8.5 8.5 0 1 1 21 11.5Z" />
                                             <path d="M8 10h8M8 14h5" />
-                                        </svg>
-
-                                        <span data-assistant-submit-text>Hỏi ngay</span>
-                                        <span class="spinner-border spinner-border-sm d-none" data-assistant-spinner
-                                            aria-hidden="true"></span>
-                                    </button>
+                                        </svg> <span>Hỏi ngay</span> </button>
                                 </form>
-
-                                <div class="vb-digital-suggestions">
-                                    <span>Gợi ý:</span>
-                                    <button type="button" data-assistant-suggestion="Tôi muốn đăng ký khai sinh cho con"
-                                        data-assistant-form-target="#digitalAssistantHomeForm">
-                                        Khai sinh
-                                    </button>
-                                    <button type="button"
-                                        data-assistant-suggestion="Tôi cần giấy xác nhận tình trạng hôn nhân"
-                                        data-assistant-form-target="#digitalAssistantHomeForm">
-                                        Xác nhận độc thân
-                                    </button>
-                                </div>
+                                <div class="vb-digital-suggestions"> <span>Gợi ý:</span> <a
+                                        href="{{ url('/tro-ly-so?q=Đăng ký khai sinh') }}"> Khai sinh </a> <a
+                                        href="{{ url('/tro-ly-so?q=Xác nhận tình trạng hôn nhân') }}"> Xác nhận độc thân
+                                    </a> </div>
                             </div>
 
                             {{-- ================= TIỆN ÍCH ================= --}}
                             <div class="vb-digital-grid">
                                 {{-- Tra cứu thủ tục: đã hoạt động --}}
-                                <a href="{{ route('frontend.procedures.index') }}" class="vb-digital-item"
-                                    title="Tra cứu thủ tục hành chính">
-                                    <span class="vb-digital-item-icon">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <a href="{{ url('/thu-tuc-hanh-chinh') }}" class="vb-digital-item is-upgrading" disabled
+                                    aria-disabled="true" onclick="return false;" data-status="ĐANG CẬP NHẬT"
+                                    title="Tra cứu thủ tục hành chính"> <span class="vb-digital-item-icon"> <svg
+                                            viewBox="0 0 24 24" aria-hidden="true">
                                             <path d="M6 2h8l4 4v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z" />
                                             <path d="M14 2v5h5" />
                                             <path d="M8 11h5M8 15h4" />
                                             <circle cx="17" cy="17" r="3" />
                                             <path d="m19.2 19.2 2 2" />
-                                        </svg>
-                                    </span>
-
-                                    <span class="vb-digital-item-content">
-                                        <strong>Tra cứu thủ tục</strong>
-                                        <small>Tìm hồ sơ cần chuẩn bị</small>
-                                    </span>
-
-                                    <span class="vb-digital-arrow" aria-hidden="true">›</span>
-                                </a>
+                                        </svg> </span> <span class="vb-digital-item-content"> <strong>Tra cứu thủ
+                                            tục</strong> <small>Tìm hồ sơ cần chuẩn bị</small> </span> <span
+                                        class="vb-digital-arrow" aria-hidden="true"> › </span> </a>
 
                                 {{-- Phản ánh kiến nghị: đã hoạt động --}}
-                                <a href="{{ route('frontend.feedbacks.create') }}" class="vb-digital-item"
-                                    title="Gửi phản ánh, kiến nghị trực tuyến">
-                                    <span class="vb-digital-item-icon">
-                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                {{-- Phản ánh kiến nghị --}} <a href="{{ url('/phan-anh-kien-nghi') }}" disabled
+                                    aria-disabled="true" onclick="return false;" class="vb-digital-item is-upgrading"
+                                    data-status="ĐANG CẬP NHẬT" title="Gửi và theo dõi phản ánh kiến nghị"> <span
+                                        class="vb-digital-item-icon"> <svg viewBox="0 0 24 24" aria-hidden="true">
                                             <path d="M3 11v2a2 2 0 0 0 2 2h2l3 5h3l-2-5 8-3V6L7 10H5a2 2 0 0 0-2 1Z" />
                                             <path d="M19 9h2M18 5l1-2M18 13l1 2" />
-                                        </svg>
-                                    </span>
-
-                                    <span class="vb-digital-item-content">
-                                        <strong>Phản ánh kiến nghị</strong>
-                                        <small>Gửi và theo dõi trực tuyến</small>
-                                    </span>
-
-                                    <span class="vb-digital-arrow" aria-hidden="true">›</span>
-                                </a>
+                                        </svg> </span> <span class="vb-digital-item-content"> <strong>Phản ánh kiến
+                                            nghị</strong> <small>Gửi và theo dõi trực tuyến</small> </span> <span
+                                        class="vb-digital-arrow" aria-hidden="true"> › </span> </a>
 
                                 {{-- Tra cứu văn bản: đã hoạt động --}}
                                 <a href="{{ route('frontend.documents.index') }}" class="vb-digital-item"
@@ -815,9 +765,8 @@
                                     </span>
                                 </a>
 
-                                {{-- Lịch tiếp dân: chưa hoạt động --}}
-                                <div class="vb-digital-item is-upgrading" role="link" aria-disabled="true"
-                                    title="Chức năng đang được nâng cấp">
+                                <div class="vb-digital-item is-upgrading" data-status="ĐANG CẬP NHẬT" role="link"
+                                    aria-disabled="true" title="Chức năng đang được cập nhật">
                                     <span class="vb-digital-item-icon">
                                         <svg viewBox="0 0 24 24" aria-hidden="true">
                                             <rect x="3" y="5" width="18" height="16" rx="2" />
@@ -828,10 +777,9 @@
 
                                     <span class="vb-digital-item-content">
                                         <strong>Lịch tiếp dân</strong>
-                                        <small>Xem lịch làm việc</small>
+                                        <small>Chức năng đang được cập nhật</small>
                                     </span>
                                 </div>
-
                                 {{-- Liên hệ cán bộ: dẫn đến trang giới thiệu --}}
                                 <a href="{{ route('frontend.introduction') }}" class="vb-digital-item"
                                     title="Xem thông tin cán bộ">
